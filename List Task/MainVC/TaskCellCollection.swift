@@ -10,6 +10,7 @@ import SnapKit
 
 final class TaskCellCollection: UICollectionViewCell {
     
+//    имя задачи
     private lazy var nameTask: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
@@ -17,11 +18,22 @@ final class TaskCellCollection: UICollectionViewCell {
         return label
     }()
     
+//    кол-во задач
     private lazy var taskCountLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 16)
         label.textColor = .lightGray
         return label
+    }()
+    
+//    удаление ячейки с азадачами
+    private lazy var trashButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setImage(UIImage(systemName: "trash"), for: .normal)
+        button.tintColor = UIColor(red: 0.32, green: 0.16, blue: 0.01, alpha: 1.00)
+        button.addTarget(self, action: #selector(trashButtonTapped), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
     }()
     
     override init(frame: CGRect) {
@@ -33,9 +45,12 @@ final class TaskCellCollection: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(_ todoItem: Todos) {
+    func configure(_ todoItem: NameGroup) {
         nameTask.text = todoItem.name
-        taskCountLabel.text = "Кол-во задач\(todoItem.countTask)"
+    }
+    
+    @objc func trashButtonTapped() {
+        print("Trash tapped")
     }
 }
 
@@ -51,11 +66,12 @@ private extension TaskCellCollection {
     func prepereView() {
         contentView.addSubview(nameTask)
         contentView.addSubview(taskCountLabel)
+        contentView.addSubview(trashButton)
     }
     
     private func configureUI() {
         contentView.layer.cornerRadius = 10
-        contentView.backgroundColor = UIColor(red: 0.61, green: 0.66, blue: 0.67, alpha: 1.00)
+        contentView.backgroundColor = UIColor(red: 0.93, green: 0.92, blue: 0.91, alpha: 1.00)
         contentView.layer.masksToBounds = true
         
         self.layer.shadowColor = UIColor.black.cgColor
@@ -68,11 +84,16 @@ private extension TaskCellCollection {
     private func setupConstraint() {
         nameTask.snp.makeConstraints { make in
             make.left.equalTo(contentView.snp.left).inset(15)
-            make.top.equalTo(contentView.snp.top).inset(18)
+            make.centerY.equalToSuperview()
         }
         taskCountLabel.snp.makeConstraints { make in
             make.left.equalTo(contentView.snp.left).inset(26)
             make.top.equalTo(nameTask.snp.top).inset(30)
+        }
+        trashButton.snp.makeConstraints { make in
+            make.right.equalTo(contentView.snp.right).inset(10)
+            make.centerY.equalToSuperview()
+            make.height.width.equalTo(40)
         }
     }
 }
