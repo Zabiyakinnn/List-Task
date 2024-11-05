@@ -7,8 +7,12 @@
 
 import UIKit
 import SnapKit
+import CoreData
 
 final class TaskCellCollection: UICollectionViewCell {
+    
+//    замыкание для удаления ячейки
+    var onDelete: (() -> Void)?
     
 //    имя задачи
     private lazy var nameTask: UILabel = {
@@ -21,7 +25,8 @@ final class TaskCellCollection: UICollectionViewCell {
 //    кол-во задач
     private lazy var taskCountLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 16)
+        label.font = UIFont.systemFont(ofSize: 15, weight: .regular)
+        label.text = "Кол-во задач: 0"
         label.textColor = .lightGray
         return label
     }()
@@ -36,6 +41,21 @@ final class TaskCellCollection: UICollectionViewCell {
         return button
     }()
     
+//  iconImage
+    private lazy var iconImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }()
+    
+//    линия для разделения ячейки
+    private lazy var seperatorLine: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor.lightGray.withAlphaComponent(0.5)
+        return view
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupLoyout()
@@ -45,12 +65,17 @@ final class TaskCellCollection: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(_ todoItem: NameGroup) {
-        nameTask.text = todoItem.name
+    func configure(_ nameGroup: NameGroup) {
+        nameTask.text = nameGroup.name
+        if let iconData = nameGroup.iconNameGroup,
+           let iconImage = UIImage(data: iconData)?.withRenderingMode(.alwaysTemplate) {
+            iconImageView.image = iconImage
+            iconImageView.tintColor = UIColor(red: 0.32, green: 0.16, blue: 0.01, alpha: 1.00) 
+        }
     }
     
     @objc func trashButtonTapped() {
-        print("Trash tapped")
+        onDelete?() //вызов замыкания при нажатии на кнопку "trashButton"
     }
 }
 
@@ -67,6 +92,8 @@ private extension TaskCellCollection {
         contentView.addSubview(nameTask)
         contentView.addSubview(taskCountLabel)
         contentView.addSubview(trashButton)
+        contentView.addSubview(iconImageView)
+        contentView.addSubview(seperatorLine)
     }
     
     private func configureUI() {
@@ -83,17 +110,28 @@ private extension TaskCellCollection {
     
     private func setupConstraint() {
         nameTask.snp.makeConstraints { make in
+            make.left.equalTo(iconImageView.snp.left).inset(45)
+            make.top.equalTo(contentView.snp.top).inset(12)
+        }
+        iconImageView.snp.makeConstraints { make in
             make.left.equalTo(contentView.snp.left).inset(15)
             make.centerY.equalToSuperview()
+            make.height.width.equalTo(30)
         }
         taskCountLabel.snp.makeConstraints { make in
-            make.left.equalTo(contentView.snp.left).inset(26)
-            make.top.equalTo(nameTask.snp.top).inset(30)
+            make.left.equalTo(iconImageView.snp.left).inset(44)
+            make.top.equalTo(seperatorLine.snp.top).inset(7)
         }
         trashButton.snp.makeConstraints { make in
             make.right.equalTo(contentView.snp.right).inset(10)
             make.centerY.equalToSuperview()
-            make.height.width.equalTo(40)
+            make.height.width.equalTo(26)
+        }
+        seperatorLine.snp.makeConstraints { make in
+            make.left.equalTo(iconImageView.snp.left).inset(33)
+            make.right.equalTo(trashButton.snp.right).inset(30)
+            make.centerY.equalToSuperview()
+            make.height.equalTo(1.5)
         }
     }
 }
