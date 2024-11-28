@@ -1,5 +1,5 @@
 //
-//  TaskCellCollection.swift
+//  GroupCellCollection.swift
 //  List Task
 //
 //  Created by Дмитрий Забиякин on 31.10.2024.
@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 import CoreData
 
-final class TaskCellCollection: UICollectionViewCell {
+final class GroupCellCollection: UICollectionViewCell {
     
 //    замыкание для удаления ячейки
     var onDelete: (() -> Void)?
@@ -26,7 +26,7 @@ final class TaskCellCollection: UICollectionViewCell {
     private lazy var taskCountLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 15, weight: .regular)
-        label.text = "Кол-во задач: 0"
+        label.text = "Кол-во задач 1"
         label.textColor = .lightGray
         return label
     }()
@@ -80,12 +80,11 @@ final class TaskCellCollection: UICollectionViewCell {
 }
 
 //MARK: - TaskCellCollection Methods
-private extension TaskCellCollection {
+private extension GroupCellCollection {
     private func setupLoyout() {
         prepereView()
         setupConstraint()
         configureUI()
-
     }
     
     func prepereView() {

@@ -11,36 +11,12 @@ import CoreData
 
 final class MainViewController: UIViewController, NSFetchedResultsControllerDelegate {
 
-    var taskCellCollection = "taskCellCollection" 
-    var nameGroup: NameGroup?
-    
-//    MARK: - CoreData
-    private lazy var fetchResultСontroller: NSFetchedResultsController<NameGroup> = {
-        // Создаём запрос для выборки данных
-        let fetchRequest = NameGroup.fetchRequest()
-        let sortDescriptor = NSSortDescriptor(key: "name", ascending: true)
-        fetchRequest.sortDescriptors = [sortDescriptor]
-        
-        // Инициализируем fetchResultController с fetchRequest и context из контейнера
-        let fetchResultController = NSFetchedResultsController(
-            fetchRequest: fetchRequest,
-            managedObjectContext: appDelegate.persistentContainer.viewContext,
-            sectionNameKeyPath: nil,
-            cacheName: nil
-        )
-        // Устанавливаем делегат
-        fetchResultController.delegate = self
-        return fetchResultController
-    }()
-    
-    private var appDelegate: AppDelegate {
-        return UIApplication.shared.delegate as! AppDelegate
-    }
+    var groupCellCollection = "groupCellCollection"
 
 //    MARK: - ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
-        try? fetchResultСontroller.performFetch()
+        try? CoreDataManagerNameGroup.shared.fetchResultСontroller.performFetch()
         setupLoyout()
         view.backgroundColor = UIColor(red: 0.87, green: 0.87, blue: 0.87, alpha: 1.00)
         
@@ -62,7 +38,7 @@ final class MainViewController: UIViewController, NSFetchedResultsControllerDele
         layout.itemSize = CGSize(width: UIScreen.main.bounds.width - 40, height: 80) // размер элемента
         
         let collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
-        collectionView.register(TaskCellCollection.self, forCellWithReuseIdentifier: "taskCellCollection")
+        collectionView.register(GroupCellCollection.self, forCellWithReuseIdentifier: "groupCellCollection")
         collectionView.backgroundColor = UIColor(red: 0.87, green: 0.87, blue: 0.87, alpha: 1.00)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
@@ -107,6 +83,11 @@ final class MainViewController: UIViewController, NSFetchedResultsControllerDele
         return button
     }()
     
+    @objc func settingsButtonTapped() {
+        let settingVC = SettingViewController()
+        navigationController?.pushViewController(settingVC, animated: true)
+    }
+    
 //    кнопка добавить группу задач
     private lazy var newGroupTask: UIButton = {
         let button = UIButton(type: .system)
@@ -117,48 +98,18 @@ final class MainViewController: UIViewController, NSFetchedResultsControllerDele
         return button
     }()
     
-    @objc func settingsButtonTapped() {
-        let settingVC = SettingViewController()
-        navigationController?.pushViewController(settingVC, animated: true)
-    }
-    
     @objc func newGroupButtonTapped() {
         let newGroupVC = NewGroupTaskViewController()
         newGroupVC.newGroupName = { [weak self] in
             guard let self = self else { return }
             do {
-                try self.fetchResultСontroller.performFetch()
+                try CoreDataManagerNameGroup.shared.fetchResultСontroller.performFetch()
                 self.collectionView.reloadData()
             } catch {
                 print("Ошибка удаления данных \(error)")
             }
         }
         navigationController?.present(newGroupVC, animated: true)
-    }
-    
-//    удаление группы для задач
-    private func deleteTask(nameGroup: NameGroup) {
-        let alertController = UIAlertController(title: nil, message: "Удалить группу задач?", preferredStyle: .actionSheet)
-        alertController.addAction(UIAlertAction(title: "Отмена", style: .cancel, handler: nil))
-        alertController.addAction(UIAlertAction(title: "Удалить", style: .destructive, handler: { [weak self] _ in
-            guard let self = self else { return }
-            let context = appDelegate.persistentContainer.viewContext
-            let fetchRequest = NameGroup.fetchRequest()
-            fetchRequest.predicate = NSPredicate(format: "name == %@", nameGroup.name ?? "")
-            
-            do {
-                let result = try context.fetch(fetchRequest)
-                if let groupToDelete = result.first {
-                    context.delete(groupToDelete)
-                    try context.save()
-                    try fetchResultСontroller.performFetch()
-                    collectionView.reloadData()
-                }
-            } catch {
-                print("Ошибка удаления группы задач из Core Data \(error)")
-            }
-        }))
-        present(alertController, animated: true)
     }
 }
 
@@ -213,34 +164,46 @@ private extension MainViewController {
 extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        let itemCount = fetchResultСontroller.sections?.first?.numberOfObjects ?? 0
+        let itemCount = CoreDataManagerNameGroup.shared.fetchResultСontroller.sections?.first?.numberOfObjects ?? 0
         return itemCount == 0 ? 1: itemCount
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let itemCount = fetchResultСontroller.sections?.first?.numberOfObjects ?? 0
+        let itemCount = CoreDataManagerNameGroup.shared.fetchResultСontroller.sections?.first?.numberOfObjects ?? 0
         
         if itemCount == 0 {
             let placeholderCell = collectionView.dequeueReusableCell(withReuseIdentifier: "PlaceholderCell", for: indexPath) as! PlaceholderCell
             placeholderCell.configure(with: "Создайте группу для своих задач")
             return placeholderCell
         } else {
-            let nameGroup = fetchResultСontroller.object(at: indexPath)
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: taskCellCollection, for: indexPath) as! TaskCellCollection
+            let nameGroup = CoreDataManagerNameGroup.shared.fetchResultСontroller.object(at: indexPath)
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: groupCellCollection, for: indexPath) as! GroupCellCollection
             
             cell.configure(nameGroup)
             
             cell.onDelete = { [weak self] in
                 guard let self = self else { return }
-                deleteTask(nameGroup: nameGroup)
+                CoreDataManagerNameGroup.shared.deleteGroupTask(existingGroup: nameGroup) { result in
+                    switch result {
+                    case .success():
+                        do {
+                            try CoreDataManagerNameGroup.shared.fetchResultСontroller.performFetch()
+                            self.collectionView.reloadData()
+                        } catch {
+                            print("Ошибка обновления \(error.localizedDescription)")
+                        }
+                    case .failure(let error):
+                        print("Ошибка удаления задачи из Core Data: \(error.localizedDescription)")
+                    }
+                }
             }
             return cell
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let newTaskVC = NewTaskViewController()
-        let nameGroup = fetchResultСontroller.object(at: indexPath)
+        let newTaskVC = TaskViewController()
+        let nameGroup = CoreDataManagerNameGroup.shared.fetchResultСontroller.object(at: indexPath)
         newTaskVC.nameGroup = nameGroup
         navigationController?.present(newTaskVC, animated: true)
     }

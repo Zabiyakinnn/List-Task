@@ -38,10 +38,25 @@ extension PlaceholderCell {
     private func setupeLoyout() {
         prepereView()
         setupeConstraint()
+        configureUI()
     }
+    
     private func prepereView() {
         contentView.addSubview(nameTask)
     }
+    
+    private func configureUI() {
+        contentView.layer.cornerRadius = 10
+        contentView.backgroundColor = UIColor(red: 0.93, green: 0.92, blue: 0.91, alpha: 1.00)
+        contentView.layer.masksToBounds = true
+        
+        self.layer.shadowColor = UIColor.black.cgColor
+        self.layer.shadowOpacity = 0.1
+        self.layer.shadowOffset = CGSize(width: 0, height: 2)
+        self.layer.shadowRadius = 4
+        self.layer.masksToBounds = false
+    }
+
     private func setupeConstraint() {
         nameTask.snp.makeConstraints { make in
             make.centerX.equalToSuperview()

@@ -56,7 +56,6 @@ final class NewGroupTaskViewController: UIViewController, UITextViewDelegate {
         view.layer.cornerRadius = 10
         view.layer.masksToBounds = true
         view.font = UIFont.systemFont(ofSize: 16)
-//        view.backgroundColor = UIColor(red: 0.93, green: 0.92, blue: 0.91, alpha: 1.00)
         view.backgroundColor = UIColor.clear
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
@@ -95,10 +94,10 @@ final class NewGroupTaskViewController: UIViewController, UITextViewDelegate {
         return label
     }()
     
+//    MARK: - UIButton
     //    кнопка сохранения
     private lazy var saveButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setImage(UIImage(systemName: "tray"), for: .normal)
         button.setTitle("Сохранить", for: .normal)
         button.tintColor = UIColor(red: 0.32, green: 0.16, blue: 0.01, alpha: 1.00)
         button.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
@@ -108,32 +107,32 @@ final class NewGroupTaskViewController: UIViewController, UITextViewDelegate {
     
 //    сохранения группы для задач
     @objc private func saveButtonTapped() {
-        if textView.hasText {
-            let appDelegate = UIApplication.shared.delegate as! AppDelegate
-            let context = appDelegate.persistentContainer.viewContext
-            
-            if let nameGroup = nameGroup {
-                nameGroup.name = textView.text
-            } else {
-                nameGroup = NameGroup(context: context)
-                nameGroup?.name = textView.text
-            }
-            
+        guard let groupName = textView.text, !groupName.isEmpty else {
+            warningText()
+            return
+        }
+        
+        let selectedIconData: Data? = {
             if let selectedIndexPath = isSelectedIndexPath {
                 let selectedImage = iconImageArray[selectedIndexPath.row]
-                nameGroup?.iconNameGroup = selectedImage.pngData()
+                return selectedImage.pngData()
             }
-            do {
-                try context.save()
-                self.newGroupName?()
-                dismiss(animated: true)
-            } catch {
-                print("Ошибка сохранения данных в Core Data: \(error)")
+            return nil
+        }()
+        
+        CoreDataManagerNameGroup.shared.saveNewGroupCoreData(
+            name: groupName,
+            iconNameGroup: selectedIconData,
+            existingGroup: nameGroup) { [weak self] result in
+                guard let self = self else { return }
+                switch result {
+                case .success():
+                    self.newGroupName?()
+                    self.dismiss(animated: true)
+                case .failure(let error):
+                    print("Ошибка сохранения группы для задач в Core Data: \(error.localizedDescription)")
+                }
             }
-        } else {
-            print("Name group nil")
-            warningText()
-        }
     }
 }
 
