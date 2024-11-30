@@ -10,14 +10,14 @@ import SnapKit
 
 public final class NotificationUtils {
     
-    static func showWarning(on viewController: UIViewController) {
+    static func showWarning(on viewController: UIViewController, text: String) {
         
         let notificationView = UIView()
         notificationView.backgroundColor = UIColor.lightGray.withAlphaComponent(0.8)
         notificationView.layer.cornerRadius = 10
         
         let labelWarning = UILabel()
-        labelWarning.text = "Заполните все поля"
+        labelWarning.text = text
         labelWarning.textColor = .white
         labelWarning.textAlignment = .center
         

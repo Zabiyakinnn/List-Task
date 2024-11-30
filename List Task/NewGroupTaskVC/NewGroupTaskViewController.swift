@@ -11,10 +11,14 @@ import SnapKit
 final class NewGroupTaskViewController: UIViewController, UITextViewDelegate {
     
     var newGroupName: (() -> Void)?
+    
+    private var newGroupView = NewGroupView()
     var nameGroup: NameGroup?
     var iconCollectionViewCell = "iconCollectionViewCell"
+
+    var isSelectedIndexPath: IndexPath? // отслеживать выбранный индекс
     
-//    массив с иконками для collectionView
+    //    массив с иконками для collectionView
     let iconImageArray: [UIImage] = [
         UIImage(systemName: "figure.highintensity.intervaltraining")!,
         UIImage(systemName: "laptopcomputer.and.iphone")!,
@@ -25,89 +29,29 @@ final class NewGroupTaskViewController: UIViewController, UITextViewDelegate {
         UIImage(systemName: "heart")!,
         UIImage(systemName: "tag")!
     ]
-//    отслеживать выбранный индекс
-    var isSelectedIndexPath: IndexPath?
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        view.backgroundColor = UIColor(red: 0.87, green: 0.87, blue: 0.87, alpha: 1.00)
-        setupLoyout()
+    //    MARK: - LoadView
+    override func loadView() {
+        self.view = newGroupView
     }
     
-//    collectionIcon
-    private lazy var collectionView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .horizontal
-        let itemSize = CGSize(width: 30, height: 30)
-        layout.minimumInteritemSpacing = 10
+    //    MARK: - ViewDidLoad
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupButton()
+        dismissKeyboard()
         
-        let collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
-        collectionView.register(IconCollectionViewCell.self, forCellWithReuseIdentifier: "iconCollectionViewCell")
-        collectionView.backgroundColor = UIColor(red: 0.87, green: 0.87, blue: 0.87, alpha: 1.00)
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        return collectionView
-    }()
+        newGroupView.collectionView.dataSource = self
+        newGroupView.collectionView.delegate = self
+    }
     
-//    поле ввода текста
-    private lazy var textView: UITextView = {
-        let view = UITextView()
-        view.layer.cornerRadius = 10
-        view.layer.masksToBounds = true
-        view.font = UIFont.systemFont(ofSize: 16)
-        view.backgroundColor = UIColor.clear
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
+    private func setupButton() {
+        newGroupView.saveButton.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
+    }
     
-    //    заголовок
-    private lazy var labelHeadline: UILabel = {
-        let label = UILabel()
-        label.textColor = .black
-        label.font = UIFont.systemFont(ofSize: 19, weight: .medium)
-        label.text = "Новый список"
-        label.textAlignment = .center
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
-//    текст "выберете иконку"
-    private lazy var iconLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = .black
-        label.font = UIFont.systemFont(ofSize: 16, weight: .regular)
-        label.text = "Выберете иконку"
-        label.textAlignment = .center
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
-//    текст укажите название
-    private lazy var titleLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = .black
-        label.font = UIFont.systemFont(ofSize: 16, weight: .regular)
-        label.text = "Укажите название"
-        label.textAlignment = .center
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
-//    MARK: - UIButton
-    //    кнопка сохранения
-    private lazy var saveButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setTitle("Сохранить", for: .normal)
-        button.tintColor = UIColor(red: 0.32, green: 0.16, blue: 0.01, alpha: 1.00)
-        button.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
-    
-//    сохранения группы для задач
+    //    сохранения группы для задач
     @objc private func saveButtonTapped() {
-        guard let groupName = textView.text, !groupName.isEmpty else {
+        guard let groupName = newGroupView.textView.text, !groupName.isEmpty else {
             warningText()
             return
         }
@@ -119,6 +63,11 @@ final class NewGroupTaskViewController: UIViewController, UITextViewDelegate {
             }
             return nil
         }()
+        
+        if selectedIconData == nil {
+            warningImage()
+            return
+        }
         
         CoreDataManagerNameGroup.shared.saveNewGroupCoreData(
             name: groupName,
@@ -136,70 +85,6 @@ final class NewGroupTaskViewController: UIViewController, UITextViewDelegate {
     }
 }
 
-extension NewGroupTaskViewController {
-    private func setupLoyout() {
-        prepereView()
-        setupConstraint()
-        textView.delegate = self
-        dismissKeyboard()
-    }
-    
-    private func prepereView() {
-        view.addSubview(labelHeadline)
-        view.addSubview(saveButton)
-        view.addSubview(textView)
-        view.addSubview(iconLabel)
-        view.addSubview(titleLabel)
-        view.addSubview(collectionView)
-    }
-    
-    private func warningText() {
-        NotificationUtils.showWarning(on: self)
-    }
-    
-    private func setupConstraint() {
-        labelHeadline.snp.makeConstraints { make in
-            make.left.equalTo(view.snp.left).inset(17)
-            make.top.equalTo(view.snp.top).inset(30)
-        }
-        saveButton.snp.makeConstraints { make in
-            make.top.equalTo(view.snp.top).inset(20)
-            make.right.equalTo(view.snp.right).inset(20)
-            make.height.equalTo(40)
-        }
-        textView.snp.makeConstraints { make in
-            make.top.equalTo(labelHeadline.snp.top).inset(78)
-            make.left.equalTo(view.snp.left).inset(10)
-            make.right.equalTo(view.snp.right).inset(10)
-            make.height.equalTo(50)
-        }
-        titleLabel.snp.makeConstraints { make in
-            make.top.equalTo(labelHeadline.snp.top).inset(48)
-            make.left.equalTo(view.snp.left).inset(17)
-        }
-        iconLabel.snp.makeConstraints { make in
-            make.top.equalTo(textView.snp.top).inset(60)
-            make.left.equalTo(view.snp.left).inset(17)
-        }
-        collectionView.snp.makeConstraints { make in
-            make.top.equalTo(iconLabel.snp.top).inset(40)
-            make.left.equalTo(view.snp.left).inset(12)
-            make.right.equalTo(view.snp.right).inset(12)
-            make.height.equalTo(50)
-        }
-    }
-    
-//    скрытие клавиатуры
-    private func dismissKeyboard() {
-        let tap = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
-        tap.cancelsTouchesInView = false
-        view.addGestureRecognizer(tap)
-    }
-    @objc func handleTap(_ sender: UITapGestureRecognizer) {
-        textView.endEditing(true)
-    }
-}
-
 // MARK: - UICollectionViewDelegate, UICollectionViewDataSource
 extension NewGroupTaskViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
@@ -208,7 +93,7 @@ extension NewGroupTaskViewController: UICollectionViewDelegate, UICollectionView
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: iconCollectionViewCell, for: indexPath) as! IconCollectionViewCell
+        let cell = newGroupView.collectionView.dequeueReusableCell(withReuseIdentifier: iconCollectionViewCell, for: indexPath) as! IconCollectionViewCell
         let image = iconImageArray[indexPath.item]
         let isSelect = indexPath == isSelectedIndexPath
         cell.configure(with: image, isSelected: isSelect)
@@ -217,6 +102,27 @@ extension NewGroupTaskViewController: UICollectionViewDelegate, UICollectionView
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         isSelectedIndexPath = indexPath
-        collectionView.reloadData()
+        newGroupView.collectionView.reloadData()
+    }
+}
+
+//MARK: - func
+extension NewGroupTaskViewController {
+    //    скрытие клавиатуры
+    private func dismissKeyboard() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+    @objc func handleTap(_ sender: UITapGestureRecognizer) {
+        newGroupView.textView.endEditing(true)
+    }
+    
+    private func warningText() {
+        NotificationUtils.showWarning(on: self, text: "Заполните поле с названием группы")
+    }
+    
+    private func warningImage() {
+        NotificationUtils.showWarning(on: self, text: "Выберете изображение")
     }
 }

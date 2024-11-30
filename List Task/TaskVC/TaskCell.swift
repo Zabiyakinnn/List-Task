@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class TaskCell: UITableViewCell {
+final class TaskCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -49,6 +49,7 @@ class TaskCell: UITableViewCell {
     }
 }
 
+//MARK: - TaskCell setup
 extension TaskCell {
     private func setupeLoyout() {
         prepereView()

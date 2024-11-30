@@ -12,6 +12,7 @@ import CoreData
 class NewTaskViewController: UIViewController {
     
     var nameGroup: NameGroup?
+    var newTask: (() -> Void)?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -69,21 +70,27 @@ class NewTaskViewController: UIViewController {
             print("Task List nil")
             return
         }
-        CoreDataManagerTaskList.shared.saveNewTaskCoreData(
+        
+        guard let nameGroup = nameGroup else {
+            print("Не выбранна группа для сохранения задачи")
+            return
+        }
+
+        CoreDataManagerTaskList.shared.saveTaskCoreData(
             nameTask: taskText,
-            existingGroup: nameGroup) { [weak self] result in
+            group: nameGroup) { [weak self] result in
                 guard let self = self else { return }
                 switch result {
                 case .success():
-//                    print("Задача \(taskText) сохранена в Core Data")
+                    print("Задача сохранена в Core Data")
+                    self.newTask?()
                     dismiss(animated: true)
                 case .failure(let error):
-                    print("Ошибка сохранения задачи в CoreData: - \(error.localizedDescription)")
+                    print("ошибка сохранения задачи в CoreData: - \(error.localizedDescription)")
                 }
             }
     }
     
-//    кнопка выбора даты для задачи
     private lazy var buttonDate: UIButton = {
         let button = UIButton(type: .system)
         button.tintColor = UIColor(red: 0.32, green: 0.16, blue: 0.01, alpha: 1.00)

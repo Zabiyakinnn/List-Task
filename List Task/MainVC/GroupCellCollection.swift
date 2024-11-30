@@ -13,7 +13,7 @@ final class GroupCellCollection: UICollectionViewCell {
     
 //    замыкание для удаления ячейки
     var onDelete: (() -> Void)?
-    
+
 //    имя задачи
     private lazy var nameTask: UILabel = {
         let label = UILabel()
@@ -26,7 +26,6 @@ final class GroupCellCollection: UICollectionViewCell {
     private lazy var taskCountLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 15, weight: .regular)
-        label.text = "Кол-во задач 1"
         label.textColor = .lightGray
         return label
     }()
@@ -65,8 +64,9 @@ final class GroupCellCollection: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(_ nameGroup: NameGroup) {
+    func configure(_ nameGroup: NameGroup,_ taskCount: Int) {
         nameTask.text = nameGroup.name
+        taskCountLabel.text = "Кол-во задач \(taskCount)"
         if let iconData = nameGroup.iconNameGroup,
            let iconImage = UIImage(data: iconData)?.withRenderingMode(.alwaysTemplate) {
             iconImageView.image = iconImage
