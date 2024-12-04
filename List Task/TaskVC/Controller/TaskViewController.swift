@@ -13,6 +13,7 @@ final class TaskViewController: UIViewController, NSFetchedResultsControllerDele
     
     var nameGroup: NameGroup?
     let taskCell = "taskCell"
+    var newTask: (() -> Void)? // передача в mainVC
     
     private var taskView = TaskView()
     private var taskDataProvider: TaskDataProvider?
@@ -54,15 +55,18 @@ final class TaskViewController: UIViewController, NSFetchedResultsControllerDele
     }
     
     @objc func newTaskButtonTapped() {
-        let newTaskVC = NewTaskViewController()
-        newTaskVC.nameGroup = nameGroup
-        newTaskVC.newTask = { [weak self] in
-            guard let self = self else { return }
-            taskDataProvider?.perfomFetch()
-            setupContentView()
-            taskView.tableView.reloadData()
+        if let nameGroup = nameGroup {
+            let newTaskVC = NewTaskViewController(nameGroup: nameGroup)
+            newTaskVC.nameGroup = nameGroup
+            newTaskVC.newTask = { [weak self] in
+                guard let self = self else { return }
+                self.newTask?()
+                taskDataProvider?.perfomFetch()
+                setupContentView()
+                taskView.tableView.reloadData()
+            }
+            present(newTaskVC, animated: true)
         }
-        present(newTaskVC, animated: true)
     }
     
     @objc func settingListButtonTapped() {
@@ -104,5 +108,9 @@ extension TaskViewController: UITableViewDelegate, UITableViewDataSource {
             return cell ?? UITableViewCell()
         }
         return UITableViewCell()
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 80
     }
 }

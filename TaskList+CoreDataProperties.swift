@@ -19,6 +19,7 @@ extension TaskList {
     }
 
     @NSManaged public var nameTask: String?
+    @NSManaged public var date: Date?
     @NSManaged public var group: NameGroup?
 
 }

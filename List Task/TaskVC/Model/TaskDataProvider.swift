@@ -17,14 +17,17 @@ final class TaskDataProvider {
         try? fetchResultController.performFetch()
     }
     
+//    кол-во задач
     func numberOfTask() -> Int {
         return fetchResultController.sections?.first?.numberOfObjects ?? 0
     }
     
+//    получение списка задач по indexPath
     func task(at indexPath: IndexPath) -> TaskList? {
         return fetchResultController.object(at: indexPath)
     }
     
+//    обновление данных
     func perfomFetch() {
         try? fetchResultController.performFetch()
     }

@@ -12,7 +12,7 @@ import CoreData
 final class MainViewController: UIViewController, NSFetchedResultsControllerDelegate {
 
     private let mainView = MainView()
-    private let coreDataManager = CoreDataManagerNameGroup.shared
+    private let mainViewProvider = MainViewProvider(coreDataManager: CoreDataManagerNameGroup.shared)
     private let groupCellCollection = "groupCellCollection"
 
 //    MARK: - LoadView
@@ -24,9 +24,7 @@ final class MainViewController: UIViewController, NSFetchedResultsControllerDele
     override func viewDidLoad() {
         super.viewDidLoad()
         setupButton()
-        
-        try? coreDataManager.fetchResultСontroller.performFetch()
-        
+            
         mainView.collectionView.delegate = self
         mainView.collectionView.dataSource = self
     }
@@ -56,12 +54,8 @@ final class MainViewController: UIViewController, NSFetchedResultsControllerDele
     
 //    обновление коллекции
     private func reloadCollectionView() {
-        do {
-            try coreDataManager.fetchResultСontroller.performFetch()
-            mainView.collectionView.reloadData()
-        } catch {
-            print("Ошибка обновления данных коллекции \(error.localizedDescription)")
-        }
+        mainView.collectionView.reloadData()
+        mainViewProvider.perfomFetch()
     }
 }
 
@@ -69,23 +63,25 @@ final class MainViewController: UIViewController, NSFetchedResultsControllerDele
 extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        let itemCount = coreDataManager.fetchResultСontroller.sections?.first?.numberOfObjects ?? 0
+        let itemCount = mainViewProvider.numberOfTaskGroup()
         return itemCount == 0 ? 1: itemCount
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let itemCount = coreDataManager.fetchResultСontroller.sections?.first?.numberOfObjects ?? 0
+        let itemCount = mainViewProvider.numberOfTaskGroup()
         
         if itemCount == 0 {
             let placeholderCell = collectionView.dequeueReusableCell(withReuseIdentifier: "PlaceholderCell", for: indexPath) as! PlaceholderCell
             placeholderCell.configure(with: "Создайте группу для своих задач")
             return placeholderCell
         } else {
-            let nameGroup = coreDataManager.fetchResultСontroller.object(at: indexPath)
             
-            let fetchController = CoreDataManagerTaskList.shared.createFetchResultController(group: nameGroup)
-            try? fetchController.performFetch()
-            let taskCount = fetchController.fetchedObjects?.count ?? 0
+            guard let nameGroup = mainViewProvider.groupAt(indexPath: indexPath) else {
+                print("Name Group nil")
+                return UICollectionViewCell()
+            }
+            
+            let taskCount = mainViewProvider.numberOfTaskInGroup(at: indexPath)
             
             let cell = mainView.collectionView.dequeueReusableCell(withReuseIdentifier: groupCellCollection, for: indexPath) as! GroupCellCollection
             
@@ -99,7 +95,7 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
                 alertController.addAction(UIAlertAction(title: "Отмена", style: .cancel))
                 alertController.addAction(UIAlertAction(title: "Удалить", style: .destructive, handler: { [weak self] _ in
                     guard let self = self else { return }
-                    coreDataManager.deleteGroupTask(existingGroup: nameGroup) { result in
+                    mainViewProvider.deleteGroup(at: indexPath) { result in
                         switch result {
                         case .success():
                             self.reloadCollectionView()
@@ -115,9 +111,15 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let newTaskVC = TaskViewController()
-        let nameGroup = coreDataManager.fetchResultСontroller.object(at: indexPath)
-        newTaskVC.nameGroup = nameGroup
-        navigationController?.present(newTaskVC, animated: true)
+        let taskVC = TaskViewController()
+        if let nameGroup = mainViewProvider.groupAt(indexPath: indexPath) {
+            taskVC.nameGroup = nameGroup
+            taskVC.newTask = { [weak self] in
+                guard let self = self else { return }
+                self.mainViewProvider.perfomFetch()
+                self.mainView.collectionView.reloadData()
+            }
+        }
+        navigationController?.present(taskVC, animated: true)
     }
 }

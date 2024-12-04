@@ -38,7 +38,6 @@ final class CoreDataManagerNameGroup {
 //    MARK: Method
 //    сохранение группы для задач в Core Data
     func saveNewGroupCoreData(name: String, iconNameGroup: Data?, existingGroup: NameGroup?, completion: @escaping (Result<Void, Error>) -> Void) {
-        
         do {
             let group = existingGroup ?? NameGroup(context: context)
             group.name = name

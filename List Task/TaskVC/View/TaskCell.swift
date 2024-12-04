@@ -10,6 +10,9 @@ import SnapKit
 
 final class TaskCell: UITableViewCell {
     
+    let formatter = DateFormatter()
+    
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupeLoyout()
@@ -26,6 +29,15 @@ final class TaskCell: UITableViewCell {
         label.numberOfLines = 1
         label.font = UIFont.systemFont(ofSize: 17, weight: .regular)
         label.textColor = .black
+        return label
+    }()
+    
+    //    дата задачи
+    private lazy var dateTask: UILabel = {
+        let label = UILabel()
+        label.numberOfLines = 1
+        label.font = UIFont.systemFont(ofSize: 17, weight: .regular)
+        label.textColor = UIColor.lightGray
         return label
     }()
     
@@ -46,6 +58,9 @@ final class TaskCell: UITableViewCell {
     
     func configure(_ taskList: TaskList) {
         nameTask.text = taskList.nameTask
+        formatter.dateFormat = "dd/MM/yy"
+        
+        dateTask.text = formatter.string(from: taskList.date ?? Date())
     }
 }
 
@@ -54,12 +69,14 @@ extension TaskCell {
     private func setupeLoyout() {
         prepereView()
         setupConstraint()
-        contentView.backgroundColor = UIColor(red: 0.93, green: 0.92, blue: 0.91, alpha: 1.00)
+        contentView.backgroundColor = UIColor(red: 0.87, green: 0.87, blue: 0.87, alpha: 1.00)
+        
     }
     
     private func prepereView() {
         contentView.addSubview(nameTask)
         contentView.addSubview(conditionButton)
+        contentView.addSubview(dateTask)
     }
     
     private func setupConstraint() {
@@ -70,6 +87,10 @@ extension TaskCell {
         }
         nameTask.snp.makeConstraints { make in
             make.top.equalTo(contentView.snp.top).inset(11)
+            make.left.equalTo(conditionButton.snp.left).inset(45)
+        }
+        dateTask.snp.makeConstraints { make in
+            make.bottom.equalToSuperview().inset(13)
             make.left.equalTo(conditionButton.snp.left).inset(45)
         }
     }

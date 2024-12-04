@@ -39,9 +39,10 @@ final class CoreDataManagerTaskList {
     }
     
 //    сохранение зедачи в CoreData
-    func saveTaskCoreData(nameTask: String, group: NameGroup?, completion: @escaping(Result<Void, Error>) -> Void) {
+    func saveTaskCoreData(nameTask: String, date: Date?, group: NameGroup?, completion: @escaping(Result<Void, Error>) -> Void) {
         let task = TaskList(context: context)
         task.nameTask = nameTask
+        task.date = date
         task.group = group
         group?.addToTasks(task)
         
