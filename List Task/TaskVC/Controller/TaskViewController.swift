@@ -13,10 +13,13 @@ final class TaskViewController: UIViewController, NSFetchedResultsControllerDele
     
     var nameGroup: NameGroup?
     let taskCell = "taskCell"
+    
     var newTask: (() -> Void)? // передача в mainVC
+    var deleteTask: (() -> Void)? // передача в mainVC о том что задача удаленна для обновления кол-ва задач в подгруппе
     
     private var taskView = TaskView()
     private var taskDataProvider: TaskDataProvider?
+    private var newTaskProvider = NewTaskProvider()
     
 //    MARK: LoadView
     override func loadView() {
@@ -82,8 +85,12 @@ final class TaskViewController: UIViewController, NSFetchedResultsControllerDele
         if let iconData = nameGroup?.iconNameGroup,
             let iconImage = UIImage(data: iconData)?.withRenderingMode(.alwaysTemplate) {
                 taskView.iconImageView.image = iconImage
-                taskView.iconImageView.tintColor = UIColor(red: 0.32, green: 0.16, blue: 0.01, alpha: 1.00)
+                taskView.iconImageView.tintColor = UIColor(red: 0.32, green: 0.32, blue: 0.32, alpha: 1.00)
         }
+        
+        let isEmpty = taskDataProvider?.numberOfTask() == 0
+        taskView.tableView.isHidden = isEmpty
+        taskView.emptyView.isHidden = !isEmpty
     }
 }
 
@@ -99,18 +106,74 @@ extension TaskViewController: UITableViewDelegate, UITableViewDataSource {
         let itemCount = taskDataProvider?.numberOfTask() ?? 0
 
         if itemCount == 0 {
+            let cell = UITableViewCell()
+            cell.selectionStyle = .none
             
+            let emptyView = taskView.emptyView
+            cell.contentView.addSubview(emptyView)
+            
+            emptyView.snp.makeConstraints { make in
+                make.edges.equalToSuperview()
+            }
         } else {
-            let taskList = taskDataProvider?.task(at: indexPath)
-            let cell = taskView.tableView.dequeueReusableCell(withIdentifier: taskCell, for: indexPath) as? TaskCell
-
-            cell?.configure(taskList!)
-            return cell ?? UITableViewCell()
+            if let taskList = taskDataProvider?.task(at: indexPath) {
+                let cell = taskView.tableView.dequeueReusableCell(withIdentifier: taskCell, for: indexPath) as? TaskCell
+                
+                cell?.configure(taskList)
+                cell?.onConditionButtonStatus = { [weak self] newStatus in
+                    guard let self = self else { return }
+                    taskDataProvider?.updateTaskStatus(
+                        nameTask: taskList.nameTask ?? "",
+                        newStatus: newStatus,
+                        completion: { result in
+                            switch result {
+                            case .success():
+                                self.taskDataProvider?.perfomFetch()
+                                self.taskView.tableView.reloadRows(at: [indexPath], with: .none)
+                            case .failure(let error):
+                                print("Ошибка изменения статуса задачи \(error.localizedDescription)")
+                            }
+                        })
+                }
+                return cell ?? UITableViewCell()
+            }
         }
         return UITableViewCell()
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 80
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableView.automaticDimension
+    }
+    
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        guard editingStyle == .delete else { return }
+        
+        if let taskToDelete = taskDataProvider?.task(at: indexPath) {
+            taskDataProvider?.deleteTask(taskList: taskToDelete) { [weak self] result in
+                guard let self = self else { return }
+                switch result {
+                case .success():
+                    self.taskDataProvider?.perfomFetch()
+                    self.deleteTask?()
+                    if taskDataProvider?.numberOfTask() == 0 {
+                        DispatchQueue.main.async {
+                            self.taskView.tableView.reloadData()
+                            self.setupContentView()
+                        }
+                    } else {
+                        DispatchQueue.main.async {
+                            tableView.deleteRows(at: [indexPath], with: .fade)
+                            self.setupContentView()
+                        }
+                    }
+                case .failure(let error):
+                    print("Ошибка удаления задачи из CoreData: - \(error.localizedDescription)")
+                }
+            }
+        }
     }
 }

@@ -13,9 +13,8 @@ class NewTaskViewController: UIViewController {
     
     var nameGroup: NameGroup?
     
-    var calendar = UICalendarView()
-    var selectedDate: Date?
-    var dateOFDone: String?
+    var selectedDate: Date? // выбранная дата
+    var dateOFDone: String? // строка для передачи даты на кнопку
     
     var newTask: (() -> Void)? // передача в taskVC
     
@@ -42,13 +41,15 @@ class NewTaskViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        calendarDelegate()
+        
         setupButton()
         dismissKeyboard()
+        
     }
     
     private func setupButton() {
         newTaskView.saveButton.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
-        newTaskView.buttonDate.addTarget(self, action: #selector(buttonDateTapped), for: .touchUpInside)
     }
 
     @objc func saveButtonTapped() {
@@ -62,15 +63,11 @@ class NewTaskViewController: UIViewController {
             return
         }
         
-        guard let date = selectedDate else {
-            print("Не выбранна дата задачи")
-            return
-        }
-        
         newTaskProvider.createNewTask(
             name: taskText,
-            date: date,
-            group: nameGroup) { [weak self] result in
+            date: selectedDate,
+            group: nameGroup,
+            statusTask: false) { [weak self] result in
                 guard let self = self else { return }
                 switch result {
                 case .success():
@@ -82,13 +79,6 @@ class NewTaskViewController: UIViewController {
                 }
             }
     }
-
-    
-    @objc func buttonDateTapped() {
-        let calendar = newTaskView.calendar
-        let selection = UICalendarSelectionSingleDate(delegate: self)
-        calendar.selectionBehavior = selection
-    }
 }
 
 //MARK: - func
@@ -99,6 +89,12 @@ extension NewTaskViewController {
         tap.cancelsTouchesInView = false
         view.addGestureRecognizer(tap)
     }
+//    calendar Delegate
+    private func calendarDelegate() {
+        let calendar = newTaskView.calendar
+        let selected = UICalendarSelectionSingleDate(delegate: self)
+        calendar.selectionBehavior = selected
+    }
     @objc func handleTap(_ sender: UITapGestureRecognizer) {
         newTaskView.textView.endEditing(true)
     }
@@ -108,20 +104,49 @@ extension NewTaskViewController {
     }
 }
 
+//MARK: - UICalendarSelectionSingleDateDelegate
 extension NewTaskViewController: UICalendarSelectionSingleDateDelegate {
     
     func dateSelection(_ selection: UICalendarSelectionSingleDate, didSelectDate dateComponents: DateComponents?) {
-        guard let dataComponents = dateComponents, let date = dataComponents.date else { return }
-        
+        guard let dataComponents = dateComponents, let date = dataComponents.date else {
+            selectedDate = nil
+            dateOFDone = nil
+            return
+        }
         selectedDate = date
+        
+        let calendar = newTaskView.calendar
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "dd/MM/yy"
+        dateFormatter.locale = Locale(identifier: "ru_RU")
+        dateFormatter.dateFormat = "d MMM"
         
-        let selectedDate = dateFormatter.string(from: date)
+//        родительный падеж
+        var customCalendar = Calendar(identifier: .gregorian)
+        customCalendar.locale = Locale(identifier: "ru_RU_POSIX")
+        dateFormatter.calendar = customCalendar
+
         
-        dateOFDone = selectedDate
+        let today = Calendar.current.startOfDay(for: Date()) // сегодняшняя дата
+        let selectedDay = Calendar.current.startOfDay(for: date) // выбранная дата
         
-        newTaskView.buttonDate.setTitle(selectedDate, for: .normal)
+        let difference = Calendar.current.dateComponents([.day], from: today, to: selectedDay).day
+        
+        var selectedDateString: String
+        
+        switch difference {
+        case 0:
+            selectedDateString = "Сегодня"
+        case 1:
+            selectedDateString = "Завтра"
+        case -1:
+            selectedDateString = "Вчера"
+        default:
+            selectedDateString = dateFormatter.string(from: date)
+        }
+
+        dateOFDone = selectedDateString
+        newTaskView.buttonDate.setTitle(selectedDateString, for: .normal)
+        newTaskView.buttonDate.setImage(nil, for: .normal)
         calendar.removeFromSuperview()
     }
 }

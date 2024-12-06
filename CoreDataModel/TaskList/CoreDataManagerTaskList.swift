@@ -41,6 +41,7 @@ final class CoreDataManagerTaskList {
 //    сохранение зедачи в CoreData
     func saveTaskCoreData(nameTask: String, date: Date?, group: NameGroup?, completion: @escaping(Result<Void, Error>) -> Void) {
         let task = TaskList(context: context)
+        
         task.nameTask = nameTask
         task.date = date
         task.group = group
@@ -49,6 +50,37 @@ final class CoreDataManagerTaskList {
         do {
             try context.save()
             completion(.success(()))
+        } catch {
+            completion(.failure((error)))
+        }
+    }
+    
+//    удаление задачи из CoreData
+    func deleteTaskCoreData(taskList: TaskList, completion: @escaping (Result<Void, Error>) -> Void) {
+        context.delete(taskList) // Удаляем объект контекста
+        
+        do {
+            try context.save() // Сохраняем изменения в Core Data
+            completion(.success(())) // Уведомляем об успешном завершении
+        } catch {
+            completion(.failure(error)) 
+        }
+    }
+    
+//    изменение статуса задачи выполненно/не выполненно
+    func updateTaskStatus(nameTask: String, newStatus: Bool, completion: @escaping ((Result<Void, Error>) -> Void)) {
+        let fetchRequest: NSFetchRequest<TaskList> = TaskList.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "nameTask == %@", nameTask)
+        
+        do {
+            let result = try context.fetch(fetchRequest)
+            if let taskToUpdate = result.first {
+                taskToUpdate.completed = newStatus
+                try context.save()
+                completion(.success(()))
+            } else {
+                print("Задача с указаныи именем не найденна")
+            }
         } catch {
             completion(.failure((error)))
         }

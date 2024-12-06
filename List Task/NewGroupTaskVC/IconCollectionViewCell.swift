@@ -14,7 +14,6 @@ class IconCollectionViewCell: UICollectionViewCell {
     private lazy var iconImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
-        imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
     
@@ -42,6 +41,6 @@ class IconCollectionViewCell: UICollectionViewCell {
 //    вид ячейки и изображение значка
     func configure(with image: UIImage, isSelected: Bool) {
         iconImageView.image = image
-        iconImageView.tintColor = isSelected ? UIColor.darkGray : UIColor(red: 0.32, green: 0.16, blue: 0.01, alpha: 1.00)
+        iconImageView.tintColor = isSelected ? UIColor.systemYellow : UIColor.darkGray
     }
 }

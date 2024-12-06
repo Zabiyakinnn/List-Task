@@ -11,6 +11,12 @@ import SnapKit
 final class TaskView: UIView {
     
     //    MARK: - ContentView
+    lazy var emptyView: UIView = {
+       let emptyView = EmptyView()
+        emptyView.isHidden = true
+        return emptyView
+    }()
+    
     //    заголовок
     lazy var labelHeadline: UILabel = {
          let label = UILabel()
@@ -38,7 +44,7 @@ final class TaskView: UIView {
     //     tableCell
     lazy var tableView: UITableView = {
         let tableView = UITableView(frame: CGRect.zero, style: .plain)
-        tableView.backgroundColor = UIColor(red: 0.87, green: 0.87, blue: 0.87, alpha: 1.00)
+        tableView.backgroundColor = UIColor(named: "ColorViewBlackAndWhite")
         tableView.separatorColor = .gray
         tableView.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
         tableView.register(TaskCell.self, forCellReuseIdentifier: "taskCell")
@@ -50,7 +56,7 @@ final class TaskView: UIView {
     lazy var settingsListButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(UIImage(systemName: "ellipsis"), for: .normal)
-        button.tintColor = UIColor(red: 0.32, green: 0.16, blue: 0.01, alpha: 1.00)
+        button.tintColor = UIColor(red: 0.32, green: 0.32, blue: 0.32, alpha: 1.00)
         return button
     }()
     
@@ -58,14 +64,14 @@ final class TaskView: UIView {
     lazy var closeVCButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(UIImage(systemName: "xmark"), for: .normal)
-        button.tintColor = UIColor(red: 0.32, green: 0.16, blue: 0.01, alpha: 1.00)
+        button.tintColor = UIColor(red: 0.32, green: 0.32, blue: 0.32, alpha: 1.00)
         return button
     }()
     
     //    новая задача
     lazy var newTaskButton: UIButton = {
         var config = UIButton.Configuration.plain()
-        let iconeImage = UIImage(systemName: "plus.circle")?.withTintColor(UIColor(red: 0.32, green: 0.16, blue: 0.01, alpha: 1.00), renderingMode: .alwaysOriginal)
+        let iconeImage = UIImage(systemName: "plus.circle")?.withTintColor(UIColor(red: 0.32, green: 0.32, blue: 0.32, alpha: 1.00), renderingMode: .alwaysOriginal)
         config.image = iconeImage
         config.imagePlacement = .top
         config.imagePadding = 6
@@ -82,7 +88,7 @@ final class TaskView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = UIColor(red: 0.87, green: 0.87, blue: 0.87, alpha: 1.00)
+        backgroundColor = UIColor(named: "ColorViewBlackAndWhite")
 
         setupLoyout()
     }
@@ -104,6 +110,7 @@ final class TaskView: UIView {
         addSubview(settingsListButton)
         addSubview(closeVCButton)
         addSubview(newTaskButton)
+        addSubview(emptyView)
         setupConstraint()
     }
     
@@ -142,6 +149,8 @@ final class TaskView: UIView {
             make.top.equalTo(taskCountLabel.snp.top).inset(32)
             make.bottom.equalTo(newTaskButton.snp.bottom).inset(90)
         }
-
+        emptyView.snp.makeConstraints { make in
+            make.edges.equalTo(tableView)
+        }
     }
 }

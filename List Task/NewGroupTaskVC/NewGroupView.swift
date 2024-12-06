@@ -20,7 +20,7 @@ class NewGroupView: UIView {
         
         let collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
         collectionView.register(IconCollectionViewCell.self, forCellWithReuseIdentifier: "iconCollectionViewCell")
-        collectionView.backgroundColor = UIColor(red: 0.87, green: 0.87, blue: 0.87, alpha: 1.00)
+        collectionView.backgroundColor = UIColor.clear
         return collectionView
     }()
     
@@ -37,7 +37,7 @@ class NewGroupView: UIView {
     //    заголовок
     lazy var labelHeadline: UILabel = {
         let label = UILabel()
-        label.textColor = .black
+        label.textColor = UIColor(named: "ColorTextBlackAndWhite")
         label.font = UIFont.systemFont(ofSize: 19, weight: .medium)
         label.text = "Новый список"
         label.textAlignment = .center
@@ -47,7 +47,7 @@ class NewGroupView: UIView {
     //    текст "выберете иконку"
     lazy var iconLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .black
+        label.textColor = UIColor(named: "ColorTextBlackAndWhite")
         label.font = UIFont.systemFont(ofSize: 16, weight: .regular)
         label.text = "Выберете иконку"
         label.textAlignment = .center
@@ -57,7 +57,7 @@ class NewGroupView: UIView {
     //    текст укажите название
     lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .black
+        label.textColor = UIColor(named: "ColorTextBlackAndWhite")
         label.font = UIFont.systemFont(ofSize: 16, weight: .regular)
         label.text = "Укажите название"
         label.textAlignment = .center
@@ -69,13 +69,13 @@ class NewGroupView: UIView {
     lazy var saveButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Сохранить", for: .normal)
-        button.tintColor = UIColor(red: 0.32, green: 0.16, blue: 0.01, alpha: 1.00)
+        button.tintColor = UIColor(named: "ColorTextBlackAndWhite")
         return button
     }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = UIColor(red: 0.87, green: 0.87, blue: 0.87, alpha: 1.00)
+        backgroundColor = UIColor(named: "ColorViewBlackAndWhite")
 
         setupLoyout()
     }

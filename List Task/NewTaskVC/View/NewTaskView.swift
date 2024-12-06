@@ -10,6 +10,8 @@ import SnapKit
 
 final class NewTaskView: UIView {
     
+    public var calendar = UICalendarView()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = UIColor(red: 0.87, green: 0.87, blue: 0.87, alpha: 1.00)
@@ -21,22 +23,13 @@ final class NewTaskView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+//    MARK: - View
     //    заголовок
     lazy var labelHeadline: UILabel = {
         let label = UILabel()
         label.textColor = .black
         label.font = UIFont.systemFont(ofSize: 19, weight: .medium)
         label.text = "Новая задача"
-        label.textAlignment = .center
-        return label
-    }()
-    
-    //    текст укажите название
-    lazy var titleLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = .black
-        label.font = UIFont.systemFont(ofSize: 16, weight: .regular)
-        label.text = "Укажите название"
         label.textAlignment = .center
         return label
     }()
@@ -51,27 +44,10 @@ final class NewTaskView: UIView {
         return view
     }()
     
-    //    календарь
-    lazy var calendar: UICalendarView = {
-        let calendar = UICalendarView()
-        calendar.calendar = .current
-        calendar.locale = .current
-        addSubview(calendar)
-        
-        calendar.snp.makeConstraints { make in
-            make.left.equalToSuperview().inset(10)
-            make.right.equalToSuperview().inset(10)
-            make.top.equalTo(textView.snp.top).inset(195)
-        }
-        
-        return calendar
-    }()
-    
     //    MARK: - UIButton
     //    кнопка сохранения задачи
     lazy var saveButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setImage(UIImage(systemName: "tray"), for: .normal)
         button.setTitle("Сохранить", for: .normal)
         button.tintColor = UIColor(red: 0.32, green: 0.16, blue: 0.01, alpha: 1.00)
         return button
@@ -82,10 +58,24 @@ final class NewTaskView: UIView {
         let button = UIButton(type: .system)
         button.tintColor = UIColor(red: 0.32, green: 0.16, blue: 0.01, alpha: 1.00)
         button.setImage(UIImage(systemName: "calendar"), for: .normal)
+        button.addTarget(self, action: #selector(buttonDateTapped), for: .touchUpInside)
         return button
     }()
+    
+    @objc func buttonDateTapped() {
+        calendar.calendar = .current
+        calendar.locale = .current
+        addSubview(calendar)
+        
+        calendar.snp.makeConstraints { make in
+            make.left.equalToSuperview().inset(10)
+            make.right.equalToSuperview().inset(10)
+            make.top.equalTo(textView.snp.top).inset(195)
+        }
+    }
 }
 
+//MARK: - SetupLoyout
 extension NewTaskView {
     
     private func setupLoyout() {
@@ -95,7 +85,6 @@ extension NewTaskView {
     
     private func prepereView() {
         addSubview(labelHeadline)
-        addSubview(titleLabel)
         addSubview(textView)
         addSubview(saveButton)
         addSubview(buttonDate)
@@ -105,10 +94,6 @@ extension NewTaskView {
         labelHeadline.snp.makeConstraints { make in
             make.left.equalToSuperview().inset(17)
             make.top.equalToSuperview().inset(30)
-        }
-        titleLabel.snp.makeConstraints { make in
-            make.top.equalTo(labelHeadline.snp.top).inset(48)
-            make.left.equalToSuperview().inset(17)
         }
         textView.snp.makeConstraints { make in
             make.top.equalTo(labelHeadline.snp.top).inset(78)

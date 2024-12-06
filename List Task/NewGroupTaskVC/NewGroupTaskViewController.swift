@@ -45,6 +45,11 @@ final class NewGroupTaskViewController: UIViewController, UITextViewDelegate {
         newGroupView.collectionView.delegate = self
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        newGroupView.textView.becomeFirstResponder()
+    }
+    
     private func setupButton() {
         newGroupView.saveButton.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
     }

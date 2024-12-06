@@ -17,17 +17,33 @@ final class TaskDataProvider {
         try? fetchResultController.performFetch()
     }
     
-//    кол-во задач
+    //    удаление задачи
+    func deleteTask(taskList: TaskList, completion: @escaping (Result<Void, Error>) -> Void) {
+        CoreDataManagerTaskList.shared.deleteTaskCoreData(
+            taskList: taskList,
+            completion: completion)
+        
+    }
+    
+//    изменение статуса задачи выполненно/не выполненно
+    func updateTaskStatus(nameTask: String, newStatus: Bool, completion: @escaping (Result<Void, Error>) -> Void) {
+        CoreDataManagerTaskList.shared.updateTaskStatus(
+            nameTask: nameTask,
+            newStatus: newStatus,
+            completion: completion)
+    }
+    
+    //    кол-во задач
     func numberOfTask() -> Int {
         return fetchResultController.sections?.first?.numberOfObjects ?? 0
     }
     
-//    получение списка задач по indexPath
+    //    получение списка задач по indexPath
     func task(at indexPath: IndexPath) -> TaskList? {
         return fetchResultController.object(at: indexPath)
     }
     
-//    обновление данных
+    //    обновление данных
     func perfomFetch() {
         try? fetchResultController.performFetch()
     }

@@ -119,6 +119,11 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
                 self.mainViewProvider.perfomFetch()
                 self.mainView.collectionView.reloadData()
             }
+            taskVC.deleteTask = { [weak self] in
+                guard let self = self else { return }
+                self.mainViewProvider.perfomFetch()
+                self.mainView.collectionView.reloadData()
+            }
         }
         navigationController?.present(taskVC, animated: true)
     }

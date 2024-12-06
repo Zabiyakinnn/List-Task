@@ -22,31 +22,36 @@ final class MainView: UIView {
         let collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
         collectionView.register(GroupCellCollection.self, forCellWithReuseIdentifier: "groupCellCollection")
         collectionView.register(PlaceholderCell.self, forCellWithReuseIdentifier: "PlaceholderCell")
-        collectionView.backgroundColor = UIColor(red: 0.87, green: 0.87, blue: 0.87, alpha: 1.00)
+        collectionView.backgroundColor = UIColor(named: "ColorViewBlackAndWhite")
         return collectionView
     }()
     
-    //    заголовок
-    lazy var labelHeadline: UILabel = {
-        let label = UILabel()
-        label.textColor = .black
-        label.font = UIFont.systemFont(ofSize: 25, weight: .semibold)
-        label.text = "List Task"
-        label.textAlignment = .center
-        return label
-    }()
-    
-    //    сегодняшняя дата
-    lazy var labelData: UILabel = {
+    //    сегодняшний день недели
+    lazy var labelDayWeek: UILabel = {
         let label = UILabel()
         let currentData = Date()
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "EEEE, d MMMM"
-        dateFormatter.locale = Locale(identifier: "en_US")
-        let formatterData = dateFormatter.string(for: currentData)
+        dateFormatter.dateFormat = "EEEE"
+        dateFormatter.locale = Locale(identifier: "ru_RU")
+        var formatterData = dateFormatter.string(for: currentData)
         label.text = formatterData
-        label.textColor = .black
-        label.font = UIFont.systemFont(ofSize: 18, weight: .medium)
+        label.textColor = UIColor(red: 0.32, green: 0.32, blue: 0.32, alpha: 1.00)
+        label.font = UIFont.systemFont(ofSize: 19, weight: .regular)
+        label.textAlignment = .left
+        return label
+    }()
+    
+//    сегодняшняя дата
+    lazy var labelDate: UILabel = {
+        let label = UILabel()
+        let currentData = Date()
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "d MMMM"
+        dateFormatter.locale = Locale(identifier: "ru_RU")
+        var formatterData = dateFormatter.string(for: currentData)
+        label.text = formatterData
+        label.textColor = UIColor(named: "ColorTextBlackAndWhite")
+        label.font = UIFont.systemFont(ofSize: 23, weight: .medium)
         label.textAlignment = .left
         return label
     }()
@@ -56,7 +61,7 @@ final class MainView: UIView {
     lazy var settingButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(UIImage(systemName: "gearshape"), for: .normal)
-        button.tintColor = UIColor(red: 0.32, green: 0.16, blue: 0.01, alpha: 1.00)
+        button.tintColor = UIColor(red: 0.32, green: 0.32, blue: 0.32, alpha: 1.00)
         return button
     }()
     
@@ -64,7 +69,7 @@ final class MainView: UIView {
     lazy var newGroupTaskButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(UIImage(systemName: "plus.circle"), for: .normal)
-        button.tintColor = UIColor(red: 0.32, green: 0.16, blue: 0.01, alpha: 1.00)
+        button.tintColor = UIColor(red: 0.32, green: 0.32, blue: 0.32, alpha: 1.00)
         return button
     }()
     
@@ -80,11 +85,11 @@ final class MainView: UIView {
     
 //    MARK: - SetupLayout
     private func setupLoyout() {
-        backgroundColor = UIColor(red: 0.87, green: 0.87, blue: 0.87, alpha: 1.00)
+        backgroundColor = UIColor(named: "ColorViewBlackAndWhite")
         
         addSubview(collectionView)
-        addSubview(labelHeadline)
-        addSubview(labelData)
+        addSubview(labelDayWeek)
+        addSubview(labelDate)
         addSubview(settingButton)
         addSubview(newGroupTaskButton)
         
@@ -93,20 +98,19 @@ final class MainView: UIView {
     
     private func setupConstraint() {
         collectionView.snp.makeConstraints { make in
-            make.top.equalTo(labelData.snp.top).offset(40)
+            make.top.equalTo(labelDayWeek.snp.top).offset(75)
             make.left.right.equalToSuperview().inset(12)
             make.bottom.equalToSuperview()
         }
-        labelHeadline.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(66)
-            make.left.equalToSuperview().inset(30)
-            make.height.equalTo(34)
-            make.width.equalTo(150)
-        }
-        labelData.snp.makeConstraints { make in
-            make.top.equalTo(labelHeadline.snp.top).inset(50)
-            make.left.equalToSuperview().inset(32)
+        labelDayWeek.snp.makeConstraints { make in
+            make.top.equalToSuperview().inset(75)
+            make.left.equalToSuperview().inset(23)
             make.height.equalTo(20)
+        }
+        labelDate.snp.makeConstraints { make in
+            make.top.equalTo(labelDayWeek.snp.bottom).inset(-10)
+            make.left.equalToSuperview().inset(23)
+            make.height.equalTo(30)
         }
         settingButton.snp.makeConstraints { make in
             make.right.equalToSuperview().inset(16)

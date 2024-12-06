@@ -18,7 +18,7 @@ final class GroupCellCollection: UICollectionViewCell {
     private lazy var nameTask: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
-        label.textColor = .black
+        label.textColor = UIColor(named: "ColorTextBlackAndWhite")
         return label
     }()
     
@@ -30,13 +30,12 @@ final class GroupCellCollection: UICollectionViewCell {
         return label
     }()
     
-//    удаление ячейки с азадачами
+//    кнопка удаление ячейки с задачами
     private lazy var trashButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(UIImage(systemName: "trash"), for: .normal)
-        button.tintColor = UIColor(red: 0.32, green: 0.16, blue: 0.01, alpha: 1.00)
+        button.tintColor = UIColor(red: 0.32, green: 0.32, blue: 0.32, alpha: 1.00)
         button.addTarget(self, action: #selector(trashButtonTapped), for: .touchUpInside)
-        button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
@@ -44,7 +43,6 @@ final class GroupCellCollection: UICollectionViewCell {
     private lazy var iconImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
-        imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
     
@@ -70,7 +68,7 @@ final class GroupCellCollection: UICollectionViewCell {
         if let iconData = nameGroup.iconNameGroup,
            let iconImage = UIImage(data: iconData)?.withRenderingMode(.alwaysTemplate) {
             iconImageView.image = iconImage
-            iconImageView.tintColor = UIColor(red: 0.32, green: 0.16, blue: 0.01, alpha: 1.00) 
+            iconImageView.tintColor = UIColor(red: 0.32, green: 0.32, blue: 0.32, alpha: 1.00)
         }
     }
     
@@ -97,12 +95,12 @@ private extension GroupCellCollection {
     
     private func configureUI() {
         contentView.layer.cornerRadius = 10
-        contentView.backgroundColor = UIColor(red: 0.93, green: 0.92, blue: 0.91, alpha: 1.00)
+        contentView.backgroundColor = UIColor(named: "CollectionViewBackgroundColor")
         contentView.layer.masksToBounds = true
         
         self.layer.shadowColor = UIColor.black.cgColor
-        self.layer.shadowOpacity = 0.1
-        self.layer.shadowOffset = CGSize(width: 0, height: 2)
+        self.layer.shadowOpacity = 0.2
+        self.layer.shadowOffset = CGSize(width: 1, height: 3)
         self.layer.shadowRadius = 4
         self.layer.masksToBounds = false
     }
