@@ -7,5 +7,6 @@ target 'List Task' do
 
   # Pods for List Task
   pod 'SnapKit', '~> 5.0.0'
+  pod 'FSCalendar'
 
 end

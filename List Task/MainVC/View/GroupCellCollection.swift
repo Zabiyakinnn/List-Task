@@ -108,6 +108,7 @@ private extension GroupCellCollection {
     private func setupConstraint() {
         nameTask.snp.makeConstraints { make in
             make.left.equalTo(iconImageView.snp.left).inset(45)
+            make.right.equalTo(trashButton.snp.right).inset(35)
             make.top.equalTo(contentView.snp.top).inset(12)
         }
         iconImageView.snp.makeConstraints { make in

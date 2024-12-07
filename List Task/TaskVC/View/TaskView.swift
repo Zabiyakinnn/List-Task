@@ -20,9 +20,9 @@ final class TaskView: UIView {
     //    заголовок
     lazy var labelHeadline: UILabel = {
          let label = UILabel()
-        label.textColor = .black
+        label.textColor = UIColor(named: "ColorTextBlackAndWhite")
         label.font = UIFont.systemFont(ofSize: 23, weight: .semibold)
-        label.textAlignment = .center
+        label.textAlignment = .left
         return label
     }()
     
@@ -37,7 +37,7 @@ final class TaskView: UIView {
     lazy var taskCountLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 15, weight: .regular)
-        label.textColor = .darkGray
+        label.textColor = .lightGray
         return label
     }()
     
@@ -56,7 +56,7 @@ final class TaskView: UIView {
     lazy var settingsListButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(UIImage(systemName: "ellipsis"), for: .normal)
-        button.tintColor = UIColor(red: 0.32, green: 0.32, blue: 0.32, alpha: 1.00)
+        button.tintColor = UIColor(named: "ButtonColorBlackAndWhite")
         return button
     }()
     
@@ -64,20 +64,20 @@ final class TaskView: UIView {
     lazy var closeVCButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(UIImage(systemName: "xmark"), for: .normal)
-        button.tintColor = UIColor(red: 0.32, green: 0.32, blue: 0.32, alpha: 1.00)
+        button.tintColor = UIColor(named: "ButtonColorBlackAndWhite")
         return button
     }()
     
     //    новая задача
     lazy var newTaskButton: UIButton = {
         var config = UIButton.Configuration.plain()
-        let iconeImage = UIImage(systemName: "plus.circle")?.withTintColor(UIColor(red: 0.32, green: 0.32, blue: 0.32, alpha: 1.00), renderingMode: .alwaysOriginal)
+        let iconeImage = UIImage(systemName: "plus.circle")?.withTintColor(UIColor(named: "ButtonColorBlackAndWhite") ?? UIColor.lightGray, renderingMode: .alwaysOriginal)
         config.image = iconeImage
         config.imagePlacement = .top
         config.imagePadding = 6
         
         var title = AttributedString("Добавить новую задачу")
-        title.foregroundColor = .black
+        title.foregroundColor = UIColor(named: "ColorTextBlackAndWhite")
         config.attributedTitle = title
         
         let button = UIButton(configuration: config, primaryAction: nil)
@@ -118,6 +118,7 @@ final class TaskView: UIView {
         labelHeadline.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(72)
             make.left.equalToSuperview().inset(70)
+            make.right.equalToSuperview().inset(40)
             make.height.equalTo(34)
         }
         iconImageView.snp.makeConstraints { make in

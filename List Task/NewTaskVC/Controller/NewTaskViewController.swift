@@ -8,6 +8,7 @@
 import UIKit
 import SnapKit
 import CoreData
+import FSCalendar
 
 class NewTaskViewController: UIViewController {
     
@@ -40,19 +41,24 @@ class NewTaskViewController: UIViewController {
 //    MARK: - ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        calendarDelegate()
-        
+                
         setupButton()
-        dismissKeyboard()
-        
+    }
+//    MARK: - ViewDidAppear
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        newTaskView.textView.becomeFirstResponder() // открытие клавитуры для textView
     }
     
     private func setupButton() {
         newTaskView.saveButton.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
+        newTaskView.buttonDate.addTarget(self, action: #selector(buttonDateTapped), for: .touchUpInside)
     }
 
+//    MARK: ButtonTapped
+//    сохранение задачи
     @objc func saveButtonTapped() {
+        
         guard let taskText = newTaskView.textView.text, !taskText.isEmpty else {
             print("Task List nil")
             return
@@ -79,56 +85,64 @@ class NewTaskViewController: UIViewController {
                 }
             }
     }
+    
+//выбор даты
+    @objc func buttonDateTapped() {
+        newTaskView.textView.endEditing(true)
+        if newTaskView.fsCalendar == nil {
+            let calendar = FSCalendar()
+            calendar.scrollDirection = .horizontal
+            calendar.appearance.headerDateFormat = "LLLL"
+            calendar.locale = Locale(identifier: "ru_RU")
+            calendar.delegate = self
+            calendar.dataSource = self
+            calendar.layer.cornerRadius = 20
+            calendar.backgroundColor = UIColor(named: "ColorCalendar")
+            
+            calendar.appearance.titleDefaultColor = UIColor(named: "ColorTextBlackAndWhite")
+            calendar.appearance.weekdayTextColor = UIColor(named: "ColorTextBlackAndWhite")
+            calendar.appearance.titleSelectionColor = UIColor(named: "SelectedDateCalendarColor")
+            calendar.appearance.headerTitleColor = UIColor(named: "ColorTextBlackAndWhite")
+  
+            newTaskView.fsCalendar = calendar
+            view.addSubview(calendar)
+            
+            calendar.snp.makeConstraints { make in
+                make.left.right.equalToSuperview().inset(0)
+                make.top.equalTo(newTaskView.buttonDate.snp.bottom).inset(-20)
+                make.bottom.equalToSuperview().inset(0)
+            }
+            calendar.reloadData()
+            calendar.setNeedsDisplay()
+        } else {
+            newTaskView.fsCalendar?.isHidden.toggle()
+        }
+    }
 }
 
 //MARK: - func
 extension NewTaskViewController {
-    //    скрытие клавиатуры
-    private func dismissKeyboard() {
-        let tap = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
-        tap.cancelsTouchesInView = false
-        view.addGestureRecognizer(tap)
-    }
-//    calendar Delegate
-    private func calendarDelegate() {
-        let calendar = newTaskView.calendar
-        let selected = UICalendarSelectionSingleDate(delegate: self)
-        calendar.selectionBehavior = selected
-    }
-    @objc func handleTap(_ sender: UITapGestureRecognizer) {
-        newTaskView.textView.endEditing(true)
-    }
-    
     private func warningText() {
         NotificationUtils.showWarning(on: self, text: "Заполните поле с названием задачи")
     }
 }
 
-//MARK: - UICalendarSelectionSingleDateDelegate
-extension NewTaskViewController: UICalendarSelectionSingleDateDelegate {
-    
-    func dateSelection(_ selection: UICalendarSelectionSingleDate, didSelectDate dateComponents: DateComponents?) {
-        guard let dataComponents = dateComponents, let date = dataComponents.date else {
-            selectedDate = nil
-            dateOFDone = nil
-            return
-        }
+//MARK: - FSCalendarDelegate, FSCalendarDataSource
+extension NewTaskViewController: FSCalendarDelegate, FSCalendarDataSource {
+    func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
         selectedDate = date
         
-        let calendar = newTaskView.calendar
         let dateFormatter = DateFormatter()
         dateFormatter.locale = Locale(identifier: "ru_RU")
         dateFormatter.dateFormat = "d MMM"
         
-//        родительный падеж
+        // родительный падеж
         var customCalendar = Calendar(identifier: .gregorian)
         customCalendar.locale = Locale(identifier: "ru_RU_POSIX")
         dateFormatter.calendar = customCalendar
-
         
         let today = Calendar.current.startOfDay(for: Date()) // сегодняшняя дата
         let selectedDay = Calendar.current.startOfDay(for: date) // выбранная дата
-        
         let difference = Calendar.current.dateComponents([.day], from: today, to: selectedDay).day
         
         var selectedDateString: String
@@ -147,6 +161,9 @@ extension NewTaskViewController: UICalendarSelectionSingleDateDelegate {
         dateOFDone = selectedDateString
         newTaskView.buttonDate.setTitle(selectedDateString, for: .normal)
         newTaskView.buttonDate.setImage(nil, for: .normal)
+        newTaskView.buttonDate.tintColor = UIColor(named: "SelectedDateCalendarColor")
         calendar.removeFromSuperview()
+        newTaskView.textView.becomeFirstResponder()
+        newTaskView.fsCalendar = nil
     }
 }

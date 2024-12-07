@@ -29,8 +29,10 @@ class NewGroupView: UIView {
         let view = UITextView()
         view.layer.cornerRadius = 10
         view.layer.masksToBounds = true
-        view.font = UIFont.systemFont(ofSize: 16)
+        view.font = UIFont.systemFont(ofSize: 21)
+        view.textColor = UIColor(named: "ColorTextBlackAndWhite")
         view.backgroundColor = UIColor.clear
+        view.tintColor = UIColor(named: "ColorTextBlackAndWhite")
         return view
     }()
     

@@ -49,7 +49,6 @@ final class TaskCell: UITableViewCell {
         button.setImage(UIImage(systemName: "xmark.app"), for: .selected)
         button.imageView?.layer.transform = CATransform3DMakeScale(1.3, 1.3, 1.3)
         button.imageView?.contentMode = .scaleAspectFit
-//        button.tintColor = UIColor(red: 0.32, green: 0.32, blue: 0.32, alpha: 1.00)
         button.addTarget(self, action: #selector(conditionButtonTapped), for: .touchUpInside)
         return button
     }()
@@ -63,6 +62,7 @@ final class TaskCell: UITableViewCell {
         nameTask.text = taskList.nameTask
         conditionButton.isSelected = taskList.completed
         updateConditionButtonApperance()
+        updateTextTask(isCompleted: taskList.completed)
         
         formatter.locale = Locale(identifier: "ru_RU")
         formatter.dateFormat = "d MMMM"
@@ -94,6 +94,31 @@ final class TaskCell: UITableViewCell {
             formatter.locale = Locale(identifier: "ru_RU")
             formatter.dateFormat = "d MMMM"
             return formatter.string(from: date)
+        }
+    }
+    
+//    обновление текста в зависимости от статуса задачи(выполненно/не выполненно)
+    private func updateTextTask(isCompleted: Bool) {
+        if isCompleted {
+//            задача завершена
+            let atributtedString = NSAttributedString(
+                string: nameTask.text ?? "",
+                attributes: [
+                    .strikethroughStyle: NSUnderlineStyle.single.rawValue,
+                    .foregroundColor: UIColor.darkGray
+                ]
+            )
+            nameTask.attributedText = atributtedString
+        } else {
+//            задача не завершенна
+            let atributtedString = NSAttributedString(
+                string: nameTask.text ?? "",
+                attributes: [
+                    .strikethroughStyle: 0,
+                    .foregroundColor: UIColor(named: "ColorTextBlackAndWhite") ?? UIColor.darkGray
+                ]
+            )
+            nameTask.attributedText = atributtedString
         }
     }
 }

@@ -39,7 +39,6 @@ final class NewGroupTaskViewController: UIViewController, UITextViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupButton()
-        dismissKeyboard()
         
         newGroupView.collectionView.dataSource = self
         newGroupView.collectionView.delegate = self
@@ -113,16 +112,6 @@ extension NewGroupTaskViewController: UICollectionViewDelegate, UICollectionView
 
 //MARK: - func
 extension NewGroupTaskViewController {
-    //    скрытие клавиатуры
-    private func dismissKeyboard() {
-        let tap = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
-        tap.cancelsTouchesInView = false
-        view.addGestureRecognizer(tap)
-    }
-    @objc func handleTap(_ sender: UITapGestureRecognizer) {
-        newGroupView.textView.endEditing(true)
-    }
-    
     private func warningText() {
         NotificationUtils.showWarning(on: self, text: "Заполните поле с названием группы")
     }
