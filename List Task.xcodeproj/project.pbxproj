@@ -15,6 +15,7 @@
 		C262BC372CD926470046794A /* TaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C262BC362CD926470046794A /* TaskViewController.swift */; };
 		C262BC422CDD10F50046794A /* NewTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C262BC412CDD10F50046794A /* NewTaskViewController.swift */; };
 		C262BC4E2CDF7B030046794A /* TaskList+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = C262BC4C2CDF7B030046794A /* TaskList+CoreDataProperties.swift */; };
+		C2B3CBAF2D09769400649379 /* CalendarPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2B3CBAE2D09769400649379 /* CalendarPickerView.swift */; };
 		C2C6CF682CD3A6BA00954F4A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C6CF672CD3A6BA00954F4A /* AppDelegate.swift */; };
 		C2C6CF6A2CD3A6BA00954F4A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C6CF692CD3A6BA00954F4A /* SceneDelegate.swift */; };
 		C2C6CF6C2CD3A6BA00954F4A /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C6CF6B2CD3A6BA00954F4A /* MainViewController.swift */; };
@@ -47,6 +48,7 @@
 		C262BC362CD926470046794A /* TaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskViewController.swift; sourceTree = "<group>"; };
 		C262BC412CDD10F50046794A /* NewTaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTaskViewController.swift; sourceTree = "<group>"; };
 		C262BC4C2CDF7B030046794A /* TaskList+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TaskList+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
+		C2B3CBAE2D09769400649379 /* CalendarPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarPickerView.swift; sourceTree = "<group>"; };
 		C2C6CF642CD3A6BA00954F4A /* List Task.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "List Task.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C2C6CF672CD3A6BA00954F4A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C2C6CF692CD3A6BA00954F4A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -147,6 +149,14 @@
 			path = NewTaskVC;
 			sourceTree = "<group>";
 		};
+		C2B3CBAD2D09767B00649379 /* CalendarView */ = {
+			isa = PBXGroup;
+			children = (
+				C2B3CBAE2D09769400649379 /* CalendarPickerView.swift */,
+			);
+			path = CalendarView;
+			sourceTree = "<group>";
+		};
 		C2C6CF5B2CD3A6BA00954F4A = {
 			isa = PBXGroup;
 			children = (
@@ -169,6 +179,7 @@
 		C2C6CF662CD3A6BA00954F4A /* List Task */ = {
 			isa = PBXGroup;
 			children = (
+				C2B3CBAD2D09767B00649379 /* CalendarView */,
 				C2C6CF7B2CD3AA5100954F4A /* MainVC */,
 				C2C6CF852CD4C4DD00954F4A /* NewGroupTaskVC */,
 				C262BC352CD9262B0046794A /* TaskVC */,
@@ -418,6 +429,7 @@
 				C262BC422CDD10F50046794A /* NewTaskViewController.swift in Sources */,
 				C2CB9FB72CF9D14C006E7DB4 /* MainView.swift in Sources */,
 				C2CB9FC42CFB1859006E7DB4 /* NewTaskView.swift in Sources */,
+				C2B3CBAF2D09769400649379 /* CalendarPickerView.swift in Sources */,
 				C2C6CF822CD3C77F00954F4A /* GroupCellCollection.swift in Sources */,
 				C2CB9FBB2CFA0395006E7DB4 /* TaskView.swift in Sources */,
 				C262BC4E2CDF7B030046794A /* TaskList+CoreDataProperties.swift in Sources */,

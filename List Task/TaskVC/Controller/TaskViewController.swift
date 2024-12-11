@@ -167,6 +167,7 @@ extension TaskViewController: UITableViewDelegate, UITableViewDataSource {
                     } else {
                         DispatchQueue.main.async {
                             tableView.deleteRows(at: [indexPath], with: .fade)
+                            self.taskView.tableView.reloadData()
                             self.setupContentView()
                         }
                     }

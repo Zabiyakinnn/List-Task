@@ -17,21 +17,6 @@ final class TaskDataProvider {
         try? fetchResultController.performFetch()
     }
     
-    //    удаление задачи
-    func deleteTask(taskList: TaskList, completion: @escaping (Result<Void, Error>) -> Void) {
-        CoreDataManagerTaskList.shared.deleteTaskCoreData(
-            taskList: taskList,
-            completion: completion)
-        
-    }
-    
-//    изменение статуса задачи выполненно/не выполненно
-    func updateTaskStatus(nameTask: String, newStatus: Bool, completion: @escaping (Result<Void, Error>) -> Void) {
-        CoreDataManagerTaskList.shared.updateTaskStatus(
-            nameTask: nameTask,
-            newStatus: newStatus,
-            completion: completion)
-    }
     
     //    кол-во задач
     func numberOfTask() -> Int {
@@ -46,5 +31,21 @@ final class TaskDataProvider {
     //    обновление данных
     func perfomFetch() {
         try? fetchResultController.performFetch()
+    }
+    
+    //    удаление задачи
+    func deleteTask(taskList: TaskList, completion: @escaping (Result<Void, Error>) -> Void) {
+        CoreDataManagerTaskList.shared.deleteTaskCoreData(
+            taskList: taskList,
+            completion: completion)
+        
+    }
+    
+    //    изменение статуса задачи выполненно/не выполненно
+    func updateTaskStatus(nameTask: String, newStatus: Bool, completion: @escaping (Result<Void, Error>) -> Void) {
+        CoreDataManagerTaskList.shared.updateTaskStatus(
+            nameTask: nameTask,
+            newStatus: newStatus,
+            completion: completion)
     }
 }

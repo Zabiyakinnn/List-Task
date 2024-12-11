@@ -22,7 +22,7 @@ class NewTaskViewController: UIViewController {
     private var newTaskView = NewTaskView()
     private var newTaskProvider = NewTaskProvider()
     
-//    MARK: Init
+    //    MARK: Init
     init(nameGroup: NameGroup, provider: NewTaskProvider = NewTaskProvider()) {
         super.init(nibName: nil, bundle: nil)
         self.nameGroup = nameGroup
@@ -33,18 +33,20 @@ class NewTaskViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-//    MARK: - LoadView
+    //    MARK: - LoadView
     override func loadView() {
         self.view = newTaskView
     }
     
-//    MARK: - ViewDidLoad
+    //    MARK: - ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
-                
+        
         setupButton()
+        newTaskView.textView.delegate = self
+
     }
-//    MARK: - ViewDidAppear
+    //    MARK: - ViewDidAppear
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         newTaskView.textView.becomeFirstResponder() // открытие клавитуры для textView
@@ -54,9 +56,9 @@ class NewTaskViewController: UIViewController {
         newTaskView.saveButton.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
         newTaskView.buttonDate.addTarget(self, action: #selector(buttonDateTapped), for: .touchUpInside)
     }
-
-//    MARK: ButtonTapped
-//    сохранение задачи
+    
+    //    MARK: ButtonTapped
+    //    сохранение задачи
     @objc func saveButtonTapped() {
         
         guard let taskText = newTaskView.textView.text, !taskText.isEmpty else {
@@ -86,36 +88,24 @@ class NewTaskViewController: UIViewController {
             }
     }
     
-//выбор даты
+    //выбор даты
     @objc func buttonDateTapped() {
         newTaskView.textView.endEditing(true)
-        if newTaskView.fsCalendar == nil {
-            let calendar = FSCalendar()
-            calendar.scrollDirection = .horizontal
-            calendar.appearance.headerDateFormat = "LLLL"
-            calendar.locale = Locale(identifier: "ru_RU")
-            calendar.delegate = self
-            calendar.dataSource = self
-            calendar.layer.cornerRadius = 20
-            calendar.backgroundColor = UIColor(named: "ColorCalendar")
-            
-            calendar.appearance.titleDefaultColor = UIColor(named: "ColorTextBlackAndWhite")
-            calendar.appearance.weekdayTextColor = UIColor(named: "ColorTextBlackAndWhite")
-            calendar.appearance.titleSelectionColor = UIColor(named: "SelectedDateCalendarColor")
-            calendar.appearance.headerTitleColor = UIColor(named: "ColorTextBlackAndWhite")
-  
-            newTaskView.fsCalendar = calendar
-            view.addSubview(calendar)
-            
-            calendar.snp.makeConstraints { make in
-                make.left.right.equalToSuperview().inset(0)
-                make.top.equalTo(newTaskView.buttonDate.snp.bottom).inset(-20)
-                make.bottom.equalToSuperview().inset(0)
-            }
-            calendar.reloadData()
-            calendar.setNeedsDisplay()
+        
+        if let existinCalendarView = view.subviews.first(where: { $0 is CalendarPickerView }) as? CalendarPickerView {
+            existinCalendarView.removeFromSuperview() // убираем календарь если он отображен
+            newTaskView.textView.becomeFirstResponder()
         } else {
-            newTaskView.fsCalendar?.isHidden.toggle()
+            let calendarView = CalendarPickerView()
+            calendarView.calendar.delegate = self
+            calendarView.calendar.dataSource = self
+            view.addSubview(calendarView)
+            
+            calendarView.snp.makeConstraints { make in
+                make.left.right.equalToSuperview()
+                make.height.equalTo(view.frame.height / 2)
+                make.bottom.equalToSuperview()
+            }
         }
     }
 }
@@ -124,6 +114,15 @@ class NewTaskViewController: UIViewController {
 extension NewTaskViewController {
     private func warningText() {
         NotificationUtils.showWarning(on: self, text: "Заполните поле с названием задачи")
+    }
+}
+
+//MARK: - UITextViewDelegate (скрыть календарь при открытой клавитуре в textView)
+extension NewTaskViewController: UITextViewDelegate {
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if let calendarView = view.subviews.first(where: { $0 is CalendarPickerView }) {
+            calendarView.removeFromSuperview()
+        }
     }
 }
 
@@ -157,13 +156,15 @@ extension NewTaskViewController: FSCalendarDelegate, FSCalendarDataSource {
         default:
             selectedDateString = dateFormatter.string(from: date)
         }
-
+        
         dateOFDone = selectedDateString
         newTaskView.buttonDate.setTitle(selectedDateString, for: .normal)
         newTaskView.buttonDate.setImage(nil, for: .normal)
         newTaskView.buttonDate.tintColor = UIColor(named: "SelectedDateCalendarColor")
-        calendar.removeFromSuperview()
+        
+        if let calendarView = view.subviews.first(where: { $0 is CalendarPickerView }) {
+            calendarView.removeFromSuperview()
+        }
         newTaskView.textView.becomeFirstResponder()
-        newTaskView.fsCalendar = nil
     }
 }

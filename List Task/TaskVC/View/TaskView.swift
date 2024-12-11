@@ -101,6 +101,10 @@ final class TaskView: UIView {
         labelHeadline.text = name
         taskCountLabel.text = "Кол-во задач: \(taskCount)"
     }
+}
+
+//MARK: - SetupLoyout
+extension TaskView {
     
     private func setupLoyout() {
         addSubview(labelHeadline)
