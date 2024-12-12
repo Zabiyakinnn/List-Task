@@ -68,7 +68,7 @@ final class GroupCellCollection: UICollectionViewCell {
         if let iconData = nameGroup.iconNameGroup,
            let iconImage = UIImage(data: iconData)?.withRenderingMode(.alwaysTemplate) {
             iconImageView.image = iconImage
-            iconImageView.tintColor = UIColor(red: 0.32, green: 0.32, blue: 0.32, alpha: 1.00)
+            iconImageView.tintColor = UIColor(named: "ButtonIconeImage")
         }
     }
     

@@ -77,7 +77,7 @@ class NewGroupView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = UIColor(named: "ColorViewBlackAndWhite")
+        backgroundColor = UIColor(named: "TaskVCTableViewColor")
 
         setupLoyout()
     }
@@ -99,7 +99,7 @@ class NewGroupView: UIView {
     
     private func setupConstraint() {
         labelHeadline.snp.makeConstraints { make in
-            make.left.equalToSuperview().inset(17)
+            make.centerX.equalToSuperview()
             make.top.equalToSuperview().inset(30)
         }
         saveButton.snp.makeConstraints { make in

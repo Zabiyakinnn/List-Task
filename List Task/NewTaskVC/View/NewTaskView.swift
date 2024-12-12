@@ -11,11 +11,9 @@ import FSCalendar
 
 final class NewTaskView: UIView {
     
-    var fsCalendar: FSCalendar?
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = UIColor(named: "ColorViewBlackAndWhite")
+        backgroundColor = UIColor(named: "TaskVCTableViewColor")
         
         setupLoyout()
     }
@@ -47,20 +45,40 @@ final class NewTaskView: UIView {
         return view
     }()
     
+//    текст с именем группы
+    lazy var labelNameGroup: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 18, weight: .bold)
+        label.textAlignment = .right
+        label.text = "Название группы"
+        label.textColor = UIColor.systemYellow
+        return label
+    }()
+    
     //    MARK: - UIButton
     //    кнопка сохранения задачи
     lazy var saveButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Сохранить", for: .normal)
-        button.tintColor = UIColor(red: 0.32, green: 0.32, blue: 0.32, alpha: 1.00)
+        button.tintColor = UIColor(named: "ButtonIconeImage")
         return button
     }()
     
 //    кнопка открытия календяря
     lazy var buttonDate: UIButton = {
         let button = UIButton(type: .system)
-        button.tintColor = UIColor(red: 0.32, green: 0.32, blue: 0.32, alpha: 1.00)
+        button.contentMode = .scaleAspectFit
+        button.tintColor = UIColor(named: "ButtonIconeImage")
         button.setImage(UIImage(systemName: "calendar"), for: .normal)
+        return button
+    }()
+    
+//    кнопка создания заметки для задачи
+    lazy var notionTaskButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.contentMode = .scaleAspectFit
+        button.tintColor = UIColor(named: "ButtonIconeImage")
+        button.setImage(UIImage(systemName: "list.clipboard"), for: .normal)
         return button
     }()
 }
@@ -78,6 +96,12 @@ extension NewTaskView {
         addSubview(textView)
         addSubview(saveButton)
         addSubview(buttonDate)
+        addSubview(labelNameGroup)
+        addSubview(notionTaskButton)
+    }
+    
+    func updateNameGroup(name: String) {
+        labelNameGroup.text = name
     }
     
     private func setupConstraint() {
@@ -91,13 +115,25 @@ extension NewTaskView {
             make.height.equalTo(210)
         }
         saveButton.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(20)
+            make.centerY.equalTo(labelHeadline)
             make.right.equalToSuperview().inset(20)
             make.height.equalTo(40)
         }
         buttonDate.snp.makeConstraints { make in
             make.top.equalTo(textView.snp.bottom).inset(-40)
             make.left.equalToSuperview().inset(20)
+            make.height.equalTo(27)
+        }
+        labelNameGroup.snp.makeConstraints { make in
+            make.centerY.equalTo(notionTaskButton)
+            make.right.equalToSuperview().inset(27)
+            make.width.equalTo(110)
+        }
+        notionTaskButton.snp.makeConstraints { make in
+            make.top.equalTo(textView.snp.bottom).inset(-39)
+            make.left.equalTo(buttonDate.snp.right).offset(15)
+            make.height.equalTo(26)
+            make.width.equalTo(22)
         }
     }
 }

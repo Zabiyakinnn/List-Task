@@ -24,7 +24,7 @@ final class CoreDataManagerTaskList {
 //    создание FetchResultController
     func createFetchResultController(group: NameGroup?) -> NSFetchedResultsController<TaskList> {
         let fetchRequest: NSFetchRequest<TaskList> = TaskList.fetchRequest()
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "nameTask", ascending: true)]
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "completed", ascending: true), NSSortDescriptor(key: "nameTask", ascending: true)]
         if let group = group {
             fetchRequest.predicate = NSPredicate(format: "group == %@", group)
         }
@@ -39,12 +39,13 @@ final class CoreDataManagerTaskList {
     }
     
 //    сохранение зедачи в CoreData
-    func saveTaskCoreData(nameTask: String, date: Date?, group: NameGroup?, completion: @escaping(Result<Void, Error>) -> Void) {
+    func saveTaskCoreData(nameTask: String, date: Date?, notionTask: String, group: NameGroup?, completion: @escaping(Result<Void, Error>) -> Void) {
         let task = TaskList(context: context)
         
         task.nameTask = nameTask
         task.date = date
         task.group = group
+        task.notionTask = notionTask
         group?.addToTasks(task)
         
         do {

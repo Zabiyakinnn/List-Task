@@ -9,6 +9,7 @@
         <attribute name="completed" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="nameTask" optional="YES" attributeType="String"/>
+        <attribute name="notionTask" optional="YES" attributeType="String"/>
         <relationship name="group" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="NameGroup" inverseName="tasks" inverseEntity="NameGroup"/>
     </entity>
 </model>

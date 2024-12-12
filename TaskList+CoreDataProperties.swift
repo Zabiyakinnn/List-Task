@@ -21,6 +21,7 @@ extension TaskList {
     @NSManaged public var nameTask: String?
     @NSManaged public var date: Date?
     @NSManaged public var completed: Bool
+    @NSManaged public var notionTask: String?
     @NSManaged public var group: NameGroup?
 
 }

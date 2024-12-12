@@ -21,6 +21,7 @@ class NewTaskViewController: UIViewController {
     
     private var newTaskView = NewTaskView()
     private var newTaskProvider = NewTaskProvider()
+    let newCommentTaskVC = NewCommentTaskViewController()
     
     //    MARK: Init
     init(nameGroup: NameGroup, provider: NewTaskProvider = NewTaskProvider()) {
@@ -43,6 +44,7 @@ class NewTaskViewController: UIViewController {
         super.viewDidLoad()
         
         setupButton()
+        setupLoyout()
         newTaskView.textView.delegate = self
 
     }
@@ -55,6 +57,7 @@ class NewTaskViewController: UIViewController {
     private func setupButton() {
         newTaskView.saveButton.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
         newTaskView.buttonDate.addTarget(self, action: #selector(buttonDateTapped), for: .touchUpInside)
+        newTaskView.notionTaskButton.addTarget(self, action: #selector(notionTaskButtonTapped), for: .touchUpInside)
     }
     
     //    MARK: ButtonTapped
@@ -71,21 +74,24 @@ class NewTaskViewController: UIViewController {
             return
         }
         
-        newTaskProvider.createNewTask(
-            name: taskText,
-            date: selectedDate,
-            group: nameGroup,
-            statusTask: false) { [weak self] result in
-                guard let self = self else { return }
-                switch result {
-                case .success():
-                    print("Задача сохранена в CoreData")
-                    self.newTask?()
-                    dismiss(animated: true)
-                case .failure(let error):
-                    print("Ошибка сохранения задачи в CoreData: - \(error.localizedDescription)")
+        if let commentTask = newCommentTaskVC.newCommentTaskView.textView.text {
+            newTaskProvider.createNewTask(
+                name: taskText,
+                date: selectedDate,
+                notionTask: commentTask,
+                group: nameGroup,
+                statusTask: false) { [weak self] result in
+                    guard let self = self else { return }
+                    switch result {
+                    case .success():
+                        print("Задача сохранена в CoreData")
+                        self.newTask?()
+                        dismiss(animated: true)
+                    case .failure(let error):
+                        print("Ошибка сохранения задачи в CoreData: - \(error.localizedDescription)")
+                    }
                 }
-            }
+        }
     }
     
     //выбор даты
@@ -108,12 +114,30 @@ class NewTaskViewController: UIViewController {
             }
         }
     }
+    
+//    переход на newCommentTaskViewController
+    @objc func notionTaskButtonTapped() {
+        self.present(newCommentTaskVC, animated: true)
+        
+        newCommentTaskVC.onColorIconComment = { [weak self] hasText in
+            guard let self = self else { return }
+            newTaskView.notionTaskButton.tintColor = hasText ? UIColor.systemYellow : UIColor(named: "ButtonIconeImage")
+        }
+    }
 }
 
 //MARK: - func
 extension NewTaskViewController {
+    private func setupLoyout() {
+        setupNameGroupText()
+    }
+    
     private func warningText() {
         NotificationUtils.showWarning(on: self, text: "Заполните поле с названием задачи")
+    }
+    
+    private func setupNameGroupText() {
+        newTaskView.updateNameGroup(name: nameGroup?.name ?? "Название группы")
     }
 }
 

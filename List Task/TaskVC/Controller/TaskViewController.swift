@@ -130,6 +130,7 @@ extension TaskViewController: UITableViewDelegate, UITableViewDataSource {
                             case .success():
                                 self.taskDataProvider?.perfomFetch()
                                 self.taskView.tableView.reloadRows(at: [indexPath], with: .none)
+                                self.taskView.tableView.reloadData()
                             case .failure(let error):
                                 print("Ошибка изменения статуса задачи \(error.localizedDescription)")
                             }
@@ -149,32 +150,66 @@ extension TaskViewController: UITableViewDelegate, UITableViewDataSource {
         return true
     }
     
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        guard editingStyle == .delete else { return }
-        
-        if let taskToDelete = taskDataProvider?.task(at: indexPath) {
-            taskDataProvider?.deleteTask(taskList: taskToDelete) { [weak self] result in
-                guard let self = self else { return }
-                switch result {
-                case .success():
-                    self.taskDataProvider?.perfomFetch()
-                    self.deleteTask?()
-                    if taskDataProvider?.numberOfTask() == 0 {
-                        DispatchQueue.main.async {
-                            self.taskView.tableView.reloadData()
-                            self.setupContentView()
+//    свайп ячейки вправо
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let deleteAction = UIContextualAction(style: .destructive, title: nil) { [weak self] action, view, completion in
+            guard let self = self else { return }
+            
+            if let taskToDelete = taskDataProvider?.task(at: indexPath) {
+                taskDataProvider?.deleteTask(taskList: taskToDelete) { [weak self] result in
+                    guard let self = self else { return }
+                    switch result {
+                    case .success():
+                        self.taskDataProvider?.perfomFetch()
+                        self.deleteTask?()
+                        if taskDataProvider?.numberOfTask() == 0 {
+                            DispatchQueue.main.async {
+                                self.taskView.tableView.reloadData()
+                                self.setupContentView()
+                            }
+                        } else {
+                            DispatchQueue.main.async {
+                                tableView.deleteRows(at: [indexPath], with: .fade)
+                                self.taskView.tableView.reloadData()
+                                self.setupContentView()
+                            }
                         }
-                    } else {
-                        DispatchQueue.main.async {
-                            tableView.deleteRows(at: [indexPath], with: .fade)
-                            self.taskView.tableView.reloadData()
-                            self.setupContentView()
-                        }
+                    case .failure(let error):
+                        print("Ошибка удаления задачи из CoreData: - \(error.localizedDescription)")
                     }
-                case .failure(let error):
-                    print("Ошибка удаления задачи из CoreData: - \(error.localizedDescription)")
                 }
             }
         }
+        
+        deleteAction.image = UIImage(systemName: "trash")
+        deleteAction.backgroundColor = UIColor.red
+        
+        let configuration = UISwipeActionsConfiguration(actions: [deleteAction])
+        configuration.performsFirstActionWithFullSwipe = false //отключение уделния ячейки свайпом
+        return configuration
+    }
+    
+//    свайп ячейки влево
+    func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        
+//        календарь
+        let calendarAction = UIContextualAction(style: .normal, title: nil) { [weak self] action, view, completion in
+            guard let self = self else { return }
+            completion(true)
+        }
+        calendarAction.image = UIImage(systemName: "calendar")
+        calendarAction.backgroundColor = UIColor(named: "ColorSwipeButtonCallendar")
+        
+//        комментарий
+        let commentTaskAction = UIContextualAction(style: .normal, title: nil) { [weak self] action, view, completion in
+            guard let self = self else { return }
+            completion(true)
+        }
+        commentTaskAction.image = UIImage(systemName: "list.clipboard")
+        commentTaskAction.backgroundColor = UIColor(named: "ColorSwipeButtonComment")
+        
+        let configuration = UISwipeActionsConfiguration(actions: [calendarAction, commentTaskAction])
+        configuration.performsFirstActionWithFullSwipe = false
+        return configuration
     }
 }

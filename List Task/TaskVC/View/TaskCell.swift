@@ -41,6 +41,13 @@ final class TaskCell: UITableViewCell {
         return label
     }()
     
+//    иконка заметки(если она есть)
+    private lazy var iconNotionTask: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
+        return imageView
+    }()
+    
     //    MARK: - UIButton
     //    кнопка изменения задачи выполненно/не выполненно
     private lazy var conditionButton: UIButton = {
@@ -61,6 +68,17 @@ final class TaskCell: UITableViewCell {
     func configure(_ taskList: TaskList) {
         nameTask.text = taskList.nameTask
         conditionButton.isSelected = taskList.completed
+
+        if let textNotion = taskList.notionTask, !textNotion.isEmpty {
+            if iconNotionTask.superview == nil { //если иконка не добавленна
+                contentView.addSubview(iconNotionTask)
+            }
+            iconNotionTask.image = UIImage(systemName: "list.clipboard")
+            iconNotionTask.tintColor = UIColor.systemOrange
+        } else {
+            iconNotionTask.removeFromSuperview()
+        }
+        
         updateConditionButtonApperance()
         updateTextTask(isCompleted: taskList.completed)
         
@@ -68,6 +86,7 @@ final class TaskCell: UITableViewCell {
         formatter.dateFormat = "d MMMM"
         dateTask.text = dateFormmater(for: taskList.date)
         
+        remakeConstraints()
     }
     
 //    настройка цвета кнопки в зависимости от состояния
@@ -76,6 +95,23 @@ final class TaskCell: UITableViewCell {
             conditionButton.tintColor = UIColor.systemRed
         } else {
             conditionButton.tintColor = UIColor(red: 0.32, green: 0.32, blue: 0.32, alpha: 1.00)
+        }
+    }
+    
+//    метод пересчета констрейнов для notionTask
+    private func remakeConstraints() {
+        guard iconNotionTask.superview != nil else { return }
+        
+        iconNotionTask.snp.remakeConstraints() { make in
+            make.bottom.equalToSuperview().inset(12)
+            make.centerY.equalTo(dateTask)
+            make.width.height.equalTo(14)
+            
+            if let dateText = dateTask.text, !dateText.isEmpty {
+                make.left.equalTo(dateTask.snp.right).offset(8)
+            } else {
+                make.left.equalTo(conditionButton.snp.left).inset(44)
+            }
         }
     }
     
@@ -128,7 +164,7 @@ extension TaskCell {
     private func setupeLoyout() {
         prepereView()
         setupConstraint()
-        contentView.backgroundColor = UIColor(named: "ColorViewBlackAndWhite")
+        contentView.backgroundColor = UIColor(named: "TaskVCTableViewColor")
         
     }
     
@@ -145,12 +181,12 @@ extension TaskCell {
             make.width.height.equalTo(40)
         }
         nameTask.snp.makeConstraints { make in
-            make.top.equalTo(contentView.snp.top).inset(17)
+            make.top.equalTo(contentView.snp.top).inset(12)
             make.left.equalTo(conditionButton.snp.left).inset(45)
             make.right.equalTo(contentView.snp.right).inset(22)
         }
         dateTask.snp.makeConstraints { make in
-            make.bottom.equalToSuperview().inset(13)
+            make.bottom.equalToSuperview().inset(9)
             make.top.equalTo(nameTask.snp.bottom).inset(-7)
             make.left.equalTo(conditionButton.snp.left).inset(45)
         }
