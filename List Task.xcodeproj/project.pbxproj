@@ -38,6 +38,7 @@
 		C2CB9FC92CFB2087006E7DB4 /* NewTaskProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2CB9FC82CFB2087006E7DB4 /* NewTaskProvider.swift */; };
 		C2CB9FCE2D01C26F006E7DB4 /* EmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2CB9FCD2D01C26F006E7DB4 /* EmptyView.swift */; };
 		C2E2F8032CF0CCCE00260CE7 /* CoreDataManagerNameGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2E2F8022CF0CCCE00260CE7 /* CoreDataManagerNameGroup.swift */; };
+		C2E6771F2D0C6384006F7C79 /* NewTaskViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2E6771E2D0C6384006F7C79 /* NewTaskViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -75,6 +76,7 @@
 		C2CB9FC82CFB2087006E7DB4 /* NewTaskProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTaskProvider.swift; sourceTree = "<group>"; };
 		C2CB9FCD2D01C26F006E7DB4 /* EmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyView.swift; sourceTree = "<group>"; };
 		C2E2F8022CF0CCCE00260CE7 /* CoreDataManagerNameGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManagerNameGroup.swift; sourceTree = "<group>"; };
+		C2E6771E2D0C6384006F7C79 /* NewTaskViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTaskViewModel.swift; sourceTree = "<group>"; };
 		C2F9F56E2D04703400F81969 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		CA30CFBBBCD0E7FE62F4ADB1 /* Pods-List Task.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-List Task.release.xcconfig"; path = "Target Support Files/Pods-List Task/Pods-List Task.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -149,7 +151,7 @@
 				C2B3CBB02D09E29700649379 /* NewCommentTask */,
 				C2CB9FCA2CFB2CD2006E7DB4 /* Model */,
 				C2CB9FCB2CFB2CE0006E7DB4 /* View */,
-				C2CB9FCC2CFB2CE8006E7DB4 /* Controller */,
+				C2E6771D2D0C6366006F7C79 /* ViewModel */,
 			);
 			path = NewTaskVC;
 			sourceTree = "<group>";
@@ -328,16 +330,17 @@
 			isa = PBXGroup;
 			children = (
 				C2CB9FC32CFB1859006E7DB4 /* NewTaskView.swift */,
+				C262BC412CDD10F50046794A /* NewTaskViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
 		};
-		C2CB9FCC2CFB2CE8006E7DB4 /* Controller */ = {
+		C2E6771D2D0C6366006F7C79 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				C262BC412CDD10F50046794A /* NewTaskViewController.swift */,
+				C2E6771E2D0C6384006F7C79 /* NewTaskViewModel.swift */,
 			);
-			path = Controller;
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -456,6 +459,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C2CB9FBF2CFAF7E2006E7DB4 /* MainViewProvider.swift in Sources */,
+				C2E6771F2D0C6384006F7C79 /* NewTaskViewModel.swift in Sources */,
 				C262BC422CDD10F50046794A /* NewTaskViewController.swift in Sources */,
 				C2CB9FB72CF9D14C006E7DB4 /* MainView.swift in Sources */,
 				C2CB9FC42CFB1859006E7DB4 /* NewTaskView.swift in Sources */,

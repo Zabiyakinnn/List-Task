@@ -81,6 +81,15 @@ final class NewTaskView: UIView {
         button.setImage(UIImage(systemName: "list.clipboard"), for: .normal)
         return button
     }()
+    
+//    кнопка установки приоретета для задачи
+    lazy var priorityButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.contentMode = .scaleAspectFit
+        button.tintColor = UIColor(named: "ButtonIconeImage")
+        button.setImage(UIImage(systemName: "exclamationmark.square"), for: .normal)
+        return button
+    }()
 }
 
 //MARK: - SetupLoyout
@@ -98,6 +107,7 @@ extension NewTaskView {
         addSubview(buttonDate)
         addSubview(labelNameGroup)
         addSubview(notionTaskButton)
+        addSubview(priorityButton)
     }
     
     func updateNameGroup(name: String) {
@@ -132,6 +142,12 @@ extension NewTaskView {
         notionTaskButton.snp.makeConstraints { make in
             make.top.equalTo(textView.snp.bottom).inset(-39)
             make.left.equalTo(buttonDate.snp.right).offset(15)
+            make.height.equalTo(26)
+            make.width.equalTo(22)
+        }
+        priorityButton.snp.makeConstraints { make in
+            make.top.equalTo(textView.snp.bottom).inset(-40)
+            make.left.equalTo(notionTaskButton.snp.right).offset(15)
             make.height.equalTo(26)
             make.width.equalTo(22)
         }

@@ -26,7 +26,7 @@ public final class NotificationUtils {
         
         notificationView.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview().inset(20)
-            make.top.equalTo(viewController.view.safeAreaLayoutGuide.snp.top).offset(300)
+            make.top.equalTo(viewController.view.safeAreaLayoutGuide.snp.top).offset(350)
         }
         labelWarning.snp.makeConstraints { make in
             make.edges.equalToSuperview().inset(UIEdgeInsets(top: 8, left: 16, bottom: 8, right: 16))

@@ -21,12 +21,12 @@ final class TaskViewController: UIViewController, NSFetchedResultsControllerDele
     private var taskDataProvider: TaskDataProvider?
     private var newTaskProvider = NewTaskProvider()
     
-//    MARK: LoadView
+    //    MARK: LoadView
     override func loadView() {
         self.view = taskView
     }
     
-//    MARK: - ViewDidLoad
+    //    MARK: - ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -47,6 +47,23 @@ final class TaskViewController: UIViewController, NSFetchedResultsControllerDele
         navigationController?.setNavigationBarHidden(true, animated: true)
     }
     
+    private func setupContentView() {
+        taskView.updateHeader(
+            name: nameGroup?.name ?? "Название задачи",
+            taskCount: taskDataProvider?.numberOfTask() ?? 0
+        )
+        
+        if let iconData = nameGroup?.iconNameGroup,
+           let iconImage = UIImage(data: iconData)?.withRenderingMode(.alwaysTemplate) {
+            taskView.iconImageView.image = iconImage
+            taskView.iconImageView.tintColor = UIColor(red: 0.32, green: 0.32, blue: 0.32, alpha: 1.00)
+        }
+        
+        let isEmpty = taskDataProvider?.numberOfTask() == 0
+        taskView.tableView.isHidden = isEmpty
+        taskView.emptyView.isHidden = !isEmpty
+    }
+    
     private func setupButton() {
         taskView.closeVCButton.addTarget(self, action: #selector(closeVCButtonTapped), for: .touchUpInside)
         taskView.newTaskButton.addTarget(self, action: #selector(newTaskButtonTapped), for: .touchUpInside)
@@ -57,11 +74,14 @@ final class TaskViewController: UIViewController, NSFetchedResultsControllerDele
         dismiss(animated: true)
     }
     
+    //    MARK: - Button
+    //    открыть контроллер с созданием новой задачи
     @objc func newTaskButtonTapped() {
         if let nameGroup = nameGroup {
-            let newTaskVC = NewTaskViewController(nameGroup: nameGroup)
-            newTaskVC.nameGroup = nameGroup
-            newTaskVC.newTask = { [weak self] in
+            let viewModel = NewTaskViewModel(taskProvider: newTaskProvider, nameGroup: nameGroup)
+            let newTaskVC = NewTaskViewController(viewModel: viewModel)
+            viewModel.nameGroup = nameGroup
+            viewModel.newTask = { [weak self] in
                 guard let self = self else { return }
                 self.newTask?()
                 taskDataProvider?.perfomFetch()
@@ -75,23 +95,6 @@ final class TaskViewController: UIViewController, NSFetchedResultsControllerDele
     @objc func settingListButtonTapped() {
         
     }
-    
-    private func setupContentView() {
-        taskView.updateHeader(
-            name: nameGroup?.name ?? "Название задачи",
-            taskCount: taskDataProvider?.numberOfTask() ?? 0
-        )
-        
-        if let iconData = nameGroup?.iconNameGroup,
-            let iconImage = UIImage(data: iconData)?.withRenderingMode(.alwaysTemplate) {
-                taskView.iconImageView.image = iconImage
-                taskView.iconImageView.tintColor = UIColor(red: 0.32, green: 0.32, blue: 0.32, alpha: 1.00)
-        }
-        
-        let isEmpty = taskDataProvider?.numberOfTask() == 0
-        taskView.tableView.isHidden = isEmpty
-        taskView.emptyView.isHidden = !isEmpty
-    }
 }
 
 //MARK: - UITableViewDelegate, UITableViewDataSource
@@ -104,7 +107,7 @@ extension TaskViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let itemCount = taskDataProvider?.numberOfTask() ?? 0
-
+        
         if itemCount == 0 {
             let cell = UITableViewCell()
             cell.selectionStyle = .none
@@ -150,7 +153,7 @@ extension TaskViewController: UITableViewDelegate, UITableViewDataSource {
         return true
     }
     
-//    свайп ячейки вправо
+    //    свайп ячейки вправо
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let deleteAction = UIContextualAction(style: .destructive, title: nil) { [weak self] action, view, completion in
             guard let self = self else { return }
@@ -189,10 +192,10 @@ extension TaskViewController: UITableViewDelegate, UITableViewDataSource {
         return configuration
     }
     
-//    свайп ячейки влево
+    //    свайп ячейки влево
     func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         
-//        календарь
+        //        календарь
         let calendarAction = UIContextualAction(style: .normal, title: nil) { [weak self] action, view, completion in
             guard let self = self else { return }
             completion(true)
@@ -200,7 +203,7 @@ extension TaskViewController: UITableViewDelegate, UITableViewDataSource {
         calendarAction.image = UIImage(systemName: "calendar")
         calendarAction.backgroundColor = UIColor(named: "ColorSwipeButtonCallendar")
         
-//        комментарий
+        //        комментарий
         let commentTaskAction = UIContextualAction(style: .normal, title: nil) { [weak self] action, view, completion in
             guard let self = self else { return }
             completion(true)
