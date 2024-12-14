@@ -3,4 +3,287 @@
    uuid = "C8EEFF4F-47B3-4AFF-9133-7A8FFAE44CF8"
    type = "0"
    version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "415A9420-9C17-4D28-BA44-F41DFDAAEEE7"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "List Task/TaskVC/ViewModel/TaskViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "83"
+            endingLineNumber = "83"
+            landmarkName = "saveComment(nameTask:comment:for:completion:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "415A9420-9C17-4D28-BA44-F41DFDAAEEE7 - 91b442d3ff7fd30b"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "List_Task.TaskViewModel.saveComment(comment: Swift.Optional&lt;Swift.String&gt;, for: Foundation.IndexPath, fetchResultsController: __C.NSFetchedResultsController&lt;List_Task.TaskList&gt;, completion: (Swift.Result&lt;(), Swift.Error&gt;) -&gt; ()) -&gt; ()"
+                  moduleName = "List Task"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/zabiyakinnn/Desktop/List%20Task/List%20Task/TaskVC/ViewModel/TaskViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "85"
+                  endingLineNumber = "85"
+                  offsetFromSymbolStart = "238">
+               </Location>
+               <Location
+                  uuid = "415A9420-9C17-4D28-BA44-F41DFDAAEEE7 - ae2bdf4923a3def5"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "List_Task.TaskViewModel.saveComment(comment: Swift.String, for: Foundation.IndexPath, completion: (Swift.Result&lt;(), Swift.Error&gt;) -&gt; ()) -&gt; ()"
+                  moduleName = "List Task"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/zabiyakinnn/Desktop/List%20Task/List%20Task/TaskVC/ViewModel/TaskViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "84"
+                  endingLineNumber = "84"
+                  offsetFromSymbolStart = "198">
+               </Location>
+               <Location
+                  uuid = "415A9420-9C17-4D28-BA44-F41DFDAAEEE7 - 88918339ad392b10"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "List_Task.TaskViewModel.saveComment(nameTask: Swift.String, comment: Swift.String, for: Foundation.IndexPath, completion: (Swift.Result&lt;(), Swift.Error&gt;) -&gt; ()) -&gt; ()"
+                  moduleName = "List Task"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/zabiyakinnn/Desktop/List%20Task/List%20Task/TaskVC/ViewModel/TaskViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "84"
+                  endingLineNumber = "84"
+                  offsetFromSymbolStart = "266">
+               </Location>
+               <Location
+                  uuid = "415A9420-9C17-4D28-BA44-F41DFDAAEEE7 - 88918339ad392b10"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "List_Task.TaskViewModel.saveComment(nameTask: Swift.String, comment: Swift.String, for: Foundation.IndexPath, completion: (Swift.Result&lt;(), Swift.Error&gt;) -&gt; ()) -&gt; ()"
+                  moduleName = "List Task"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/zabiyakinnn/Desktop/List%20Task/List%20Task/TaskVC/ViewModel/TaskViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "84"
+                  endingLineNumber = "84"
+                  offsetFromSymbolStart = "132">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "3DF3195E-3F10-47A0-B3BC-EDED1568359B"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "List Task/TaskVC/ViewModel/TaskViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "90"
+            endingLineNumber = "90"
+            landmarkName = "saveComment(nameTask:comment:for:completion:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "85EA83FA-2754-45BC-90D6-4B15662D249F"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "List Task/TaskVC/ViewModel/TaskViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "94"
+            endingLineNumber = "94"
+            landmarkName = "saveComment(nameTask:comment:for:completion:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "DABF02D5-0F76-46D8-9893-5E20B590F1B5"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "List Task/TaskVC/Model/TaskDataProvider.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "53"
+            endingLineNumber = "53"
+            landmarkName = "saveComment(nameTask:comment:for:completion:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "DABF02D5-0F76-46D8-9893-5E20B590F1B5 - e0fd3c337ff8e5bb"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "List_Task.TaskDataProvider.saveComment(_: Swift.Optional&lt;Swift.String&gt;, for: Foundation.IndexPath, completion: (Swift.Result&lt;(), Swift.Error&gt;) -&gt; ()) -&gt; ()"
+                  moduleName = "List Task"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/zabiyakinnn/Desktop/List%20Task/List%20Task/TaskVC/Model/TaskDataProvider.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "54"
+                  endingLineNumber = "54"
+                  offsetFromSymbolStart = "81">
+               </Location>
+               <Location
+                  uuid = "DABF02D5-0F76-46D8-9893-5E20B590F1B5 - 1f966994280182fb"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "List_Task.TaskDataProvider.saveComment(_: Swift.Optional&lt;Swift.String&gt;, for: Foundation.IndexPath, fetchResultsController: __C.NSFetchedResultsController&lt;List_Task.TaskList&gt;, completion: (Swift.Result&lt;(), Swift.Error&gt;) -&gt; ()) -&gt; ()"
+                  moduleName = "List Task"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/zabiyakinnn/Desktop/List%20Task/List%20Task/TaskVC/Model/TaskDataProvider.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "54"
+                  endingLineNumber = "54"
+                  offsetFromSymbolStart = "97">
+               </Location>
+               <Location
+                  uuid = "DABF02D5-0F76-46D8-9893-5E20B590F1B5 - ec32c97bf9030e78"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "List_Task.TaskDataProvider.saveComment(nameTask: Swift.String, _: Swift.Optional&lt;Swift.String&gt;, for: Foundation.IndexPath, completion: (Swift.Result&lt;(), Swift.Error&gt;) -&gt; ()) -&gt; ()"
+                  moduleName = "List Task"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/zabiyakinnn/Desktop/List%20Task/List%20Task/TaskVC/Model/TaskDataProvider.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "54"
+                  endingLineNumber = "54"
+                  offsetFromSymbolStart = "117">
+               </Location>
+               <Location
+                  uuid = "DABF02D5-0F76-46D8-9893-5E20B590F1B5 - ec32c97bf9030e78"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "List_Task.TaskDataProvider.saveComment(nameTask: Swift.String, _: Swift.Optional&lt;Swift.String&gt;, for: Foundation.IndexPath, completion: (Swift.Result&lt;(), Swift.Error&gt;) -&gt; ()) -&gt; ()"
+                  moduleName = "List Task"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/zabiyakinnn/Desktop/List%20Task/List%20Task/TaskVC/Model/TaskDataProvider.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "54"
+                  endingLineNumber = "54"
+                  offsetFromSymbolStart = "108">
+               </Location>
+               <Location
+                  uuid = "DABF02D5-0F76-46D8-9893-5E20B590F1B5 - 7c10630b613f209f"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "List_Task.TaskDataProvider.saveComment(nameTask: Swift.String, comment: Swift.Optional&lt;Swift.String&gt;, for: Foundation.IndexPath, completion: (Swift.Result&lt;(), Swift.Error&gt;) -&gt; ()) -&gt; ()"
+                  moduleName = "List Task"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/zabiyakinnn/Desktop/List%20Task/List%20Task/TaskVC/Model/TaskDataProvider.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "54"
+                  endingLineNumber = "54"
+                  offsetFromSymbolStart = "117">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "94E042A7-89E2-406A-90EF-2D74BE2629EB"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "List Task/TaskVC/Model/TaskDataProvider.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "56"
+            endingLineNumber = "56"
+            landmarkName = "saveComment(nameTask:comment:for:completion:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "94E042A7-89E2-406A-90EF-2D74BE2629EB - e0fd3c337ff8e43f"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "List_Task.TaskDataProvider.saveComment(_: Swift.Optional&lt;Swift.String&gt;, for: Foundation.IndexPath, completion: (Swift.Result&lt;(), Swift.Error&gt;) -&gt; ()) -&gt; ()"
+                  moduleName = "List Task"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/zabiyakinnn/Desktop/List%20Task/List%20Task/TaskVC/Model/TaskDataProvider.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "58"
+                  endingLineNumber = "58"
+                  offsetFromSymbolStart = "130">
+               </Location>
+               <Location
+                  uuid = "94E042A7-89E2-406A-90EF-2D74BE2629EB - ec32c97bf9030fdf"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "List_Task.TaskDataProvider.saveComment(nameTask: Swift.String, _: Swift.Optional&lt;Swift.String&gt;, for: Foundation.IndexPath, completion: (Swift.Result&lt;(), Swift.Error&gt;) -&gt; ()) -&gt; ()"
+                  moduleName = "List Task"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/zabiyakinnn/Desktop/List%20Task/List%20Task/TaskVC/Model/TaskDataProvider.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "59"
+                  endingLineNumber = "59"
+                  offsetFromSymbolStart = "189">
+               </Location>
+               <Location
+                  uuid = "94E042A7-89E2-406A-90EF-2D74BE2629EB - ec32c97bf9030fdf"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "List_Task.TaskDataProvider.saveComment(nameTask: Swift.String, _: Swift.Optional&lt;Swift.String&gt;, for: Foundation.IndexPath, completion: (Swift.Result&lt;(), Swift.Error&gt;) -&gt; ()) -&gt; ()"
+                  moduleName = "List Task"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/zabiyakinnn/Desktop/List%20Task/List%20Task/TaskVC/Model/TaskDataProvider.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "59"
+                  endingLineNumber = "59"
+                  offsetFromSymbolStart = "164">
+               </Location>
+               <Location
+                  uuid = "94E042A7-89E2-406A-90EF-2D74BE2629EB - 7c10630b613f2138"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "List_Task.TaskDataProvider.saveComment(nameTask: Swift.String, comment: Swift.Optional&lt;Swift.String&gt;, for: Foundation.IndexPath, completion: (Swift.Result&lt;(), Swift.Error&gt;) -&gt; ()) -&gt; ()"
+                  moduleName = "List Task"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/zabiyakinnn/Desktop/List%20Task/List%20Task/TaskVC/Model/TaskDataProvider.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "59"
+                  endingLineNumber = "59"
+                  offsetFromSymbolStart = "189">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
 </Bucket>

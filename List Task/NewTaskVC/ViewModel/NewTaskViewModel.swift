@@ -32,23 +32,21 @@ final class NewTaskViewModel {
             return
         }
         
-        if let commentTask = commentTask {
-            taskProvider?.createNewTask(
-                name: taskText,
-                date: selectedDate,
-                notionTask: commentTask,
-                group: nameGroup,
-                statusTask: false) { [weak self] result in
-                    guard let self = self else { return }
-                    switch result {
-                    case .success():
-                        self.onTaskSaved?()
-                        self.newTask?()
-                    case .failure(let error):
-                        self.onError?("Ошибка сохранения задачи в Core Data: \(error.localizedDescription)")
-                    }
+        taskProvider?.createNewTask(
+            name: taskText,
+            date: selectedDate,
+            notionTask: commentTask,
+            group: nameGroup,
+            statusTask: false) { [weak self] result in
+                guard let self = self else { return }
+                switch result {
+                case .success():
+                    self.onTaskSaved?()
+                    self.newTask?()
+                case .failure(let error):
+                    self.onError?("Ошибка сохранения задачи в Core Data: \(error.localizedDescription)")
                 }
-        }
+            }
     }
     
     //    форматирование выбранной даты

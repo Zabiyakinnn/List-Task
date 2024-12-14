@@ -39,7 +39,7 @@ final class CoreDataManagerTaskList {
     }
     
 //    сохранение зедачи в CoreData
-    func saveTaskCoreData(nameTask: String, date: Date?, notionTask: String, group: NameGroup?, completion: @escaping(Result<Void, Error>) -> Void) {
+    func saveTaskCoreData(nameTask: String, date: Date?, notionTask: String?, group: NameGroup?, completion: @escaping(Result<Void, Error>) -> Void) {
         let task = TaskList(context: context)
         
         task.nameTask = nameTask
@@ -81,6 +81,25 @@ final class CoreDataManagerTaskList {
                 completion(.success(()))
             } else {
                 print("Задача с указаныи именем не найденна")
+            }
+        } catch {
+            completion(.failure((error)))
+        }
+    }
+    
+//    изменение коментария для задачи
+    func saveComment(nameTask: String, comment: String?, for indexPath: IndexPath, completion: @escaping(Result<Void, Error>) -> Void ) {
+        let fetchRequest: NSFetchRequest<TaskList> = TaskList.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "nameTask == %@", nameTask)
+        do {
+            let result = try context.fetch(fetchRequest)
+            if let commentTaskToUpdate = result.first {
+                commentTaskToUpdate.notionTask = comment
+                try context.save()
+                completion(.success(()))
+            } else {
+                let error = NSError(domain: "", code: 404, userInfo: [NSLocalizedDescriptionKey: "Task not found"])
+                completion(.failure((error)))
             }
         } catch {
             completion(.failure((error)))

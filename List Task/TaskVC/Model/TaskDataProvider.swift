@@ -48,4 +48,13 @@ final class TaskDataProvider {
             newStatus: newStatus,
             completion: completion)
     }
+    
+//    сохранения изменненого комментария задачи
+    func saveComment(nameTask: String, comment: String?, for indexPath: IndexPath, completion: @escaping (Result<Void, Error>) -> Void) {
+        CoreDataManagerTaskList.shared.saveComment(
+            nameTask: nameTask,
+            comment: comment,
+            for: indexPath,
+            completion: completion)
+    }
 }

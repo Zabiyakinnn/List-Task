@@ -111,20 +111,24 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let taskVC = TaskViewController()
         if let nameGroup = mainViewProvider.groupAt(indexPath: indexPath) {
-            taskVC.nameGroup = nameGroup
-            taskVC.newTask = { [weak self] in
-                guard let self = self else { return }
-                self.mainViewProvider.perfomFetch()
-                self.mainView.collectionView.reloadData()
+            let taskDataProvide = TaskDataProvider(group: nameGroup)
+            let taskViewModel = TaskViewModel(taskDataProvider: taskDataProvide, nameGroup: nameGroup)
+            let taskVC = TaskViewController(viewModel: taskViewModel)
+            if let nameGroup = mainViewProvider.groupAt(indexPath: indexPath) {
+                taskViewModel.nameGroup = nameGroup
+                taskVC.newTask = { [weak self] in
+                    guard let self = self else { return }
+                    self.mainViewProvider.perfomFetch()
+                    self.mainView.collectionView.reloadData()
+                }
+                taskVC.deleteTask = { [weak self] in
+                    guard let self = self else { return }
+                    self.mainViewProvider.perfomFetch()
+                    self.mainView.collectionView.reloadData()
+                }
             }
-            taskVC.deleteTask = { [weak self] in
-                guard let self = self else { return }
-                self.mainViewProvider.perfomFetch()
-                self.mainView.collectionView.reloadData()
-            }
+            navigationController?.present(taskVC, animated: true)
         }
-        navigationController?.present(taskVC, animated: true)
     }
 }

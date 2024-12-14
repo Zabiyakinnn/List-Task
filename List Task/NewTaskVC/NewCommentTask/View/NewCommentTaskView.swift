@@ -27,7 +27,7 @@ final class NewCommentTaskView: UIView {
         let label = UILabel()
         label.textColor = UIColor(named: "ColorTextBlackAndWhite")
         label.font = UIFont.systemFont(ofSize: 19, weight: .medium)
-        label.text = "Новая заметка"
+        label.text = "Заметки"
         label.textAlignment = .center
         return label
     }()
