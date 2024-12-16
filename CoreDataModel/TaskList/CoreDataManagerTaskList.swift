@@ -18,7 +18,7 @@ final class CoreDataManagerTaskList {
     init(context: NSManagedObjectContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext) {
         self.context = context
     }
-    
+        
 //    MARK: - CoreData Methods
     
 //    создание FetchResultController
@@ -98,7 +98,27 @@ final class CoreDataManagerTaskList {
                 try context.save()
                 completion(.success(()))
             } else {
-                let error = NSError(domain: "", code: 404, userInfo: [NSLocalizedDescriptionKey: "Task not found"])
+                let error = NSError(domain: "", code: 404, userInfo: [NSLocalizedDescriptionKey: "Задача не найденна"])
+                completion(.failure((error)))
+            }
+        } catch {
+            completion(.failure((error)))
+        }
+    }
+    
+//    изменение даты для задачи
+    func saveNewDateTask(nameTask: String, newDate: Date?, for indexPath: IndexPath, completion: @escaping(Result<Void, Error>) -> Void) {
+        let fetchRequest: NSFetchRequest<TaskList> = TaskList.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "nameTask == %@", nameTask)
+        
+        do {
+            let result = try context.fetch(fetchRequest)
+            if let newDateTask = result.first {
+                newDateTask.date = newDate
+                try context.save()
+                completion(.success(()))
+            } else {
+                let error = NSError(domain: "", code: 404, userInfo: [NSLocalizedDescriptionKey: "Задача не найденна"])
                 completion(.failure((error)))
             }
         } catch {

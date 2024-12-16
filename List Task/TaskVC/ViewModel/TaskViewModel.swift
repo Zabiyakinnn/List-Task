@@ -12,9 +12,11 @@ final class TaskViewModel {
     private var taskDataProvider: TaskDataProvider
     var nameGroup: NameGroup
     
+    var selectedDate: Date? //выбранная дата в календаре
+    
     var onTaskUpdated: (() -> Void)? //уведомлние об изменении списка задач
     var onTaskDelete: (() -> Void)? //уведомление об удалении задачи
-    //    var onCommentToTask: (() -> Void)?
+    var onNewDateTask: ((Date) -> Void)? //уведоление о новой дате для задачи
     
     init(taskDataProvider: TaskDataProvider, nameGroup: NameGroup) {
         self.taskDataProvider = taskDataProvider
@@ -45,8 +47,9 @@ final class TaskViewModel {
         return newTaskViewModel
     }
     
-    //    обновление статуса задачи (выполненно/ не выполненно)
-    func updateTaskStatus(task: String, newStatus: Bool, completion: @escaping(Result<Void, Error>) -> Void) {
+//    MARK: - Изменение статуса задачи (выполненно/ не выполенно)
+    //    обновление статуса в CoreData
+    private func updateTaskStatus(task: String, newStatus: Bool, completion: @escaping(Result<Void, Error>) -> Void) {
         taskDataProvider.updateTaskStatus(
             nameTask: task,
             newStatus: newStatus) { [weak self] result in
@@ -61,7 +64,17 @@ final class TaskViewModel {
             }
     }
     
-    //    удаление задачи
+//    обновление статуса задачи во ViewController
+    func changeStatusButton(at indexPath: IndexPath, to newStatus: Bool, completion: @escaping(Result<Void, Error>) -> Void) {
+        guard let task = task(at: indexPath) else {
+            completion(.failure(NSError(domain: "Задача не найденна", code: 404)))
+            return
+        }
+        updateTaskStatus(task: task.nameTask ?? "", newStatus: newStatus, completion: completion)
+    }
+    
+//    MARK: - Удалние задачи
+    //    удаление задачи из CoreData
     func deleteTask(at indexPath: IndexPath, completion: @escaping(Result<Void, Error>) -> Void) {
         if let taskToDelete = task(at: indexPath) {
             taskDataProvider.deleteTask(
@@ -78,9 +91,10 @@ final class TaskViewModel {
                 }
         }
     }
-    
-    //    сохранение комментария для задачи
-    func saveComment(nameTask: String, comment: String?, for indexPath: IndexPath, completion: @escaping(Result<Void, Error>) -> Void) {
+
+//    MARK: - Комменатрии к задаче
+    //    сохранение комментария для задачи в CoreData
+    private func saveCommentCoreData(nameTask: String, comment: String?, for indexPath: IndexPath, completion: @escaping(Result<Void, Error>) -> Void) {
         taskDataProvider.saveComment(
             nameTask: nameTask,
             comment: comment,
@@ -94,5 +108,62 @@ final class TaskViewModel {
                     completion(.failure((error)))
                 }
             }
+    }
+//    обновление комментария во viewController
+    func saveComment(at indexPath: IndexPath, newComment: String, completion: @escaping(Result<Void, Error>) -> Void) {
+        guard let task = task(at: indexPath) else {
+            completion(.failure(NSError(domain: "Задача не найденна", code: 404)))
+            return
+        }
+        saveCommentCoreData(nameTask: task.nameTask ?? "", comment: newComment, for: indexPath, completion: completion)
+    }
+    
+//    MARK: Date Callendar LeadingSwipe
+    //    форматирование выбранной даты
+    func updateSelectedDate(date: Date) {
+        selectedDate = date
+        
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "ru_RU")
+        formatter.dateFormat = "d MMM"
+        let today = Calendar.current.startOfDay(for: Date()) // сегодняшняя дата
+        let selectedDay = Calendar.current.startOfDay(for: date) // выбранная дата
+        let difference = Calendar.current.dateComponents([.day], from: today, to: selectedDay).day
+        
+        let formatterDate: String
+        switch difference {
+        case 0: formatterDate = "Сегодня"
+        case 1: formatterDate = "Завтра"
+        case -1: formatterDate =  "Вчера"
+        default: formatterDate = formatter.string(from: date)
+        }
+        
+        onNewDateTask?(date)
+    }
+    
+//    сохранение новой даты для задачи в CoreData
+    private func saveNewDateTaskCoreData(nameTask: String, newDate: Date?, for indexPath: IndexPath, compltion: @escaping(Result<Void, Error>) -> Void) {
+        taskDataProvider.saveNewDateTask(
+            nameTask: nameTask,
+            newDate: newDate,
+            for: indexPath) { [weak self] result in
+                guard let self = self else { return }
+                switch result {
+                case .success():
+                    reloadTask()
+                    compltion(.success(()))
+                case .failure(let error):
+                    compltion(.failure((error)))
+                }
+            }
+    }
+    
+//    сохранение новой даты 
+    func saveNewDate(at indexPath: IndexPath, newDate: Date, completion: @escaping(Result<Void, Error>) -> Void) {
+        guard let task = task(at: indexPath) else {
+            completion(.failure(NSError(domain: "Задача не найденна", code: 404)))
+            return
+        }
+        saveNewDateTaskCoreData(nameTask: task.nameTask ?? "", newDate: newDate, for: indexPath, compltion: completion)
     }
 }

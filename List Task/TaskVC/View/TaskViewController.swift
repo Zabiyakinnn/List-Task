@@ -8,6 +8,7 @@
 import UIKit
 import SnapKit
 import CoreData
+import FSCalendar
 
 final class TaskViewController: UIViewController, NSFetchedResultsControllerDelegate {
     
@@ -111,6 +112,37 @@ final class TaskViewController: UIViewController, NSFetchedResultsControllerDele
     @objc func settingListButtonTapped() {
         
     }
+
+//    открыть календарь и выбрать дату
+    func openCalendarView(at indexPath: IndexPath) {
+        if let existingCalendarView = self.view.subviews.first(where: { $0 is CalendarPickerView }) as? CalendarPickerView {
+             existingCalendarView.removeFromSuperview() // скрыть
+         } else {
+             // Добавляем затемненный фон
+             let overlayView = UIView()
+             overlayView.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+             overlayView.tag = 999 // Уникальный тег для последующего удаления
+             overlayView.frame = self.view.bounds
+             let tapGesture = UITapGestureRecognizer(target: self, action: #selector(closeCalendar))
+             overlayView.addGestureRecognizer(tapGesture)
+             self.view.addSubview(overlayView)
+             
+             let calendarView = CalendarPickerView()
+             calendarView.calendar.delegate = self
+             calendarView.calendar.dataSource = self
+             self.view.addSubview(calendarView)
+             calendarView.snp.makeConstraints { make in
+                 make.left.right.equalToSuperview()
+                 make.height.equalTo(UIScreen.main.bounds.height / 2)
+                 make.bottom.equalToSuperview()
+             }
+         }
+    }
+    
+    @objc private func closeCalendar() {
+        self.view.subviews.first(where: { $0 is CalendarPickerView })?.removeFromSuperview()
+        self.view.subviews.first(where: { $0.tag == 999 })?.removeFromSuperview()
+    }
 }
 
 //MARK: - UITableViewDelegate, UITableViewDataSource
@@ -138,19 +170,14 @@ extension TaskViewController: UITableViewDelegate, UITableViewDataSource {
                 cell?.configure(taskList)
                 cell?.onConditionButtonStatus = { [weak self] newStatus in
                     guard let self = self else { return }
-                    viewModel.updateTaskStatus(
-                        task: taskList.nameTask ?? "",
-                        newStatus: newStatus,
-                        completion: { result in
-                            switch result {
-                            case .success():
-                                self.viewModel.reloadTask()
-                                self.taskView.tableView.reloadRows(at: [indexPath], with: .none)
-                                self.taskView.tableView.reloadData()
-                            case .failure(let error):
-                                print("Ошибка изменения статуса задачи \(error.localizedDescription)")
-                            }
-                        })
+                    viewModel.changeStatusButton(at: indexPath, to: newStatus) { result in
+                        switch result {
+                        case .success():
+                            self.taskView.tableView.reloadRows(at: [indexPath], with: .none)
+                        case .failure(let error):
+                            print("Ошибка изменения статуса задачи \(error.localizedDescription)")
+                        }
+                    }
                 }
                 return cell ?? UITableViewCell()
             }
@@ -166,7 +193,7 @@ extension TaskViewController: UITableViewDelegate, UITableViewDataSource {
         return true
     }
     
-    //    свайп ячейки вправо
+    //    свайп ячейки влево
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let deleteAction = UIContextualAction(style: .destructive, title: nil) { [weak self] action, view, completion in
             guard let self = self else { return }
@@ -190,12 +217,27 @@ extension TaskViewController: UITableViewDelegate, UITableViewDataSource {
         return configuration
     }
     
-    //    свайп ячейки влево
+    //    свайп ячейки вправо
     func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         
         //        календарь
         let calendarAction = UIContextualAction(style: .normal, title: nil) { [weak self] action, view, completion in
             guard let self = self else { return }
+            openCalendarView(at: indexPath)
+            
+            if let taskList = viewModel.task(at: indexPath) {
+                viewModel.onNewDateTask = { [weak self] newDate in
+                    guard let self = self else { return }
+                    viewModel.saveNewDate(at: indexPath, newDate: newDate) { result in
+                        switch result {
+                        case .success():
+                            self.taskView.tableView.reloadRows(at: [indexPath], with: .none)
+                        case .failure(let error):
+                            print("Ошибка сохранения новой даты для задачи \(error.localizedDescription)")
+                        }
+                    }
+                }
+            }
             completion(true)
         }
         calendarAction.image = UIImage(systemName: "calendar")
@@ -207,23 +249,14 @@ extension TaskViewController: UITableViewDelegate, UITableViewDataSource {
             if let taskList = viewModel.task(at: indexPath) {
                 let newCommentTaskVC = NewCommentTaskViewController()
                 newCommentTaskVC.newCommentTaskView.textView.text = taskList.notionTask
-                let nameTask = taskList.nameTask ?? ""
-                
-//                print("Комментарий для задачи: \(nameTask)") 
-//                print("Предъидущий комментарий \(taskList.notionTask)")
                 
                 newCommentTaskVC.onTextCommentTask = { [weak self] comment in
-//                    print("Сохранение нового комментария: \(comment)")
-                    self?.viewModel.saveComment(nameTask: nameTask, comment: comment, for: indexPath, completion: { result in
+                    self?.viewModel.saveComment(at: indexPath, newComment: comment, completion: { result in
                         switch result {
                         case .success():
-//                            print("Комментарий сохранен \(comment)")
-                            self?.viewModel.reloadTask()
                             self?.taskView.tableView.reloadRows(at: [indexPath], with: .none)
-                            completion(true)
                         case .failure(let error):
-                            print("Ошибка сохранения комментария: \(error.localizedDescription)")
-                            completion(false)
+                            print("Ошибка сохранения комментария для задачи \(error.localizedDescription)")
                         }
                     })
                 }
@@ -237,5 +270,15 @@ extension TaskViewController: UITableViewDelegate, UITableViewDataSource {
         let configuration = UISwipeActionsConfiguration(actions: [calendarAction, commentTaskAction])
         configuration.performsFirstActionWithFullSwipe = false
         return configuration
+    }
+}
+
+//MARK: - FSCalendarDelegate, FSCalendarDataSource
+extension TaskViewController: FSCalendarDelegate, FSCalendarDataSource {
+    func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
+        viewModel.updateSelectedDate(date: date)
+
+        self.view.subviews.first(where: { $0 is CalendarPickerView })?.removeFromSuperview()
+        self.view.subviews.first(where: { $0.tag == 999 })?.removeFromSuperview()
     }
 }

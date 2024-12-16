@@ -57,4 +57,13 @@ final class TaskDataProvider {
             for: indexPath,
             completion: completion)
     }
+    
+//    сохранение изменной даты для задачи
+    func saveNewDateTask(nameTask: String, newDate: Date?, for indexPath: IndexPath, compltion: @escaping (Result<Void, Error>) -> Void) {
+        CoreDataManagerTaskList.shared.saveNewDateTask(
+            nameTask: nameTask,
+            newDate: newDate,
+            for: indexPath,
+            completion: compltion)
+    }
 }

@@ -62,6 +62,10 @@ final class NewTaskViewController: UIViewController {
             guard let self = self else { return }
             NotificationUtils.showWarning(on: self, text: error)
         }
+        
+        if let nameGroup = viewModel.nameGroup.name {
+            newTaskView.updateNameGroup(name: nameGroup)
+        }
     }
     
     private func setupButton() {
