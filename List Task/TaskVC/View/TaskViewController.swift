@@ -20,7 +20,7 @@ final class TaskViewController: UIViewController, NSFetchedResultsControllerDele
     var newTask: (() -> Void)? // передача в mainVC
     var deleteTask: (() -> Void)? // передача в mainVC о том что задача удаленна для обновления кол-ва задач в подгруппе
     
-//    MARK: - Init
+    //    MARK: - Init
     init(viewModel: TaskViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
@@ -48,7 +48,7 @@ final class TaskViewController: UIViewController, NSFetchedResultsControllerDele
         viewModel.reloadTask()
     }
     
-//    MARK: - ViewWillAppear
+    //    MARK: - ViewWillAppear
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: true)
@@ -112,36 +112,47 @@ final class TaskViewController: UIViewController, NSFetchedResultsControllerDele
     @objc func settingListButtonTapped() {
         
     }
-
-//    открыть календарь и выбрать дату
+    
+    //    открыть календарь и выбрать дату
     func openCalendarView(at indexPath: IndexPath) {
-        if let existingCalendarView = self.view.subviews.first(where: { $0 is CalendarPickerView }) as? CalendarPickerView {
-             existingCalendarView.removeFromSuperview() // скрыть
-         } else {
-             // Добавляем затемненный фон
-             let overlayView = UIView()
-             overlayView.backgroundColor = UIColor.black.withAlphaComponent(0.5)
-             overlayView.tag = 999 // Уникальный тег для последующего удаления
-             overlayView.frame = self.view.bounds
-             let tapGesture = UITapGestureRecognizer(target: self, action: #selector(closeCalendar))
-             overlayView.addGestureRecognizer(tapGesture)
-             self.view.addSubview(overlayView)
-             
-             let calendarView = CalendarPickerView()
-             calendarView.calendar.delegate = self
-             calendarView.calendar.dataSource = self
-             self.view.addSubview(calendarView)
-             calendarView.snp.makeConstraints { make in
-                 make.left.right.equalToSuperview()
-                 make.height.equalTo(UIScreen.main.bounds.height / 2)
-                 make.bottom.equalToSuperview()
-             }
-         }
+        if let existingCalendarView = self.view.subviews.first(where: { $0.tag == 1001 }) as? CalendarPickerView {
+            existingCalendarView.hide {
+                self.view.subviews.first(where: { $0.tag == 999 })?.removeFromSuperview()
+            }
+        } else {
+            // затемненный фон
+            let overlayView = UIView()
+            overlayView.backgroundColor = UIColor.black.withAlphaComponent(0.0)
+            overlayView.tag = 999 // Уникальный тег для последующего удаления
+            overlayView.frame = self.view.bounds
+            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(closeCalendar))
+            overlayView.addGestureRecognizer(tapGesture)
+            self.view.addSubview(overlayView)
+            
+            let calendarView = CalendarPickerView()
+            calendarView.tag = 1001
+            calendarView.calendar.delegate = self
+            calendarView.calendar.dataSource = self
+            calendarView.show(in: self.view)
+            
+            UIView.animate(withDuration: 0.3, animations: {
+                overlayView.backgroundColor = UIColor.black.withAlphaComponent(0.2)
+            })
+        }
     }
     
+//    закрыть календарь
     @objc private func closeCalendar() {
-        self.view.subviews.first(where: { $0 is CalendarPickerView })?.removeFromSuperview()
-        self.view.subviews.first(where: { $0.tag == 999 })?.removeFromSuperview()
+        if let calendarView = self.view.subviews.first(where: { $0.tag == 1001 }) as? CalendarPickerView,
+           let overlayView = self.view.subviews.first(where: { $0.tag == 999 }) {
+            calendarView.hide()
+            
+            UIView.animate(withDuration: 0.3, animations: {
+                overlayView.alpha = 0
+            }) { _ in
+                overlayView.removeFromSuperview()
+            }
+        }
     }
 }
 
@@ -277,8 +288,16 @@ extension TaskViewController: UITableViewDelegate, UITableViewDataSource {
 extension TaskViewController: FSCalendarDelegate, FSCalendarDataSource {
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
         viewModel.updateSelectedDate(date: date)
-
-        self.view.subviews.first(where: { $0 is CalendarPickerView })?.removeFromSuperview()
-        self.view.subviews.first(where: { $0.tag == 999 })?.removeFromSuperview()
+        
+        if let calendarView = self.view.subviews.first(where: { $0.tag == 1001 }) as? CalendarPickerView,
+           let overlayView = self.view.subviews.first(where: { $0.tag == 999 }) {
+            calendarView.hide()
+            
+            UIView.animate(withDuration: 0.3, animations: {
+                overlayView.alpha = 0
+            }) { _ in
+                overlayView.removeFromSuperview()
+            }
+        }
     }
 }

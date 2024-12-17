@@ -12,6 +12,7 @@ import FSCalendar
 final class CalendarPickerView: UIView {
     
     let calendar = FSCalendar()
+    private let animationDuration = 0.3
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -43,5 +44,34 @@ final class CalendarPickerView: UIView {
             make.edges.equalToSuperview().inset(16)
         }
 
+    }
+    
+//    MARK: - Анимация открытия
+    func show(in parentView: UIView) {
+        self.alpha = 0
+        self.transform = CGAffineTransform(translationX: 0, y: UIScreen.main.bounds.height / 2)
+        parentView.addSubview(self)
+        
+        self.snp.makeConstraints { make in
+            make.left.right.equalToSuperview()
+            make.height.equalTo(UIScreen.main.bounds.height / 2)
+            make.bottom.equalToSuperview()
+        }
+        
+        UIView.animate(withDuration: animationDuration, animations: {
+            self.alpha = 1
+            self.transform = .identity
+        })
+    }
+    
+//    MARK: - Анимация закрытия
+    func hide(completion: (() -> Void)? = nil) {
+        UIView.animate(withDuration: animationDuration, animations: {
+            self.alpha = 0
+            self.transform = CGAffineTransform(translationX: 0, y: UIScreen.main.bounds.height / 2)
+        }) { _ in
+            self.removeFromSuperview()
+            completion?()
+        }
     }
 }
