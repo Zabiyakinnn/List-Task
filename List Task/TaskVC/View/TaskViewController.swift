@@ -15,7 +15,6 @@ final class TaskViewController: UIViewController, NSFetchedResultsControllerDele
     private var viewModel: TaskViewModel
     private var taskView = TaskView()
     let taskCell = "taskCell"
-    var taskList: TaskList?
     
     var newTask: (() -> Void)? // передача в mainVC
     var deleteTask: (() -> Void)? // передача в mainVC о том что задача удаленна для обновления кол-ва задач в подгруппе
@@ -114,7 +113,7 @@ final class TaskViewController: UIViewController, NSFetchedResultsControllerDele
     }
     
     //    открыть календарь и выбрать дату
-    func openCalendarView(at indexPath: IndexPath) {
+    func openCalendarView(at indexPath: IndexPath, taskList: TaskList?) {
         if let existingCalendarView = self.view.subviews.first(where: { $0.tag == 1001 }) as? CalendarPickerView {
             existingCalendarView.hide {
                 self.view.subviews.first(where: { $0.tag == 999 })?.removeFromSuperview()
@@ -134,6 +133,13 @@ final class TaskViewController: UIViewController, NSFetchedResultsControllerDele
             calendarView.calendar.delegate = self
             calendarView.calendar.dataSource = self
             calendarView.show(in: self.view)
+            
+            if let selectedDate = taskList?.date {
+                calendarView.calendar.select(selectedDate)
+//                calendarView.calendar.appearance.selectionColor = .green
+            } else {
+                print("пустая дата")
+            }
             
             UIView.animate(withDuration: 0.3, animations: {
                 overlayView.backgroundColor = UIColor.black.withAlphaComponent(0.2)
@@ -234,17 +240,19 @@ extension TaskViewController: UITableViewDelegate, UITableViewDataSource {
         //        календарь
         let calendarAction = UIContextualAction(style: .normal, title: nil) { [weak self] action, view, completion in
             guard let self = self else { return }
-            openCalendarView(at: indexPath)
-            
             if let taskList = viewModel.task(at: indexPath) {
-                viewModel.onNewDateTask = { [weak self] newDate in
-                    guard let self = self else { return }
-                    viewModel.saveNewDate(at: indexPath, newDate: newDate) { result in
-                        switch result {
-                        case .success():
-                            self.taskView.tableView.reloadRows(at: [indexPath], with: .none)
-                        case .failure(let error):
-                            print("Ошибка сохранения новой даты для задачи \(error.localizedDescription)")
+                openCalendarView(at: indexPath, taskList: taskList)
+                
+                if let taskList = viewModel.task(at: indexPath) {
+                    viewModel.onNewDateTask = { [weak self] newDate in
+                        guard let self = self else { return }
+                        viewModel.saveNewDate(at: indexPath, newDate: newDate) { result in
+                            switch result {
+                            case .success():
+                                self.taskView.tableView.reloadRows(at: [indexPath], with: .none)
+                            case .failure(let error):
+                                print("Ошибка сохранения новой даты для задачи \(error.localizedDescription)")
+                            }
                         }
                     }
                 }

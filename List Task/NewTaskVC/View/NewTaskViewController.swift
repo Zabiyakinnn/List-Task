@@ -104,6 +104,12 @@ final class NewTaskViewController: UIViewController {
             calendarView.calendar.dataSource = self
             calendarView.show(in: self.view)
             
+            if let selectedDate = viewModel.selectedDate {
+                calendarView.calendar.select(selectedDate)
+
+            }
+
+            
             UIView.animate(withDuration: 0.3, animations: {
                 overlayView.backgroundColor = UIColor.black.withAlphaComponent(0.2)
             })
@@ -141,8 +147,10 @@ final class NewTaskViewController: UIViewController {
 //скрыть календарь при открытой клавитуре в textView
 extension NewTaskViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
-        if let calendarView = view.subviews.first(where: { $0 is CalendarPickerView }) {
+        if let calendarView = self.view.subviews.first(where: { $0.tag == 1001 }) as? CalendarPickerView,
+           let overlayView = self.view.subviews.first(where: { $0.tag == 999 }) {
             calendarView.removeFromSuperview()
+            overlayView.removeFromSuperview()
         }
     }
 }

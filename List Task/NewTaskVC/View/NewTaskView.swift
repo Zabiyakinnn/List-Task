@@ -15,6 +15,7 @@ final class NewTaskView: UIView {
         super.init(frame: frame)
         backgroundColor = UIColor(named: "TaskVCTableViewColor")
         
+        keyboardLayoutGuide.followsUndockedKeyboard = true
         setupLoyout()
     }
     
@@ -55,6 +56,12 @@ final class NewTaskView: UIView {
         return label
     }()
     
+    private lazy var seperatorLine: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor.clear
+        return view
+    }()
+    
     //    MARK: - UIButton
     //    кнопка сохранения задачи
     lazy var saveButton: UIButton = {
@@ -75,19 +82,32 @@ final class NewTaskView: UIView {
     
 //    кнопка создания заметки для задачи
     lazy var notionTaskButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.contentMode = .scaleAspectFit
+        var configuration = UIButton.Configuration.plain()
+        configuration.image = UIImage(systemName: "list.clipboard")
+        
+        let imageConfig = UIImage.SymbolConfiguration(pointSize: 14, weight: .regular)
+        configuration.preferredSymbolConfigurationForImage = imageConfig
+        
+        configuration.contentInsets = NSDirectionalEdgeInsets(top: 3, leading: 3, bottom: 3, trailing: 3)
+        
+        let button = UIButton(configuration: configuration, primaryAction: nil)
         button.tintColor = UIColor(named: "ButtonIconeImage")
-        button.setImage(UIImage(systemName: "list.clipboard"), for: .normal)
         return button
     }()
     
 //    кнопка установки приоретета для задачи
     lazy var priorityButton: UIButton = {
-        let button = UIButton(type: .system)
+        var configuration = UIButton.Configuration.plain()
+        configuration.image = UIImage(systemName: "flag")
+
+        let imageConfig = UIImage.SymbolConfiguration(pointSize: 14, weight: .regular)
+        configuration.preferredSymbolConfigurationForImage = imageConfig
+        
+        configuration.contentInsets = NSDirectionalEdgeInsets(top: 3, leading: 3, bottom: 3, trailing: 3)
+        
+        let button = UIButton(configuration: configuration, primaryAction: nil)
         button.contentMode = .scaleAspectFit
         button.tintColor = UIColor(named: "ButtonIconeImage")
-        button.setImage(UIImage(systemName: "exclamationmark.square"), for: .normal)
         return button
     }()
 }
@@ -108,6 +128,7 @@ extension NewTaskView {
         addSubview(labelNameGroup)
         addSubview(notionTaskButton)
         addSubview(priorityButton)
+        addSubview(seperatorLine)
     }
     
     func updateNameGroup(name: String) {
@@ -122,7 +143,7 @@ extension NewTaskView {
         textView.snp.makeConstraints { make in
             make.top.equalTo(labelHeadline.snp.top).inset(50)
             make.left.right.equalToSuperview().inset(20)
-            make.height.equalTo(210)
+            make.height.equalTo(290)
         }
         saveButton.snp.makeConstraints { make in
             make.centerY.equalTo(labelHeadline)
@@ -130,26 +151,33 @@ extension NewTaskView {
             make.height.equalTo(40)
         }
         buttonDate.snp.makeConstraints { make in
-            make.top.equalTo(textView.snp.bottom).inset(-40)
-            make.left.equalToSuperview().inset(20)
-            make.height.equalTo(27)
+            make.bottom.equalTo(seperatorLine.snp.top).offset(-1)
+            make.left.equalTo(seperatorLine.snp.left).offset(20)
+            make.height.equalTo(25)
         }
         labelNameGroup.snp.makeConstraints { make in
-            make.centerY.equalTo(notionTaskButton)
-            make.right.equalToSuperview().inset(27)
+            make.bottom.equalTo(seperatorLine.snp.top).offset(0)
+            make.right.equalTo(seperatorLine.snp.right).inset(27)
             make.width.equalTo(110)
         }
         notionTaskButton.snp.makeConstraints { make in
-            make.top.equalTo(textView.snp.bottom).inset(-39)
+            make.bottom.equalTo(seperatorLine.snp.top).inset(0)
             make.left.equalTo(buttonDate.snp.right).offset(15)
-            make.height.equalTo(26)
-            make.width.equalTo(22)
+            make.height.equalTo(28)
+            make.width.equalTo(28)
+
         }
         priorityButton.snp.makeConstraints { make in
-            make.top.equalTo(textView.snp.bottom).inset(-40)
+            make.centerY.equalTo(buttonDate)
             make.left.equalTo(notionTaskButton.snp.right).offset(15)
-            make.height.equalTo(26)
-            make.width.equalTo(22)
+            make.size.equalTo(CGSize(width: 28, height: 28))
         }
+        seperatorLine.snp.makeConstraints { make in
+            make.left.right.equalToSuperview()
+            make.height.equalTo(20)
+        }
+        
+        let seperatorLineOnKeyboard = keyboardLayoutGuide.topAnchor.constraint(equalTo: seperatorLine.bottomAnchor, constant: 0)
+        keyboardLayoutGuide.setConstraints([seperatorLineOnKeyboard], activeWhenAwayFrom: .top)
     }
 }

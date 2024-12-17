@@ -36,7 +36,7 @@ final class TaskCell: UITableViewCell {
     private lazy var dateTask: UILabel = {
         let label = UILabel()
         label.numberOfLines = 1
-        label.font = UIFont.systemFont(ofSize: 17, weight: .regular)
+        label.font = UIFont.systemFont(ofSize: 14, weight: .regular)
         label.textColor = UIColor.lightGray
         return label
     }()
@@ -105,7 +105,7 @@ final class TaskCell: UITableViewCell {
         iconNotionTask.snp.remakeConstraints() { make in
             make.bottom.equalToSuperview().inset(12)
             make.centerY.equalTo(dateTask)
-            make.width.height.equalTo(14)
+            make.width.height.equalTo(12)
             
             if let dateText = dateTask.text, !dateText.isEmpty {
                 make.left.equalTo(dateTask.snp.right).offset(8)
@@ -178,7 +178,7 @@ extension TaskCell {
         conditionButton.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
             make.left.equalTo(contentView.snp.left).inset(8)
-            make.width.height.equalTo(40)
+            make.width.height.equalTo(30)
         }
         nameTask.snp.makeConstraints { make in
             make.top.equalTo(contentView.snp.top).inset(12)

@@ -37,13 +37,15 @@ final class CalendarPickerView: UIView {
         calendar.appearance.weekdayTextColor = UIColor(named: "ColorTextBlackAndWhite")
         calendar.appearance.titleSelectionColor = UIColor(named: "SelectedDateCalendarColor")
         calendar.appearance.headerTitleColor = UIColor(named: "ColorTextBlackAndWhite")
+        calendar.appearance.titleSelectionColor = UIColor.white
         calendar.layer.cornerRadius = 20
         
         addSubview(calendar)
         calendar.snp.makeConstraints { make in
-            make.edges.equalToSuperview().inset(16)
+            make.left.right.equalToSuperview()
+            make.bottom.equalToSuperview().inset(20)
+            make.height.equalTo(320)
         }
-
     }
     
 //    MARK: - Анимация открытия
@@ -54,7 +56,7 @@ final class CalendarPickerView: UIView {
         
         self.snp.makeConstraints { make in
             make.left.right.equalToSuperview()
-            make.height.equalTo(UIScreen.main.bounds.height / 2)
+            make.height.equalTo(350)
             make.bottom.equalToSuperview()
         }
         
