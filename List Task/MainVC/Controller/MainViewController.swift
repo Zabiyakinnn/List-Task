@@ -88,23 +88,25 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
             cell.configure(nameGroup, taskCount)
             
             cell.onDelete = { [weak self] in
-                let alertController = UIAlertController(
-                    title: nil,
-                    message: "Удалить грппу \(nameGroup.name ?? "") со всеми задачами?",
-                    preferredStyle: .actionSheet)
-                alertController.addAction(UIAlertAction(title: "Отмена", style: .cancel))
-                alertController.addAction(UIAlertAction(title: "Удалить", style: .destructive, handler: { [weak self] _ in
-                    guard let self = self else { return }
-                    mainViewProvider.deleteGroup(at: indexPath) { result in
-                        switch result {
-                        case .success():
-                            self.reloadCollectionView()
-                        case .failure(let error):
-                            print("Ошибка удаления задачи из Core Data: \(error.localizedDescription)")
+                if let nameGroup = nameGroup.name {
+                    let alertController = UIAlertController(
+                        title: nil,
+                        message: "Удалить грппу \(nameGroup) со всеми задачами?",
+                        preferredStyle: .actionSheet)
+                    alertController.addAction(UIAlertAction(title: "Отмена", style: .cancel))
+                    alertController.addAction(UIAlertAction(title: "Удалить", style: .destructive, handler: { [weak self] _ in
+                        guard let self = self else { return }
+                        mainViewProvider.deleteGroup(at: indexPath) { result in
+                            switch result {
+                            case .success():
+                                self.reloadCollectionView()
+                            case .failure(let error):
+                                print("Ошибка удаления задачи из Core Data: \(error.localizedDescription)")
+                            }
                         }
-                    }
-                }))
-                self?.navigationController?.present(alertController, animated: true)
+                    }))
+                    self?.navigationController?.present(alertController, animated: true)
+                }
             }
             return cell
         }

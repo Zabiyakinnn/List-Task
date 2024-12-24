@@ -243,16 +243,14 @@ extension TaskViewController: UITableViewDelegate, UITableViewDataSource {
             if let taskList = viewModel.task(at: indexPath) {
                 openCalendarView(at: indexPath, taskList: taskList)
                 
-                if let taskList = viewModel.task(at: indexPath) {
-                    viewModel.onNewDateTask = { [weak self] newDate in
-                        guard let self = self else { return }
-                        viewModel.saveNewDate(at: indexPath, newDate: newDate) { result in
-                            switch result {
-                            case .success():
-                                self.taskView.tableView.reloadRows(at: [indexPath], with: .none)
-                            case .failure(let error):
-                                print("Ошибка сохранения новой даты для задачи \(error.localizedDescription)")
-                            }
+                viewModel.onNewDateTask = { [weak self] newDate in
+                    guard let self = self else { return }
+                    viewModel.saveNewDate(at: indexPath, newDate: newDate) { result in
+                        switch result {
+                        case .success():
+                            self.taskView.tableView.reloadRows(at: [indexPath], with: .none)
+                        case .failure(let error):
+                            print("Ошибка сохранения новой даты для задачи \(error.localizedDescription)")
                         }
                     }
                 }

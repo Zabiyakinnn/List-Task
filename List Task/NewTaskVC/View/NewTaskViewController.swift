@@ -72,6 +72,7 @@ final class NewTaskViewController: UIViewController {
         newTaskView.saveButton.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
         newTaskView.buttonDate.addTarget(self, action: #selector(buttonDateTapped), for: .touchUpInside)
         newTaskView.notionTaskButton.addTarget(self, action: #selector(notionTaskButtonTapped), for: .touchUpInside)
+        newTaskView.priorityButton.addTarget(self, action: #selector(buttonPriorityTapped), for: .touchUpInside)
     }
     
     //    MARK: ButtonTapped
@@ -116,11 +117,55 @@ final class NewTaskViewController: UIViewController {
         }
     }
     
-//    закрыть календарь
-    @objc private func closeCalendar() {
-        if let calendarView = self.view.subviews.first(where: { $0.tag == 1001 }) as? CalendarPickerView,
-           let overlayView = self.view.subviews.first(where: { $0.tag == 999 }) {
-            calendarView.hide()
+    //    закрыть календарь
+        @objc private func closeCalendar() {
+            if let calendarView = self.view.subviews.first(where: { $0.tag == 1001 }) as? CalendarPickerView,
+               let overlayView = self.view.subviews.first(where: { $0.tag == 999 }) {
+                calendarView.hide()
+                
+                UIView.animate(withDuration: 0.3, animations: {
+                    overlayView.alpha = 0
+                }) { _ in
+                    overlayView.removeFromSuperview()
+                }
+            }
+            newTaskView.textView.becomeFirstResponder()
+        }
+    
+//    открыть view с выбором приоритета
+    @objc func buttonPriorityTapped() {
+        newTaskView.textView.endEditing(true)
+        
+        if let existingPriorityView = self.view.subviews.first(where: { $0.tag == 1002}) as? PriorityView {
+            existingPriorityView.hide {
+                self.view.subviews.first(where: { $0.tag == 888})?.removeFromSuperview()
+            }
+        } else {
+            // затемненный фон
+            let overlayView = UIView()
+            overlayView.backgroundColor = UIColor.black.withAlphaComponent(0.0)
+            overlayView.tag = 888 // Уникальный тег для последующего удаления
+            overlayView.frame = self.view.bounds
+            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(closePriorityView))
+            overlayView.addGestureRecognizer(tapGesture)
+            self.view.addSubview(overlayView)
+            
+            let priorityView = PriorityView()
+            priorityView.tag = 1002
+            priorityView.show(in: self.view)
+
+            
+            UIView.animate(withDuration: 0.3, animations: {
+                overlayView.backgroundColor = UIColor.black.withAlphaComponent(0.2)
+            })
+        }
+    }
+    
+//    закрыть PriorityView
+    @objc private func closePriorityView() {
+        if let priorityView = self.view.subviews.first(where: { $0.tag == 1002 }) as? PriorityView,
+           let overlayView = self.view.subviews.first(where: { $0.tag == 888 }) {
+            priorityView.hide()
             
             UIView.animate(withDuration: 0.3, animations: {
                 overlayView.alpha = 0
@@ -150,6 +195,11 @@ extension NewTaskViewController: UITextViewDelegate {
         if let calendarView = self.view.subviews.first(where: { $0.tag == 1001 }) as? CalendarPickerView,
            let overlayView = self.view.subviews.first(where: { $0.tag == 999 }) {
             calendarView.removeFromSuperview()
+            overlayView.removeFromSuperview()
+        }
+        if let priorityView = self.view.subviews.first(where: { $0.tag == 1002 }) as? PriorityView,
+           let overlayView = self.view.subviews.first(where: { $0.tag == 888 }) {
+            priorityView.removeFromSuperview()
             overlayView.removeFromSuperview()
         }
     }

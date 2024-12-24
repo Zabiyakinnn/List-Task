@@ -164,7 +164,7 @@ extension TaskCell {
     private func setupeLoyout() {
         prepereView()
         setupConstraint()
-        contentView.backgroundColor = UIColor(named: "TaskVCTableViewColor")
+        contentView.backgroundColor = .systemBackground
         
     }
     

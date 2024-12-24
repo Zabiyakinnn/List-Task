@@ -26,7 +26,7 @@ final class CalendarPickerView: UIView {
     
 //    настройка календаря
     private func setupCalendar() {
-        backgroundColor = UIColor(named: "ColorCalendar")
+        backgroundColor = UIColor.systemBackground
         layer.cornerRadius = 20
         
         calendar.scrollDirection = .horizontal

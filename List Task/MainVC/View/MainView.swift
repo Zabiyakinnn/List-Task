@@ -85,7 +85,8 @@ final class MainView: UIView {
     
 //    MARK: - SetupLayout
     private func setupLoyout() {
-        backgroundColor = UIColor(named: "ColorViewBlackAndWhite")
+//        backgroundColor = UIColor(named: "ColorViewBlackAndWhite")
+        backgroundColor = .systemBackground
         
         addSubview(collectionView)
         addSubview(labelDayWeek)

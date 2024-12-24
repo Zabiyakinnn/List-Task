@@ -44,7 +44,7 @@ final class TaskView: UIView {
     //     tableCell
     lazy var tableView: UITableView = {
         let tableView = UITableView(frame: CGRect.zero, style: .plain)
-        tableView.backgroundColor = UIColor(named: "TaskVCTableViewColor")
+        tableView.backgroundColor = UIColor.systemBackground
         tableView.separatorColor = .gray
         tableView.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
         tableView.register(TaskCell.self, forCellReuseIdentifier: "taskCell")
@@ -88,7 +88,8 @@ final class TaskView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = UIColor(named: "TaskVCTableViewColor")
+//        backgroundColor = UIColor(named: "TaskVCTableViewColor")
+        backgroundColor = .systemBackground
 
         setupLoyout()
     }
