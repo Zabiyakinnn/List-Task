@@ -38,9 +38,18 @@ final class PriorityViewCell: UITableViewCell {
         imageView.image = UIImage(systemName: "app")?.withRenderingMode(.alwaysTemplate)
         return imageView
     }()
+    
+//    галочка выбранной ячейки с приоритетом
+    lazy var checkmarkImageView: UIImageView = {
+       let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
+        imageView.image = UIImage(systemName: "checkmark")?.withRenderingMode(.alwaysTemplate)
+        imageView.tintColor = .systemGreen
+        return imageView
+    }()
 }
 
-//MARK: - SetupeLoyout
+//MARK: - SetupLoyout
 extension PriorityViewCell {
     private func setupLoyout() {
         prepereView()
@@ -50,6 +59,7 @@ extension PriorityViewCell {
     private func prepereView() {
         addSubview(priorityLabel)
         addSubview(iconPriority)
+        addSubview(checkmarkImageView)
     }
     
     private func setupConstraint() {
@@ -59,7 +69,11 @@ extension PriorityViewCell {
         }
         iconPriority.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
-            make.left.equalTo(contentView.snp.left).inset(35)
+            make.left.equalTo(contentView.snp.left).inset(25)
+        }
+        checkmarkImageView.snp.makeConstraints { make in
+            make.centerY.equalToSuperview()
+            make.right.equalTo(contentView.snp.right).offset(-25)
         }
     }
 }

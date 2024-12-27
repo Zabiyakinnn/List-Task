@@ -136,7 +136,6 @@ final class TaskViewController: UIViewController, NSFetchedResultsControllerDele
             
             if let selectedDate = taskList?.date {
                 calendarView.calendar.select(selectedDate)
-//                calendarView.calendar.appearance.selectionColor = .green
             } else {
                 print("пустая дата")
             }
@@ -185,6 +184,7 @@ extension TaskViewController: UITableViewDelegate, UITableViewDataSource {
                 let cell = taskView.tableView.dequeueReusableCell(withIdentifier: taskCell, for: indexPath) as? TaskCell
                 
                 cell?.configure(taskList)
+                cell?.colorConditionButton(taskList: taskList)
                 cell?.onConditionButtonStatus = { [weak self] newStatus in
                     guard let self = self else { return }
                     viewModel.changeStatusButton(at: indexPath, to: newStatus) { result in

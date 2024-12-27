@@ -14,11 +14,12 @@ final class NewTaskViewModel {
     
     var selectedDate: Date? //выбранная дата
     var commentTask: String? //заметка к задаче
+    var priorityTask: Int? //приоритет для задачи
     
     var onError: ((String) -> Void)? // уведомление об ошибке
     var onTaskSaved: (() -> Void)? // уведомление об успешном сохранении
     var onDateUpdated: ((String) -> Void)? // уведомление об обновлении цвета кнопки (если есть комментарий)
-    var newTask: (() -> Void)? // уведолмние для taskViewController о сохранении новой задачи
+    var newTask: (() -> Void)? // уведомление для taskViewController о сохранении новой задачи
     
     init(taskProvider: NewTaskProvider, nameGroup: NameGroup) {
         self.taskProvider = taskProvider
@@ -37,6 +38,7 @@ final class NewTaskViewModel {
             date: selectedDate,
             notionTask: commentTask,
             group: nameGroup,
+            priority: priorityTask,
             statusTask: false) { [weak self] result in
                 guard let self = self else { return }
                 switch result {

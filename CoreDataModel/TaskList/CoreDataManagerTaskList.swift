@@ -39,14 +39,21 @@ final class CoreDataManagerTaskList {
     }
     
 //    сохранение зедачи в CoreData
-    func saveTaskCoreData(nameTask: String, date: Date?, notionTask: String?, group: NameGroup?, completion: @escaping(Result<Void, Error>) -> Void) {
+    func saveTaskCoreData(
+        nameTask: String,
+        date: Date?,
+        notionTask: String?,
+        priority: Int?,
+        group: NameGroup?,
+        completion: @escaping(Result<Void, Error>) -> Void) {
         let task = TaskList(context: context)
         
-        task.nameTask = nameTask
-        task.date = date
-        task.group = group
-        task.notionTask = notionTask
-        group?.addToTasks(task)
+            task.nameTask = nameTask
+            task.date = date
+            task.group = group
+            task.notionTask = notionTask
+            task.priority = Int16(priority ?? 0)
+            group?.addToTasks(task)
         
         do {
             try context.save()
@@ -54,6 +61,7 @@ final class CoreDataManagerTaskList {
         } catch {
             completion(.failure((error)))
         }
+            print(priority ?? 25)
     }
     
 //    удаление задачи из CoreData

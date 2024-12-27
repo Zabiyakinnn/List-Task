@@ -53,8 +53,8 @@ final class TaskCell: UITableViewCell {
     private lazy var conditionButton: UIButton = {
         let button = UIButton(type: .custom)
         button.setImage(UIImage(systemName: "app"), for: .normal)
-        button.setImage(UIImage(systemName: "xmark.app"), for: .selected)
-        button.imageView?.layer.transform = CATransform3DMakeScale(1.3, 1.3, 1.3)
+        button.setImage(UIImage(systemName: "checkmark"), for: .selected)
+        button.imageView?.layer.transform = CATransform3DMakeScale(1.1, 1.1, 1.1)
         button.imageView?.contentMode = .scaleAspectFit
         button.addTarget(self, action: #selector(conditionButtonTapped), for: .touchUpInside)
         return button
@@ -79,7 +79,6 @@ final class TaskCell: UITableViewCell {
             iconNotionTask.removeFromSuperview()
         }
         
-        updateConditionButtonApperance()
         updateTextTask(isCompleted: taskList.completed)
         
         formatter.locale = Locale(identifier: "ru_RU")
@@ -89,12 +88,21 @@ final class TaskCell: UITableViewCell {
         remakeConstraints()
     }
     
-//    настройка цвета кнопки в зависимости от состояния
-    private func updateConditionButtonApperance() {
+//    изменение цвета кнопки 
+        func colorConditionButton(taskList: TaskList) {
         if conditionButton.isSelected {
-            conditionButton.tintColor = UIColor.systemRed
+            conditionButton.tintColor = UIColor.systemGreen // цвет кнопки в зависимисти от состояни задачи (выполненно/ не выполненно)
         } else {
-            conditionButton.tintColor = UIColor(red: 0.32, green: 0.32, blue: 0.32, alpha: 1.00)
+            switch taskList.priority { // цвет кнопки в зависимости от выставленного приоритета
+            case 1:
+                conditionButton.tintColor = UIColor.systemGreen
+            case 2:
+                conditionButton.tintColor = UIColor.systemOrange
+            case 3:
+                conditionButton.tintColor = UIColor.systemRed
+            default:
+                conditionButton.tintColor = UIColor(named: "ButtonIconeImage")
+            }
         }
     }
     

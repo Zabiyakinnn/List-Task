@@ -21,8 +21,14 @@ final class PriorityView: UIView {
         .systemRed // "Высокий"
     ]
     
+    private var selectedIndexPath: IndexPath?
+    var initialSelectedPriority: Int = 0 //по умолчанию - первый приоритет
+    var onPrioritySelected: ((Int) -> Void)? // уведомление о выбранно приоритете
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
+        selectedIndexPath = IndexPath(row: initialSelectedPriority, section: 0)
+
         setupView()
         setupConstrain()
         self.backgroundColor = .systemBackground
@@ -65,6 +71,8 @@ final class PriorityView: UIView {
                 make.height.equalTo(380)
                 make.bottom.equalToSuperview()
             }
+            
+            selectedIndexPath = IndexPath(row: initialSelectedPriority, section: 0)
             
             UIView.animate(withDuration: animationDuration, animations: {
                 self.alpha = 1
@@ -121,8 +129,30 @@ extension PriorityView: UITableViewDelegate, UITableViewDataSource {
         
         cell?.priorityLabel.text = priority
         cell?.iconPriority.tintColor = priorityColor
+        cell?.checkmarkImageView.isHidden = indexPath != selectedIndexPath
 
         return cell ?? UITableViewCell()
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        сбросить предъидущий выбора
+        if let previousIndexPath = selectedIndexPath {
+            if let previousCell = tableView.cellForRow(at: previousIndexPath) as? PriorityViewCell {
+                previousCell.checkmarkImageView.isHidden = true
+            }
+        }
+        
+//        устанавливаем новый выбор
+        selectedIndexPath = indexPath
+        if let currentCell = tableView.cellForRow(at: indexPath) as? PriorityViewCell {
+            currentCell.checkmarkImageView.isHidden = false
+        }
+        
+        hide() // зкрываем view после выбора выбора приоритета
+        
+        onPrioritySelected?(indexPath.row)
+        
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

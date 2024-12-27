@@ -107,10 +107,8 @@ final class NewTaskViewController: UIViewController {
             
             if let selectedDate = viewModel.selectedDate {
                 calendarView.calendar.select(selectedDate)
-
             }
 
-            
             UIView.animate(withDuration: 0.3, animations: {
                 overlayView.backgroundColor = UIColor.black.withAlphaComponent(0.2)
             })
@@ -152,9 +150,39 @@ final class NewTaskViewController: UIViewController {
             
             let priorityView = PriorityView()
             priorityView.tag = 1002
+            priorityView.initialSelectedPriority = viewModel.priorityTask ?? 0
+            priorityView.show(in: self.view)
+            
+            priorityView.initialSelectedPriority = viewModel.priorityTask ?? 0
             priorityView.show(in: self.view)
 
-            
+            priorityView.onPrioritySelected = { [weak self] index in
+                guard let self = self else { return }
+                self.viewModel.priorityTask = index
+//                print("Выбранный приоритет - \(index)")
+                
+                switch index {
+                case 1:
+                    newTaskView.priorityButton.tintColor = UIColor.systemGreen
+                case 2:
+                    newTaskView.priorityButton.tintColor = UIColor.systemOrange
+                case 3:
+                    newTaskView.priorityButton.tintColor = UIColor.systemRed
+                default:
+                    newTaskView.priorityButton.tintColor = UIColor(named: "ButtonIconeImage")
+                }
+                
+                // Убираем затемнение и PriorityView
+                if let overlayView = self.view.subviews.first(where: { $0.tag == 888 }) {
+                    UIView.animate(withDuration: 0.3, animations: {
+                        overlayView.alpha = 0
+                    }) { _ in
+                        overlayView.removeFromSuperview()
+                    }
+                }
+                self.newTaskView.textView.becomeFirstResponder()
+            }
+                        
             UIView.animate(withDuration: 0.3, animations: {
                 overlayView.backgroundColor = UIColor.black.withAlphaComponent(0.2)
             })
@@ -189,14 +217,16 @@ final class NewTaskViewController: UIViewController {
 }
 
 //MARK: - UITextViewDelegate
-//скрыть календарь при открытой клавитуре в textView
+//скрыть view при открытой клавитуре textView
 extension NewTaskViewController: UITextViewDelegate {
+//    календарь
     func textViewDidBeginEditing(_ textView: UITextView) {
         if let calendarView = self.view.subviews.first(where: { $0.tag == 1001 }) as? CalendarPickerView,
            let overlayView = self.view.subviews.first(where: { $0.tag == 999 }) {
             calendarView.removeFromSuperview()
             overlayView.removeFromSuperview()
         }
+//        view с выбором приоритета
         if let priorityView = self.view.subviews.first(where: { $0.tag == 1002 }) as? PriorityView,
            let overlayView = self.view.subviews.first(where: { $0.tag == 888 }) {
             priorityView.removeFromSuperview()
