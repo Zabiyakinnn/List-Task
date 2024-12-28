@@ -152,9 +152,6 @@ final class NewTaskViewController: UIViewController {
             priorityView.tag = 1002
             priorityView.initialSelectedPriority = viewModel.priorityTask ?? 0
             priorityView.show(in: self.view)
-            
-            priorityView.initialSelectedPriority = viewModel.priorityTask ?? 0
-            priorityView.show(in: self.view)
 
             priorityView.onPrioritySelected = { [weak self] index in
                 guard let self = self else { return }

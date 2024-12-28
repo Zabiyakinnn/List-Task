@@ -17,6 +17,7 @@ final class TaskViewModel {
     var onTaskUpdated: (() -> Void)? //уведомлние об изменении списка задач
     var onTaskDelete: (() -> Void)? //уведомление об удалении задачи
     var onNewDateTask: ((Date) -> Void)? //уведоление о новой дате для задачи
+    var onNewPriorityTask: ((Int) -> Void)? //уведомление об изменении приоритета задачи
     
     init(taskDataProvider: TaskDataProvider, nameGroup: NameGroup) {
         self.taskDataProvider = taskDataProvider
@@ -116,6 +117,33 @@ final class TaskViewModel {
             return
         }
         saveCommentCoreData(nameTask: task.nameTask ?? "", comment: newComment, for: indexPath, completion: completion)
+    }
+    
+//    MARK: - Приоритет для задачи
+//    сохранение нового выбранного приоритета для задачи
+    private func savePriorityTaskCoreDate(nameTask: String, priority: Int16, for indexPath: IndexPath, completion: @escaping(Result<Void, Error>) -> Void) {
+        taskDataProvider.savePriorityTask(
+            nameTask: nameTask,
+            priority: priority,
+            for: indexPath) { [weak self] result in
+                guard let self = self else { return }
+                switch result {
+                case .success():
+                    reloadTask()
+                    self.onNewPriorityTask?(Int(priority))
+                    completion(.success(()))
+                case .failure(let error):
+                    completion(.failure((error)))
+                }
+            }
+    }
+//    обновление приоритета во viewController
+    func savePriorityTask(at indexPath: IndexPath, newPriority: Int, completion: @escaping(Result<Void, Error>) -> Void) {
+        guard let task = task(at: indexPath) else {
+            completion(.failure(NSError(domain: "Задача не найденна", code: 404)))
+            return
+        }
+        savePriorityTaskCoreDate(nameTask: task.nameTask ?? "", priority: Int16(newPriority), for: indexPath, completion: completion)
     }
     
 //    MARK: Date Callendar LeadingSwipe

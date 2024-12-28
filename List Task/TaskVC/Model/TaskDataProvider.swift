@@ -58,6 +58,15 @@ final class TaskDataProvider {
             completion: completion)
     }
     
+//    сохранение изменного приоритета задачи
+    func savePriorityTask(nameTask: String, priority: Int16, for indexPath: IndexPath, completion: @escaping (Result<Void, Error>) -> Void) {
+        CoreDataManagerTaskList.shared.savePriotyTask(
+            nameTask: nameTask,
+            priority: priority,
+            for: indexPath,
+            completion: completion)
+    }
+    
 //    сохранение изменной даты для задачи
     func saveNewDateTask(nameTask: String, newDate: Date?, for indexPath: IndexPath, compltion: @escaping (Result<Void, Error>) -> Void) {
         CoreDataManagerTaskList.shared.saveNewDateTask(

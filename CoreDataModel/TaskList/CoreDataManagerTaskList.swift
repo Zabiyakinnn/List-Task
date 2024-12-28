@@ -96,13 +96,33 @@ final class CoreDataManagerTaskList {
     }
     
 //    изменение коментария для задачи
-    func saveComment(nameTask: String, comment: String?, for indexPath: IndexPath, completion: @escaping(Result<Void, Error>) -> Void ) {
+    func saveComment(nameTask: String, comment: String?, for indexPath: IndexPath, completion: @escaping(Result<Void, Error>) -> Void) {
         let fetchRequest: NSFetchRequest<TaskList> = TaskList.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "nameTask == %@", nameTask)
         do {
             let result = try context.fetch(fetchRequest)
             if let commentTaskToUpdate = result.first {
                 commentTaskToUpdate.notionTask = comment
+                try context.save()
+                completion(.success(()))
+            } else {
+                let error = NSError(domain: "", code: 404, userInfo: [NSLocalizedDescriptionKey: "Задача не найденна"])
+                completion(.failure((error)))
+            }
+        } catch {
+            completion(.failure((error)))
+        }
+    }
+    
+//    изменение приоритета для задачи
+    func savePriotyTask(nameTask: String, priority: Int16, for indexPath: IndexPath, completion: @escaping(Result<Void, Error>) -> Void) {
+        let fetchRequest: NSFetchRequest<TaskList> = TaskList.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "nameTask == %@", nameTask)
+
+        do {
+            let result = try context.fetch(fetchRequest)
+            if let priorityTaskUpdate = result.first {
+                priorityTaskUpdate.priority = priority
                 try context.save()
                 completion(.success(()))
             } else {

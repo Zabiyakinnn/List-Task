@@ -14,6 +14,7 @@ final class TaskViewController: UIViewController, NSFetchedResultsControllerDele
     
     private var viewModel: TaskViewModel
     private var taskView = TaskView()
+    let priorityView = PriorityView()
     let taskCell = "taskCell"
     
     var newTask: (() -> Void)? // передача в mainVC
@@ -146,6 +147,37 @@ final class TaskViewController: UIViewController, NSFetchedResultsControllerDele
         }
     }
     
+    //        открыть view с приоритетом
+    func openPriorityView(at indexPath: IndexPath, taskList: TaskList?) {
+        if let existingPriorityView = self.view.subviews.first(where: { $0.tag == 1002}) as? PriorityView {
+            existingPriorityView.hide {
+                self.view.subviews.first(where: { $0.tag == 888})?.removeFromSuperview()
+            }
+        } else {
+            // затемненный фон
+            let overlayView = UIView()
+            overlayView.backgroundColor = UIColor.black.withAlphaComponent(0.0)
+            overlayView.tag = 888 // Уникальный тег для последующего удаления
+            overlayView.frame = self.view.bounds
+            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(closePriorityView))
+            overlayView.addGestureRecognizer(tapGesture)
+            self.view.addSubview(overlayView)
+            
+            priorityView.tag = 1002
+            priorityView.initialSelectedPriority = Int(taskList?.priority ?? 0) // передача выбранного ранее приоритета
+//            priorityView.onPrioritySelected = { [weak self] index in
+//                guard let self = self else { return }
+//                taskList?.priority = Int16(index)
+//                print("Выбранный приоритет \(index)")
+//            }
+            priorityView.show(in: self.view)
+            
+            UIView.animate(withDuration: 0.3, animations: {
+                overlayView.backgroundColor = UIColor.black.withAlphaComponent(0.2)
+            })
+        }
+    }
+    
 //    закрыть календарь
     @objc private func closeCalendar() {
         if let calendarView = self.view.subviews.first(where: { $0.tag == 1001 }) as? CalendarPickerView,
@@ -159,6 +191,20 @@ final class TaskViewController: UIViewController, NSFetchedResultsControllerDele
             }
         }
     }
+    
+    //    закрыть PriorityView
+        @objc private func closePriorityView() {
+            if let priorityView = self.view.subviews.first(where: { $0.tag == 1002 }) as? PriorityView,
+               let overlayView = self.view.subviews.first(where: { $0.tag == 888 }) {
+                priorityView.hide()
+                
+                UIView.animate(withDuration: 0.3, animations: {
+                    overlayView.alpha = 0
+                }) { _ in
+                    overlayView.removeFromSuperview()
+                }
+            }
+        }
 }
 
 //MARK: - UITableViewDelegate, UITableViewDataSource
@@ -260,6 +306,30 @@ extension TaskViewController: UITableViewDelegate, UITableViewDataSource {
         calendarAction.image = UIImage(systemName: "calendar")
         calendarAction.backgroundColor = UIColor(named: "ColorSwipeButtonCallendar")
         
+//        view с выбором приоритета
+        let priprityViewAction = UIContextualAction(style: .normal, title: nil) { [weak self] action, view, completion in
+            guard let self = self else { return }
+            if let taskList = viewModel.task(at: indexPath) {
+                openPriorityView(at: indexPath, taskList: taskList)
+                
+                priorityView.onPrioritySelected = { [weak self] index in
+                    guard let self = self else { return }
+                    viewModel.savePriorityTask(at: indexPath, newPriority: index) { result in
+                        switch result {
+                        case .success():
+                            self.taskView.tableView.reloadRows(at: [indexPath], with: .none)
+                        case .failure(let error):
+                            print("Ошибка сохранение нового приоритета для задачи \(error.localizedDescription)")
+                        }
+                        self.closePriorityView()
+                    }
+                }
+            }
+            completion(true)
+        }
+        priprityViewAction.image = UIImage(systemName: "flag")
+        priprityViewAction.backgroundColor = UIColor(named: "ColorSwipeButtonPriorityView")
+        
         //        комментарий
         let commentTaskAction = UIContextualAction(style: .normal, title: nil) { [weak self] action, view, completion in
             guard let self = self else { return }
@@ -284,7 +354,7 @@ extension TaskViewController: UITableViewDelegate, UITableViewDataSource {
         commentTaskAction.image = UIImage(systemName: "list.clipboard")
         commentTaskAction.backgroundColor = UIColor(named: "ColorSwipeButtonComment")
         
-        let configuration = UISwipeActionsConfiguration(actions: [calendarAction, commentTaskAction])
+        let configuration = UISwipeActionsConfiguration(actions: [calendarAction, commentTaskAction, priprityViewAction])
         configuration.performsFirstActionWithFullSwipe = false
         return configuration
     }
