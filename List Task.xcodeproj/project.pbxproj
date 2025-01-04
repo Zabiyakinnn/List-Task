@@ -39,6 +39,9 @@
 		C2CB9FCE2D01C26F006E7DB4 /* EmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2CB9FCD2D01C26F006E7DB4 /* EmptyView.swift */; };
 		C2D378982D1980C400CB1026 /* PriorityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D378972D1980C400CB1026 /* PriorityView.swift */; };
 		C2D3789A2D19935300CB1026 /* PriorityViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D378992D19935300CB1026 /* PriorityViewCell.swift */; };
+		C2D3789D2D29381600CB1026 /* SettingGroupTaskVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D3789C2D29381600CB1026 /* SettingGroupTaskVC.swift */; };
+		C2D3789F2D293C9800CB1026 /* SettingGroupTaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D3789E2D293C9800CB1026 /* SettingGroupTaskView.swift */; };
+		C2D378A12D2975B000CB1026 /* ColorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D378A02D2975B000CB1026 /* ColorCell.swift */; };
 		C2E2F8032CF0CCCE00260CE7 /* CoreDataManagerNameGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2E2F8022CF0CCCE00260CE7 /* CoreDataManagerNameGroup.swift */; };
 		C2E6771F2D0C6384006F7C79 /* NewTaskViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2E6771E2D0C6384006F7C79 /* NewTaskViewModel.swift */; };
 		C2E677222D0D6DE4006F7C79 /* TaskViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2E677212D0D6DE4006F7C79 /* TaskViewModel.swift */; };
@@ -80,6 +83,9 @@
 		C2CB9FCD2D01C26F006E7DB4 /* EmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyView.swift; sourceTree = "<group>"; };
 		C2D378972D1980C400CB1026 /* PriorityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriorityView.swift; sourceTree = "<group>"; };
 		C2D378992D19935300CB1026 /* PriorityViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriorityViewCell.swift; sourceTree = "<group>"; };
+		C2D3789C2D29381600CB1026 /* SettingGroupTaskVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingGroupTaskVC.swift; sourceTree = "<group>"; };
+		C2D3789E2D293C9800CB1026 /* SettingGroupTaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingGroupTaskView.swift; sourceTree = "<group>"; };
+		C2D378A02D2975B000CB1026 /* ColorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorCell.swift; sourceTree = "<group>"; };
 		C2E2F8022CF0CCCE00260CE7 /* CoreDataManagerNameGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManagerNameGroup.swift; sourceTree = "<group>"; };
 		C2E6771E2D0C6384006F7C79 /* NewTaskViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTaskViewModel.swift; sourceTree = "<group>"; };
 		C2E677212D0D6DE4006F7C79 /* TaskViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskViewModel.swift; sourceTree = "<group>"; };
@@ -219,6 +225,7 @@
 		C2C6CF662CD3A6BA00954F4A /* List Task */ = {
 			isa = PBXGroup;
 			children = (
+				C2D3789B2D2937F900CB1026 /* SettingGroupTask */,
 				C2C6CF7B2CD3AA5100954F4A /* MainVC */,
 				C2C6CF852CD4C4DD00954F4A /* NewGroupTaskVC */,
 				C262BC352CD9262B0046794A /* TaskVC */,
@@ -350,6 +357,16 @@
 				C2D378992D19935300CB1026 /* PriorityViewCell.swift */,
 			);
 			path = PriorityView;
+			sourceTree = "<group>";
+		};
+		C2D3789B2D2937F900CB1026 /* SettingGroupTask */ = {
+			isa = PBXGroup;
+			children = (
+				C2D3789C2D29381600CB1026 /* SettingGroupTaskVC.swift */,
+				C2D3789E2D293C9800CB1026 /* SettingGroupTaskView.swift */,
+				C2D378A02D2975B000CB1026 /* ColorCell.swift */,
+			);
+			path = SettingGroupTask;
 			sourceTree = "<group>";
 		};
 		C2E6771D2D0C6366006F7C79 /* ViewModel */ = {
@@ -500,6 +517,7 @@
 				C2D3789A2D19935300CB1026 /* PriorityViewCell.swift in Sources */,
 				C2C6CF682CD3A6BA00954F4A /* AppDelegate.swift in Sources */,
 				C2B3CBB22D09E2B600649379 /* NewCommentTaskViewController.swift in Sources */,
+				C2D378A12D2975B000CB1026 /* ColorCell.swift in Sources */,
 				C262BC342CD915630046794A /* NotificationUtils.swift in Sources */,
 				C2C6CF8D2CD4F1F900954F4A /* ListTask.xcdatamodeld in Sources */,
 				C2CB9FCE2D01C26F006E7DB4 /* EmptyView.swift in Sources */,
@@ -509,7 +527,9 @@
 				C262BC2F2CD654AA0046794A /* NameGroup+CoreDataProperties.swift in Sources */,
 				C226DFE82CF4B67700927856 /* TaskCell.swift in Sources */,
 				C2B3CBB62D09E2F300649379 /* NewCommentTaskView.swift in Sources */,
+				C2D3789D2D29381600CB1026 /* SettingGroupTaskVC.swift in Sources */,
 				C262BC372CD926470046794A /* TaskViewController.swift in Sources */,
+				C2D3789F2D293C9800CB1026 /* SettingGroupTaskView.swift in Sources */,
 				C2CB9FB92CF9DCEE006E7DB4 /* NewGroupView.swift in Sources */,
 				C2C6CF802CD3C1D300954F4A /* SettingViewController.swift in Sources */,
 				C2D378982D1980C400CB1026 /* PriorityView.swift in Sources */,

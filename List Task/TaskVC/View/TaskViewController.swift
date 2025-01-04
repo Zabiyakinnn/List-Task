@@ -109,8 +109,10 @@ final class TaskViewController: UIViewController, NSFetchedResultsControllerDele
         present(newTaskVC, animated: true)
     }
     
+//    открыть контроллер с настройками группы задач
     @objc func settingListButtonTapped() {
-        
+        let settingGroupTaskVC = SettingGroupTaskVC()
+        present(settingGroupTaskVC, animated: true)
     }
     
     //    открыть календарь и выбрать дату
@@ -165,11 +167,6 @@ final class TaskViewController: UIViewController, NSFetchedResultsControllerDele
             
             priorityView.tag = 1002
             priorityView.initialSelectedPriority = Int(taskList?.priority ?? 0) // передача выбранного ранее приоритета
-//            priorityView.onPrioritySelected = { [weak self] index in
-//                guard let self = self else { return }
-//                taskList?.priority = Int16(index)
-//                print("Выбранный приоритет \(index)")
-//            }
             priorityView.show(in: self.view)
             
             UIView.animate(withDuration: 0.3, animations: {
