@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class IconCollectionViewCell: UICollectionViewCell {
+final class IconCollectionViewCell: UICollectionViewCell {
     
 //    UIImageView icon
     private lazy var iconImageView: UIImageView = {
@@ -41,6 +41,7 @@ class IconCollectionViewCell: UICollectionViewCell {
 //    вид ячейки и изображение значка
     func configure(with image: UIImage, isSelected: Bool) {
         iconImageView.image = image
+        contentView.layer.borderWidth = isSelected ? 2 : 0
         iconImageView.tintColor = isSelected ? UIColor.systemYellow : UIColor.darkGray
     }
 }

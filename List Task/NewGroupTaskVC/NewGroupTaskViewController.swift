@@ -19,17 +19,8 @@ final class NewGroupTaskViewController: UIViewController, UITextViewDelegate {
     var isSelectedIndexPath: IndexPath? // отслеживать выбранный индекс
     
     //    массив с иконками для collectionView
-    let iconImageArray: [UIImage] = [
-        UIImage(systemName: "figure.highintensity.intervaltraining")!,
-        UIImage(systemName: "laptopcomputer.and.iphone")!,
-        UIImage(systemName: "graduationcap")!,
-        UIImage(systemName: "person")!,
-        UIImage(systemName: "list.bullet.clipboard")!,
-        UIImage(systemName: "star")!,
-        UIImage(systemName: "heart")!,
-        UIImage(systemName: "tag")!
-    ]
-    
+    let icons = IconImageArray.shared.icons
+
     //    MARK: - LoadView
     override func loadView() {
         self.view = newGroupView
@@ -62,7 +53,7 @@ final class NewGroupTaskViewController: UIViewController, UITextViewDelegate {
         
         let selectedIconData: Data? = {
             if let selectedIndexPath = isSelectedIndexPath {
-                let selectedImage = iconImageArray[selectedIndexPath.row]
+                let selectedImage = icons[selectedIndexPath.row]
                 return selectedImage.pngData()
             }
             return nil
@@ -76,7 +67,8 @@ final class NewGroupTaskViewController: UIViewController, UITextViewDelegate {
         CoreDataManagerNameGroup.shared.saveNewGroupCoreData(
             name: groupName,
             iconNameGroup: selectedIconData,
-            existingGroup: nameGroup) { [weak self] result in
+            existingGroup: nameGroup,
+            iconColor: 33) { [weak self] result in
                 guard let self = self else { return }
                 switch result {
                 case .success():
@@ -93,12 +85,12 @@ final class NewGroupTaskViewController: UIViewController, UITextViewDelegate {
 extension NewGroupTaskViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return iconImageArray.count
+        return icons.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = newGroupView.collectionView.dequeueReusableCell(withReuseIdentifier: iconCollectionViewCell, for: indexPath) as! IconCollectionViewCell
-        let image = iconImageArray[indexPath.item]
+        let image = icons[indexPath.item]
         let isSelect = indexPath == isSelectedIndexPath
         cell.configure(with: image, isSelected: isSelect)
         return cell

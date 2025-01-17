@@ -38,7 +38,15 @@ final class CoreDataManagerTaskList {
         return fetchResultController
     }
     
-//    сохранение зедачи в CoreData
+    
+    /// сохранение зедачи в CoreData
+    /// - Parameters:
+    ///   - nameTask: имя задачи
+    ///   - date: дата
+    ///   - notionTask: заметка
+    ///   - priority: приоритет
+    ///   - group: группа
+    ///   - completion: completion
     func saveTaskCoreData(
         nameTask: String,
         date: Date?,
@@ -61,10 +69,12 @@ final class CoreDataManagerTaskList {
         } catch {
             completion(.failure((error)))
         }
-            print(priority ?? 25)
     }
     
-//    удаление задачи из CoreData
+    /// удаление задачи из CoreData
+    /// - Parameters:
+    ///   - taskList: задача
+    ///   - completion: compltion
     func deleteTaskCoreData(taskList: TaskList, completion: @escaping (Result<Void, Error>) -> Void) {
         context.delete(taskList) // Удаляем объект контекста
         
@@ -75,8 +85,12 @@ final class CoreDataManagerTaskList {
             completion(.failure(error)) 
         }
     }
-    
-//    изменение статуса задачи выполненно/не выполненно
+        
+    /// изменение статуса задачи выполненно/не выполненно
+    /// - Parameters:
+    ///   - nameTask: задача
+    ///   - newStatus: новый статус задачи
+    ///   - completion: completion
     func updateTaskStatus(nameTask: String, newStatus: Bool, completion: @escaping ((Result<Void, Error>) -> Void)) {
         let fetchRequest: NSFetchRequest<TaskList> = TaskList.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "nameTask == %@", nameTask)
@@ -94,8 +108,13 @@ final class CoreDataManagerTaskList {
             completion(.failure((error)))
         }
     }
-    
-//    изменение коментария для задачи
+        
+    /// изменение коментария для задачи
+    /// - Parameters:
+    ///   - nameTask: задача
+    ///   - comment: комментарий
+    ///   - indexPath: indexPath
+    ///   - completion: completion
     func saveComment(nameTask: String, comment: String?, for indexPath: IndexPath, completion: @escaping(Result<Void, Error>) -> Void) {
         let fetchRequest: NSFetchRequest<TaskList> = TaskList.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "nameTask == %@", nameTask)
@@ -113,8 +132,13 @@ final class CoreDataManagerTaskList {
             completion(.failure((error)))
         }
     }
-    
-//    изменение приоритета для задачи
+        
+    /// изменение приоритета для задачи
+    /// - Parameters:
+    ///   - nameTask: задача
+    ///   - priority: приоритет задачи
+    ///   - indexPath: indexPath
+    ///   - completion: completion
     func savePriotyTask(nameTask: String, priority: Int16, for indexPath: IndexPath, completion: @escaping(Result<Void, Error>) -> Void) {
         let fetchRequest: NSFetchRequest<TaskList> = TaskList.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "nameTask == %@", nameTask)
@@ -133,8 +157,13 @@ final class CoreDataManagerTaskList {
             completion(.failure((error)))
         }
     }
-    
-//    изменение даты для задачи
+        
+    /// изменение даты для задачи
+    /// - Parameters:
+    ///   - nameTask: имя задачи
+    ///   - newDate: новая дата задачи
+    ///   - indexPath: indexPath
+    ///   - completion: completion
     func saveNewDateTask(nameTask: String, newDate: Date?, for indexPath: IndexPath, completion: @escaping(Result<Void, Error>) -> Void) {
         let fetchRequest: NSFetchRequest<TaskList> = TaskList.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "nameTask == %@", nameTask)

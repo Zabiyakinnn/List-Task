@@ -48,8 +48,13 @@ final class TaskDataProvider {
             newStatus: newStatus,
             completion: completion)
     }
-    
-//    сохранения изменненого комментария задачи
+        
+    /// сохранение изменного коментария задчи
+    /// - Parameters:
+    ///   - nameTask: имя задачи
+    ///   - comment: коменнтарий для задачи
+    ///   - indexPath: indexPath
+    ///   - completion: completion
     func saveComment(nameTask: String, comment: String?, for indexPath: IndexPath, completion: @escaping (Result<Void, Error>) -> Void) {
         CoreDataManagerTaskList.shared.saveComment(
             nameTask: nameTask,
@@ -59,6 +64,13 @@ final class TaskDataProvider {
     }
     
 //    сохранение изменного приоритета задачи
+    
+    /// сохранение изменного приоритета для задачи
+    /// - Parameters:
+    ///   - nameTask: имя задачи
+    ///   - priority: приоритет
+    ///   - indexPath: indexPath
+    ///   - completion: completion
     func savePriorityTask(nameTask: String, priority: Int16, for indexPath: IndexPath, completion: @escaping (Result<Void, Error>) -> Void) {
         CoreDataManagerTaskList.shared.savePriotyTask(
             nameTask: nameTask,
@@ -68,6 +80,13 @@ final class TaskDataProvider {
     }
     
 //    сохранение изменной даты для задачи
+    
+    /// сохранение изменной даты для задачи
+    /// - Parameters:
+    ///   - nameTask: имя задачи
+    ///   - newDate: новая дата
+    ///   - indexPath: indexPath
+    ///   - compltion: completion
     func saveNewDateTask(nameTask: String, newDate: Date?, for indexPath: IndexPath, compltion: @escaping (Result<Void, Error>) -> Void) {
         CoreDataManagerTaskList.shared.saveNewDateTask(
             nameTask: nameTask,

@@ -26,6 +26,8 @@ final class NewTaskViewModel {
         self.nameGroup = nameGroup
     }
     
+//    var tasksDelegate: NewTaskDelegate?
+    
     //    сохранение задачи в CoreData
     func saveTask(taskText: String?) {
         guard let taskText = taskText, !taskText.isEmpty else {
@@ -73,3 +75,4 @@ final class NewTaskViewModel {
         onDateUpdated?(formatterDate)
     }
 }
+

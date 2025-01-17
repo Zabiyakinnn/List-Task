@@ -17,7 +17,8 @@ final class TaskViewController: UIViewController, NSFetchedResultsControllerDele
     let priorityView = PriorityView()
     let taskCell = "taskCell"
     
-    var newTask: (() -> Void)? // передача в mainVC
+    var newTask: (() -> Void)? // передача в mainVC уведомления о добавлении новой задачи
+    var onGroup: (() -> Void)? // передача  mainVC уведомлния об изменении параметров группы задач
     var deleteTask: (() -> Void)? // передача в mainVC о том что задача удаленна для обновления кол-ва задач в подгруппе
     
     //    MARK: - Init
@@ -76,12 +77,26 @@ final class TaskViewController: UIViewController, NSFetchedResultsControllerDele
         if let iconData = viewModel.nameGroup.iconNameGroup,
            let iconImage = UIImage(data: iconData)?.withRenderingMode(.alwaysTemplate) {
             taskView.iconImageView.image = iconImage
-            taskView.iconImageView.tintColor = UIColor(red: 0.32, green: 0.32, blue: 0.32, alpha: 1.00)
+            
+            let colorIndex = Int(viewModel.nameGroup.colorIcon)
+            //            если индекс находится в пределах массива
+            if colorIndex >= 0 && colorIndex < ColorPalette.colors.count {
+                let selectedColor = ColorPalette.colors[colorIndex]
+                applyColorToIcon(selectedColor)
+            } else {
+                //                индекс не валиден
+                applyColorToIcon(UIColor(named: "ButtonIconeImage") ?? .lightGray)
+            }
         }
         
         let isEmpty = viewModel.countTask() == 0
         taskView.tableView.isHidden = isEmpty
         taskView.emptyView.isHidden = !isEmpty
+    }
+    
+    //    применение цвета к иконке
+    func applyColorToIcon(_ color: UIColor) {
+        taskView.iconImageView.tintColor = color
     }
     
     private func setupButton() {
@@ -111,7 +126,17 @@ final class TaskViewController: UIViewController, NSFetchedResultsControllerDele
     
 //    открыть контроллер с настройками группы задач
     @objc func settingListButtonTapped() {
-        let settingGroupTaskVC = SettingGroupTaskVC()
+        let nameGroup = viewModel.nameGroup
+        let settingDataProvider = SettingDataProvider(group: nameGroup)
+        
+        let settingViewModel = SettingViewModel(settingDataProvider: settingDataProvider, nameGroup: nameGroup)
+        let settingGroupTaskVC = SettingGroupTaskVC(viewModel: settingViewModel)
+        settingGroupTaskVC.onGroupSaved = { [weak self] in
+            guard let self = self else { return }
+//            setupContentView()
+            self.onGroup?()
+            viewModel.reloadTask()
+        }
         present(settingGroupTaskVC, animated: true)
     }
     

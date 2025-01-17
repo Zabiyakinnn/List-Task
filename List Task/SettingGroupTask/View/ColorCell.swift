@@ -9,16 +9,26 @@ import UIKit
 
 final class ColorCell: UICollectionViewCell {
     
+//    цвет
     private lazy var colorView: UIView = {
         let view = UIView()
-        view.layer.cornerRadius = 28.5
+        view.layer.cornerRadius = 24
         view.layer.masksToBounds = true
         return view
+    }()
+    
+//    галочка выбранного цвета
+    private lazy var checkmarkImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(systemName: "checkmark")
+        imageView.tintColor = .white
+        return imageView
     }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         addSubview(colorView)
+        addSubview(checkmarkImageView)
         setupConstraint()
     }
     
@@ -28,14 +38,17 @@ final class ColorCell: UICollectionViewCell {
     
     private func setupConstraint() {
         colorView.snp.makeConstraints { make in
-            make.edges.equalToSuperview().inset(5)
+            make.height.width.equalTo(48)
+        }
+        checkmarkImageView.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+            make.height.width.equalTo(22)
         }
     }
     
     func configure(with color: UIColor, isSilected: Bool) {
         colorView.backgroundColor = color
-//        рамка
-        colorView.layer.borderWidth = isSilected ? 3 : 0
-        colorView.layer.borderColor = isSilected ? UIColor.black.cgColor : nil
+//        галочка выбранного цвета
+        checkmarkImageView.isHidden = !isSilected
     }
 }

@@ -36,12 +36,19 @@ final class CoreDataManagerNameGroup {
     }()
     
 //    MARK: Method
-//    сохранение группы для задач в Core Data
-    func saveNewGroupCoreData(name: String, iconNameGroup: Data?, existingGroup: NameGroup?, completion: @escaping (Result<Void, Error>) -> Void) {
+    
+    /// сохранение группы для задач в Core Data
+    /// - Parameters:
+    ///   - name: имя
+    ///   - iconNameGroup: иконка для задачи
+    ///   - existingGroup: существующая группа
+    ///   - completion: completion
+    func saveNewGroupCoreData(name: String, iconNameGroup: Data?, existingGroup: NameGroup?, iconColor: Int64, completion: @escaping (Result<Void, Error>) -> Void) {
         do {
             let group = existingGroup ?? NameGroup(context: context)
             group.name = name
             group.iconNameGroup = iconNameGroup
+            group.colorIcon = iconColor
             
             try context.save()
             completion(.success(()))
@@ -49,8 +56,11 @@ final class CoreDataManagerNameGroup {
             completion(.failure((error)))
         }
     }
-    
-//    удаление группы задач из Core Data
+        
+    /// удаление группы задач из Core Data
+    /// - Parameters:
+    ///   - existingGroup: существующая группа
+    ///   - completion: completion
     func deleteGroupTask(existingGroup: NameGroup?, completion: @escaping (Result<Void, Error>) -> Void) {
         let fetchRequest: NSFetchRequest<NameGroup> = NameGroup.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "name == %@", existingGroup?.name ?? "")
@@ -62,6 +72,33 @@ final class CoreDataManagerNameGroup {
                 completion(.success(()))
             } else {
                 print("Задача не найденна в CoreData")
+            }
+        } catch {
+            completion(.failure((error)))
+        }
+    }
+    
+    
+    /// Изменение группы задач
+    /// - Parameters:
+    ///   - newName: новое имя группы
+    ///   - newIcon: новая иконка группы
+    ///   - completion: completion
+    func changeGroupTask(existingGroup: NameGroup, newName: String, newIcon: Data?, colorIcon: Int64, completion: @escaping (Result<Void, Error>) -> Void) {
+        let fetchRequest: NSFetchRequest<NameGroup> = NameGroup.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "name == %@", existingGroup.name ?? "")
+        
+        do {
+            let result = try context.fetch(fetchRequest)
+            if let changeGroup = result.first {
+                changeGroup.name = newName
+                changeGroup.iconNameGroup = newIcon
+                changeGroup.colorIcon = colorIcon
+                try context.save()
+                completion(.success(()))
+            } else {
+                let error = NSError(domain: "", code: 404, userInfo: [NSLocalizedDescriptionKey: "Задача не найденна"])
+                completion(.failure((error)))
             }
         } catch {
             completion(.failure((error)))

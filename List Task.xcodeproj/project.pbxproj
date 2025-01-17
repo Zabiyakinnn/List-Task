@@ -42,6 +42,10 @@
 		C2D3789D2D29381600CB1026 /* SettingGroupTaskVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D3789C2D29381600CB1026 /* SettingGroupTaskVC.swift */; };
 		C2D3789F2D293C9800CB1026 /* SettingGroupTaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D3789E2D293C9800CB1026 /* SettingGroupTaskView.swift */; };
 		C2D378A12D2975B000CB1026 /* ColorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D378A02D2975B000CB1026 /* ColorCell.swift */; };
+		C2D378A32D31324A00CB1026 /* ColorPalette.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D378A22D31324A00CB1026 /* ColorPalette.swift */; };
+		C2D378A52D313AB000CB1026 /* IconImageArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D378A42D313AB000CB1026 /* IconImageArray.swift */; };
+		C2D378A82D315A0A00CB1026 /* SettingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D378A72D315A0A00CB1026 /* SettingViewModel.swift */; };
+		C2D378AB2D315A7D00CB1026 /* SettingDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D378AA2D315A7D00CB1026 /* SettingDataProvider.swift */; };
 		C2E2F8032CF0CCCE00260CE7 /* CoreDataManagerNameGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2E2F8022CF0CCCE00260CE7 /* CoreDataManagerNameGroup.swift */; };
 		C2E6771F2D0C6384006F7C79 /* NewTaskViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2E6771E2D0C6384006F7C79 /* NewTaskViewModel.swift */; };
 		C2E677222D0D6DE4006F7C79 /* TaskViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2E677212D0D6DE4006F7C79 /* TaskViewModel.swift */; };
@@ -86,6 +90,10 @@
 		C2D3789C2D29381600CB1026 /* SettingGroupTaskVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingGroupTaskVC.swift; sourceTree = "<group>"; };
 		C2D3789E2D293C9800CB1026 /* SettingGroupTaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingGroupTaskView.swift; sourceTree = "<group>"; };
 		C2D378A02D2975B000CB1026 /* ColorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorCell.swift; sourceTree = "<group>"; };
+		C2D378A22D31324A00CB1026 /* ColorPalette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPalette.swift; sourceTree = "<group>"; };
+		C2D378A42D313AB000CB1026 /* IconImageArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconImageArray.swift; sourceTree = "<group>"; };
+		C2D378A72D315A0A00CB1026 /* SettingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewModel.swift; sourceTree = "<group>"; };
+		C2D378AA2D315A7D00CB1026 /* SettingDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingDataProvider.swift; sourceTree = "<group>"; };
 		C2E2F8022CF0CCCE00260CE7 /* CoreDataManagerNameGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManagerNameGroup.swift; sourceTree = "<group>"; };
 		C2E6771E2D0C6384006F7C79 /* NewTaskViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTaskViewModel.swift; sourceTree = "<group>"; };
 		C2E677212D0D6DE4006F7C79 /* TaskViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskViewModel.swift; sourceTree = "<group>"; };
@@ -146,6 +154,7 @@
 			isa = PBXGroup;
 			children = (
 				C262BC2D2CD654AA0046794A /* NameGroup+CoreDataProperties.swift */,
+				C2E2F8022CF0CCCE00260CE7 /* CoreDataManagerNameGroup.swift */,
 			);
 			path = NameGroup;
 			sourceTree = "<group>";
@@ -225,6 +234,7 @@
 		C2C6CF662CD3A6BA00954F4A /* List Task */ = {
 			isa = PBXGroup;
 			children = (
+				C2D378A42D313AB000CB1026 /* IconImageArray.swift */,
 				C2D3789B2D2937F900CB1026 /* SettingGroupTask */,
 				C2C6CF7B2CD3AA5100954F4A /* MainVC */,
 				C2C6CF852CD4C4DD00954F4A /* NewGroupTaskVC */,
@@ -283,7 +293,6 @@
 			isa = PBXGroup;
 			children = (
 				C2CB9FBE2CFAF7E2006E7DB4 /* MainViewProvider.swift */,
-				C2E2F8022CF0CCCE00260CE7 /* CoreDataManagerNameGroup.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -362,11 +371,38 @@
 		C2D3789B2D2937F900CB1026 /* SettingGroupTask */ = {
 			isa = PBXGroup;
 			children = (
+				C2D378A92D315A6D00CB1026 /* Model */,
+				C2D378AC2D3270F600CB1026 /* View */,
+				C2D378A62D3159F400CB1026 /* ViewModel */,
+			);
+			path = SettingGroupTask;
+			sourceTree = "<group>";
+		};
+		C2D378A62D3159F400CB1026 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				C2D378A72D315A0A00CB1026 /* SettingViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		C2D378A92D315A6D00CB1026 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				C2D378AA2D315A7D00CB1026 /* SettingDataProvider.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		C2D378AC2D3270F600CB1026 /* View */ = {
+			isa = PBXGroup;
+			children = (
 				C2D3789C2D29381600CB1026 /* SettingGroupTaskVC.swift */,
 				C2D3789E2D293C9800CB1026 /* SettingGroupTaskView.swift */,
 				C2D378A02D2975B000CB1026 /* ColorCell.swift */,
+				C2D378A22D31324A00CB1026 /* ColorPalette.swift */,
 			);
-			path = SettingGroupTask;
+			path = View;
 			sourceTree = "<group>";
 		};
 		C2E6771D2D0C6366006F7C79 /* ViewModel */ = {
@@ -501,6 +537,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C2CB9FBF2CFAF7E2006E7DB4 /* MainViewProvider.swift in Sources */,
+				C2D378A82D315A0A00CB1026 /* SettingViewModel.swift in Sources */,
 				C2E6771F2D0C6384006F7C79 /* NewTaskViewModel.swift in Sources */,
 				C262BC422CDD10F50046794A /* NewTaskViewController.swift in Sources */,
 				C2CB9FB72CF9D14C006E7DB4 /* MainView.swift in Sources */,
@@ -511,6 +548,7 @@
 				C262BC4E2CDF7B030046794A /* TaskList+CoreDataProperties.swift in Sources */,
 				C262BC312CD8BED80046794A /* IconCollectionViewCell.swift in Sources */,
 				C2C6CF872CD4C50200954F4A /* NewGroupTaskViewController.swift in Sources */,
+				C2D378A32D31324A00CB1026 /* ColorPalette.swift in Sources */,
 				C2E2F8032CF0CCCE00260CE7 /* CoreDataManagerNameGroup.swift in Sources */,
 				C2C6CF6C2CD3A6BA00954F4A /* MainViewController.swift in Sources */,
 				C2E677222D0D6DE4006F7C79 /* TaskViewModel.swift in Sources */,
@@ -519,6 +557,7 @@
 				C2B3CBB22D09E2B600649379 /* NewCommentTaskViewController.swift in Sources */,
 				C2D378A12D2975B000CB1026 /* ColorCell.swift in Sources */,
 				C262BC342CD915630046794A /* NotificationUtils.swift in Sources */,
+				C2D378A52D313AB000CB1026 /* IconImageArray.swift in Sources */,
 				C2C6CF8D2CD4F1F900954F4A /* ListTask.xcdatamodeld in Sources */,
 				C2CB9FCE2D01C26F006E7DB4 /* EmptyView.swift in Sources */,
 				C2C6CF932CD61CA400954F4A /* PlaceholderCell.swift in Sources */,
@@ -535,6 +574,7 @@
 				C2D378982D1980C400CB1026 /* PriorityView.swift in Sources */,
 				C2CB9FBD2CFA10F3006E7DB4 /* TaskDataProvider.swift in Sources */,
 				C2CB9FB52CF87F02006E7DB4 /* CoreDataManagerTaskList.swift in Sources */,
+				C2D378AB2D315A7D00CB1026 /* SettingDataProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

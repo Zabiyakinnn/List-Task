@@ -49,7 +49,11 @@ final class TaskViewModel {
     }
     
 //    MARK: - Изменение статуса задачи (выполненно/ не выполенно)
-    //    обновление статуса в CoreData
+    /// обновление статуса в CoreData
+    /// - Parameters:
+    ///   - task: задача
+    ///   - newStatus: новый стауст
+    ///   - completion: completion
     private func updateTaskStatus(task: String, newStatus: Bool, completion: @escaping(Result<Void, Error>) -> Void) {
         taskDataProvider.updateTaskStatus(
             nameTask: task,
@@ -64,8 +68,12 @@ final class TaskViewModel {
                 }
             }
     }
-    
-//    обновление статуса задачи во ViewController
+        
+    /// обновление статуса задачи во ViewController
+    /// - Parameters:
+    ///   - indexPath: indexPath
+    ///   - newStatus: новый статус
+    ///   - completion: completion
     func changeStatusButton(at indexPath: IndexPath, to newStatus: Bool, completion: @escaping(Result<Void, Error>) -> Void) {
         guard let task = task(at: indexPath) else {
             completion(.failure(NSError(domain: "Задача не найденна", code: 404)))
@@ -75,7 +83,10 @@ final class TaskViewModel {
     }
     
 //    MARK: - Удалние задачи
-    //    удаление задачи из CoreData
+    /// удаление задачи из CoreData
+    /// - Parameters:
+    ///   - indexPath: indexPath
+    ///   - completion: completion
     func deleteTask(at indexPath: IndexPath, completion: @escaping(Result<Void, Error>) -> Void) {
         if let taskToDelete = task(at: indexPath) {
             taskDataProvider.deleteTask(
@@ -94,11 +105,16 @@ final class TaskViewModel {
     }
 
 //    MARK: - Комменатрии к задаче
-    //    сохранение комментария для задачи в CoreData
-    private func saveCommentCoreData(nameTask: String, comment: String?, for indexPath: IndexPath, completion: @escaping(Result<Void, Error>) -> Void) {
+    /// сохранение комментария для задачи в CoreData
+    /// - Parameters:
+    ///   - nameTask: имя задачи
+    ///   - comment: новый комментарий
+    ///   - indexPath: indexPath
+    ///   - completion: completion
+    private func saveCommentCoreData(nameTask: String, newComment: String?, for indexPath: IndexPath, completion: @escaping(Result<Void, Error>) -> Void) {
         taskDataProvider.saveComment(
             nameTask: nameTask,
-            comment: comment,
+            comment: newComment,
             for: indexPath) { [weak self] result in
                 guard let self = self else { return }
                 switch result {
@@ -110,17 +126,27 @@ final class TaskViewModel {
                 }
             }
     }
-//    обновление комментария во viewController
+    
+    /// обновление комментария во viewController
+    /// - Parameters:
+    ///   - indexPath: indexPath
+    ///   - newComment: новый комментарий
+    ///   - completion: completion
     func saveComment(at indexPath: IndexPath, newComment: String, completion: @escaping(Result<Void, Error>) -> Void) {
         guard let task = task(at: indexPath) else {
             completion(.failure(NSError(domain: "Задача не найденна", code: 404)))
             return
         }
-        saveCommentCoreData(nameTask: task.nameTask ?? "", comment: newComment, for: indexPath, completion: completion)
+        saveCommentCoreData(nameTask: task.nameTask ?? "", newComment: newComment, for: indexPath, completion: completion)
     }
     
 //    MARK: - Приоритет для задачи
-//    сохранение нового выбранного приоритета для задачи
+    /// сохранение нового выбранного приоритета для задачи
+    /// - Parameters:
+    ///   - nameTask: имя задачи
+    ///   - priority: приоритет
+    ///   - indexPath: indexPath
+    ///   - completion: completion
     private func savePriorityTaskCoreDate(nameTask: String, priority: Int16, for indexPath: IndexPath, completion: @escaping(Result<Void, Error>) -> Void) {
         taskDataProvider.savePriorityTask(
             nameTask: nameTask,
@@ -137,7 +163,12 @@ final class TaskViewModel {
                 }
             }
     }
-//    обновление приоритета во viewController
+    
+    /// обновление приоритета во viewController
+    /// - Parameters:
+    ///   - indexPath: indexPath
+    ///   - newPriority: новый приоритет
+    ///   - completion: completion
     func savePriorityTask(at indexPath: IndexPath, newPriority: Int, completion: @escaping(Result<Void, Error>) -> Void) {
         guard let task = task(at: indexPath) else {
             completion(.failure(NSError(domain: "Задача не найденна", code: 404)))
@@ -168,8 +199,13 @@ final class TaskViewModel {
         
         onNewDateTask?(date)
     }
-    
-//    сохранение новой даты для задачи в CoreData
+        
+    /// сохранение новой даты для задачи в CoreData
+    /// - Parameters:
+    ///   - nameTask: имя задачи
+    ///   - newDate: новая дата
+    ///   - indexPath: indexPath
+    ///   - compltion: completion
     private func saveNewDateTaskCoreData(nameTask: String, newDate: Date?, for indexPath: IndexPath, compltion: @escaping(Result<Void, Error>) -> Void) {
         taskDataProvider.saveNewDateTask(
             nameTask: nameTask,
@@ -185,8 +221,12 @@ final class TaskViewModel {
                 }
             }
     }
-    
-//    сохранение новой даты 
+        
+    /// сохранение новой даты
+    /// - Parameters:
+    ///   - indexPath: indexPath
+    ///   - newDate: новая дата
+    ///   - completion: completion
     func saveNewDate(at indexPath: IndexPath, newDate: Date, completion: @escaping(Result<Void, Error>) -> Void) {
         guard let task = task(at: indexPath) else {
             completion(.failure(NSError(domain: "Задача не найденна", code: 404)))

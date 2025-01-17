@@ -20,6 +20,7 @@ class NewGroupView: UIView {
         
         let collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
         collectionView.register(IconCollectionViewCell.self, forCellWithReuseIdentifier: "iconCollectionViewCell")
+        collectionView.showsHorizontalScrollIndicator = false
         collectionView.backgroundColor = UIColor.clear
         return collectionView
     }()
@@ -125,7 +126,7 @@ class NewGroupView: UIView {
             make.top.equalTo(iconLabel.snp.top).inset(40)
             make.left.equalToSuperview().inset(12)
             make.right.equalToSuperview().inset(12)
-            make.height.equalTo(50)
+            make.height.equalTo(40)
         }
     }
 }

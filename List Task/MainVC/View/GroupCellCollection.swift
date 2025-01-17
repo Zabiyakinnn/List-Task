@@ -68,8 +68,23 @@ final class GroupCellCollection: UICollectionViewCell {
         if let iconData = nameGroup.iconNameGroup,
            let iconImage = UIImage(data: iconData)?.withRenderingMode(.alwaysTemplate) {
             iconImageView.image = iconImage
-            iconImageView.tintColor = UIColor(named: "ButtonIconeImage")
+//            iconImageView.tintColor = UIColor(named: "ButtonIconeImage")
+            
+            let colorIndex = Int(nameGroup.colorIcon)
+//            если индекс находится в пределах массива
+            if colorIndex >= 0 && colorIndex < ColorPalette.colors.count {
+                let selectedColor = ColorPalette.colors[colorIndex]
+                applyColorToIcon(selectedColor)
+            } else {
+//                индекс не валиден
+                applyColorToIcon(UIColor(named: "ButtonIconeImage") ?? .lightGray)
+            }
         }
+    }
+    
+//    применение цвета к иконке
+    func applyColorToIcon(_ color: UIColor) {
+        iconImageView.tintColor = color
     }
     
     @objc func trashButtonTapped() {
@@ -112,7 +127,7 @@ private extension GroupCellCollection {
             make.top.equalTo(contentView.snp.top).inset(12)
         }
         iconImageView.snp.makeConstraints { make in
-            make.left.equalTo(contentView.snp.left).inset(15)
+            make.left.equalTo(contentView.snp.left).inset(13)
             make.centerY.equalToSuperview()
             make.height.width.equalTo(30)
         }
