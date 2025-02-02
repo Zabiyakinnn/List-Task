@@ -11,7 +11,7 @@ final class NewCommentTaskViewController: UIViewController {
     
     var newCommentTaskView = NewCommentTaskView()
     var onColorIconComment: ((Bool) -> Void)? //если заметка введена пользователем меняем цвет иконки кнопки в newTaskVC
-    var onTextCommentTask: ((String) -> Void)? // передача нового текста заметки в TaskViewController
+    var onTextCommentTask: ((String?) -> Void)? // передача нового текста заметки в TaskViewController
     
     
 //    MARK: - LoadView
@@ -42,12 +42,12 @@ final class NewCommentTaskViewController: UIViewController {
     @objc func saveButtonTapped() {
         let hasText = newCommentTaskView.textView.text.trimmingCharacters(in: .whitespacesAndNewlines)
         
-        if !hasText.isEmpty {
+        if hasText.isEmpty {
+            onTextCommentTask?(nil)
+            onColorIconComment?(false)
+        } else {
             onTextCommentTask?(hasText)
             onColorIconComment?(true)
-        } else {
-            onTextCommentTask?("")
-            onColorIconComment?(false)
         }
         
         self.dismiss(animated: true)

@@ -70,6 +70,7 @@ final class SettingGroupTaskVC: UIViewController {
 //    MARK: - Button
     private func setupButton() {
         settingGroupTaskView.saveButton.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
+        settingGroupTaskView.sortingButton.addTarget(self, action: #selector(sortingView), for: .touchUpInside)
     }
     
 //    сохранение задачи
@@ -102,6 +103,12 @@ final class SettingGroupTaskVC: UIViewController {
                 print("Ошибка сохранения изменений в CoreData: \(error.localizedDescription)")
             }
         }
+    }
+    
+//    переход на экран выбора сортировки задач
+    @objc func sortingView() {
+        let sortingVC = SortingViewController()
+        present(sortingVC, animated: true)
     }
 }
 

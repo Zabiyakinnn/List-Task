@@ -47,6 +47,8 @@ final class NewTaskViewController: UIViewController {
     
     //    настройка привязок с ViewModel
     private func setupBindings() {
+        newTaskView.labelHeadline.text = "Новая задача"
+        
         viewModel.onDateUpdated = { [weak self] formattedDate in
             guard let self = self else { return }
             newTaskView.buttonDate.setTitle(formattedDate, for: .normal)
@@ -156,7 +158,6 @@ final class NewTaskViewController: UIViewController {
             priorityView.onPrioritySelected = { [weak self] index in
                 guard let self = self else { return }
                 self.viewModel.priorityTask = index
-//                print("Выбранный приоритет - \(index)")
                 
                 switch index {
                 case 1:

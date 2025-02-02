@@ -23,7 +23,7 @@ final class PriorityView: UIView {
     
     private var selectedIndexPath: IndexPath?
     var initialSelectedPriority: Int = 0 //по умолчанию - первый приоритет
-    var onPrioritySelected: ((Int) -> Void)? // уведомление о выбранно приоритете
+    var onPrioritySelected: ((Int) -> Void)? // уведомление о выбранном приоритете
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -135,7 +135,7 @@ extension PriorityView: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        сбросить предъидущий выбора
+//        сбросить предъидущий выбор
         if let previousIndexPath = selectedIndexPath {
             if let previousCell = tableView.cellForRow(at: previousIndexPath) as? PriorityViewCell {
                 previousCell.checkmarkImageView.isHidden = true

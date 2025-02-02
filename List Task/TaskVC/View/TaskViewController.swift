@@ -270,6 +270,24 @@ extension TaskViewController: UITableViewDelegate, UITableViewDataSource {
         return UITableViewCell()
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let selectedTodo = viewModel.task(at: indexPath)
+        guard let selectedTask = CoreDataManagerTaskList.shared.fetchTodosFromCoreData()?.first(where: { $0.nameTask ==  selectedTodo?.nameTask}) else {
+            print("Не удалось найти задачу в CoreData")
+            return
+        }
+        let changeTaskProvider = ChangeTaskProvider()
+        let changeTaskViewModel = ChangeTaskViewModel(nameGroup: viewModel.nameGroup, taskList: selectedTask, changeTaskProvider: changeTaskProvider)
+        let changeTaskVC = ChangeTaskViewController(viewModel: changeTaskViewModel)
+        changeTaskViewModel.onChangeTask = { [weak self] in
+            guard let self = self else { return }
+            taskView.tableView.reloadData()
+        }
+        self.present(changeTaskVC, animated: true)
+        
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
     }

@@ -1,14 +1,14 @@
 //
-//  PriorityViewCell.swift
+//  SortingViewCell.swift
 //  List Task
 //
-//  Created by Дмитрий Забиякин on 23.12.2024.
+//  Created by Дмитрий Забиякин on 18.01.2025.
 //
 
 import UIKit
 import SnapKit
 
-final class PriorityViewCell: UITableViewCell {
+final class SortingViewCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -20,9 +20,9 @@ final class PriorityViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    //    MARK: - View
-    //    тип приоритета
-    lazy var priorityLabel: UILabel = {
+//    MARK: - View
+//    тип сортировки
+    lazy var sortingLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 1
         label.font = UIFont.systemFont(ofSize: 17, weight: .regular)
@@ -30,17 +30,9 @@ final class PriorityViewCell: UITableViewCell {
         return label
     }()
     
-//    иконка приоритета
-    lazy var iconPriority: UIImageView = {
+    //    галочка выбранного типа сортировки
+    lazy var checkmarkSorting: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFill
-        imageView.image = UIImage(systemName: "app")?.withRenderingMode(.alwaysTemplate)
-        return imageView
-    }()
-    
-//    галочка выбранной ячейки с приоритетом
-    lazy var checkmarkImageView: UIImageView = {
-       let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.image = UIImage(systemName: "checkmark")?.withRenderingMode(.alwaysTemplate)
         imageView.tintColor = .systemGreen
@@ -49,28 +41,23 @@ final class PriorityViewCell: UITableViewCell {
 }
 
 //MARK: - SetupLoyout
-extension PriorityViewCell {
+extension SortingViewCell {
     private func setupLoyout() {
         prepereView()
         setupConstraint()
     }
     
     private func prepereView() {
-        addSubview(priorityLabel)
-        addSubview(iconPriority)
-        addSubview(checkmarkImageView)
+        addSubview(sortingLabel)
+        addSubview(checkmarkSorting)
     }
     
     private func setupConstraint() {
-        priorityLabel.snp.makeConstraints { make in
+        sortingLabel.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
-            make.left.equalTo(iconPriority.snp.left).inset(30)
+            make.left.equalTo(contentView.snp.left).inset(30)
         }
-        iconPriority.snp.makeConstraints { make in
-            make.centerY.equalToSuperview()
-            make.left.equalTo(contentView.snp.left).inset(25)
-        }
-        checkmarkImageView.snp.makeConstraints { make in
+        checkmarkSorting.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
             make.right.equalTo(contentView.snp.right).offset(-25)
         }

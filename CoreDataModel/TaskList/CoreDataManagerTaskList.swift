@@ -24,7 +24,8 @@ final class CoreDataManagerTaskList {
 //    создание FetchResultController
     func createFetchResultController(group: NameGroup?) -> NSFetchedResultsController<TaskList> {
         let fetchRequest: NSFetchRequest<TaskList> = TaskList.fetchRequest()
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "completed", ascending: true), NSSortDescriptor(key: "nameTask", ascending: true)]
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "completed", ascending: true),
+                                        NSSortDescriptor(key: "nameTask", ascending: true)]
         if let group = group {
             fetchRequest.predicate = NSPredicate(format: "group == %@", group)
         }
@@ -38,6 +39,17 @@ final class CoreDataManagerTaskList {
         return fetchResultController
     }
     
+    //    загрузка данных из CoreData
+    func fetchTodosFromCoreData() -> [TaskList]? {
+        let fetchRequest: NSFetchRequest<TaskList> = TaskList.fetchRequest()
+        
+        do {
+            return try context.fetch(fetchRequest) // Возвращаем массив объектов ToDoList
+        } catch {
+            print("Ошибка загрузки данных из Core Dara: \(error.localizedDescription)")
+            return nil
+        }
+    }
     
     /// сохранение зедачи в CoreData
     /// - Parameters:
@@ -62,6 +74,7 @@ final class CoreDataManagerTaskList {
             task.notionTask = notionTask
             task.priority = Int16(priority ?? 0)
             group?.addToTasks(task)
+            print("TASK \(task)")
         
         do {
             try context.save()
@@ -70,6 +83,46 @@ final class CoreDataManagerTaskList {
             completion(.failure((error)))
         }
     }
+    
+    
+    /// сохранение изменной задачи в CoreData
+    /// - Parameters:
+    ///   - nameTask: имя задачи
+    ///   - date: дата задачи
+    ///   - notionTask: заметка для задачи
+    ///   - priority: приоритет для задачи
+    ///   - group: группа
+    ///   - statusTask: статус задачи (выполненно/ не выполненно)
+    ///   - copmpletion: completion
+    func changeTask(
+        task: TaskList,
+        newName: String,
+        newDate: Date?,
+        newNotionTask: String?,
+        newPriority: Int?,
+        group: NameGroup?,
+        newStatusTask: Bool?,
+        completion: @escaping(Result<Void, Error>) -> Void) {
+            let fetchRequest: NSFetchRequest<TaskList> = TaskList.fetchRequest()
+            fetchRequest.predicate = NSPredicate(format: "nameTask == %@", task.nameTask ?? "")
+            
+            do {
+                let result = try? context.fetch(fetchRequest)
+                if let taskChange = result?.first {
+                    taskChange.nameTask = newName
+                    taskChange.date = newDate
+                    taskChange.notionTask = newNotionTask
+                    taskChange.priority = Int16(newPriority ?? 0)
+                    group?.addToTasks(taskChange)
+                    try context.save()
+                    completion(.success(()))
+                } else {
+                    print("Задача для редактирования не найденна")
+                }
+            } catch {
+                completion(.failure((error)))
+            }
+        }
     
     /// удаление задачи из CoreData
     /// - Parameters:

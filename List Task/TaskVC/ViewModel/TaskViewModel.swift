@@ -48,6 +48,15 @@ final class TaskViewModel {
         return newTaskViewModel
     }
     
+    func presentSortingScreen() {
+        let sortingVC = SortingViewController()
+        
+        sortingVC.onSortingSelected = { [weak self] selectedSorting in
+            guard let self = self else { return }
+            
+        }
+    }
+    
 //    MARK: - Изменение статуса задачи (выполненно/ не выполенно)
     /// обновление статуса в CoreData
     /// - Parameters:
@@ -132,7 +141,7 @@ final class TaskViewModel {
     ///   - indexPath: indexPath
     ///   - newComment: новый комментарий
     ///   - completion: completion
-    func saveComment(at indexPath: IndexPath, newComment: String, completion: @escaping(Result<Void, Error>) -> Void) {
+    func saveComment(at indexPath: IndexPath, newComment: String?, completion: @escaping(Result<Void, Error>) -> Void) {
         guard let task = task(at: indexPath) else {
             completion(.failure(NSError(domain: "Задача не найденна", code: 404)))
             return

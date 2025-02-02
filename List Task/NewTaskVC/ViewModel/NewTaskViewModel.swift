@@ -18,7 +18,7 @@ final class NewTaskViewModel {
     
     var onError: ((String) -> Void)? // уведомление об ошибке
     var onTaskSaved: (() -> Void)? // уведомление об успешном сохранении
-    var onDateUpdated: ((String) -> Void)? // уведомление об обновлении цвета кнопки (если есть комментарий)
+    var onDateUpdated: ((String) -> Void)? // уведомление об обновлении цвета кнопки (если выбранна дата)
     var newTask: (() -> Void)? // уведомление для taskViewController о сохранении новой задачи
     
     init(taskProvider: NewTaskProvider, nameGroup: NameGroup) {

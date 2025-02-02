@@ -29,7 +29,7 @@ final class NewTaskView: UIView {
         let label = UILabel()
         label.textColor = UIColor(named: "ColorTextBlackAndWhite")
         label.font = UIFont.systemFont(ofSize: 19, weight: .medium)
-        label.text = "Новая задача"
+//        label.text = "Новая задача"
         label.textAlignment = .center
         return label
     }()
@@ -110,6 +110,10 @@ final class NewTaskView: UIView {
         button.tintColor = UIColor(named: "ButtonIconeImage")
         return button
     }()
+    
+    func content(nameTask: String) {
+        textView.text = nameTask
+    }
 }
 
 //MARK: - SetupLoyout

@@ -24,10 +24,11 @@ final class SettingDataProvider {
     ///   - newIcon: новая иконка
     ///   - completion: completion
     func changeGroupTask(exestiongGroup: NameGroup ,newName: String, newIcon: Data?, colorIcon: Int64, completion: @escaping (Result<Void, Error>) -> Void) {
-        CoreDataManagerNameGroup.shared.changeGroupTask(existingGroup: exestiongGroup,
-                                                        newName: newName,
-                                                        newIcon: newIcon,
-                                                        colorIcon: colorIcon,
-                                                        completion: completion)
+        CoreDataManagerNameGroup.shared.changeGroupTask(
+            existingGroup: exestiongGroup,
+            newName: newName,
+            newIcon: newIcon,
+            colorIcon: colorIcon,
+            completion: completion)
     }
 }

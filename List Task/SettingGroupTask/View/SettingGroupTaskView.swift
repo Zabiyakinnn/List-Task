@@ -51,7 +51,7 @@ final class SettingGroupTaskView: UIView {
     }()
     
     //    заголовок
-    lazy var labelHeadline: UILabel = {
+    private lazy var labelHeadline: UILabel = {
         let label = UILabel()
         label.textColor = UIColor(named: "ColorTextBlackAndWhite")
         label.font = UIFont.systemFont(ofSize: 19, weight: .medium)
@@ -61,7 +61,7 @@ final class SettingGroupTaskView: UIView {
     }()
     
 //    текст "изменить название"
-    lazy var renameGroupHeadline: UILabel = {
+    private lazy var renameGroupHeadline: UILabel = {
         let label = UILabel()
         label.textColor = UIColor(named: "ColorTextBlackAndWhite")
         label.font = UIFont.systemFont(ofSize: 17, weight: .medium)
@@ -83,7 +83,7 @@ final class SettingGroupTaskView: UIView {
     }()
     
 //    текст "цвета"
-    lazy var colorHeadline: UILabel = {
+    private lazy var colorHeadline: UILabel = {
         let label = UILabel()
         label.textColor = UIColor(named: "ColorTextBlackAndWhite")
         label.font = UIFont.systemFont(ofSize: 17, weight: .medium)
@@ -93,7 +93,7 @@ final class SettingGroupTaskView: UIView {
     }()
     
 //    текст "выберете цвет"
-    lazy var colorChooseHeadline: UILabel = {
+    private lazy var colorChooseHeadline: UILabel = {
         let label = UILabel()
         label.textColor = UIColor.darkGray
         label.font = UIFont.systemFont(ofSize: 15, weight: .medium)
@@ -103,7 +103,7 @@ final class SettingGroupTaskView: UIView {
     }()
     
 //    текст "Иконки"
-    lazy var iconHeadline: UILabel = {
+    private lazy var iconHeadline: UILabel = {
         let label = UILabel()
         label.textColor = UIColor(named: "ColorTextBlackAndWhite")
         label.font = UIFont.systemFont(ofSize: 17, weight: .medium)
@@ -113,11 +113,21 @@ final class SettingGroupTaskView: UIView {
     }()
     
     //    текст "Изменить иконку"
-    lazy var iconChooseHeadline: UILabel = {
+    private lazy var iconChooseHeadline: UILabel = {
         let label = UILabel()
         label.textColor = UIColor.darkGray
         label.font = UIFont.systemFont(ofSize: 15, weight: .medium)
         label.text = "Изменить иконку"
+        label.textAlignment = .center
+        return label
+    }()
+    
+    //    текст "Сортировка задач"
+    private lazy var sortingMethod: UILabel = {
+        let label = UILabel()
+        label.textColor = UIColor(named: "ColorTextBlackAndWhite")
+        label.font = UIFont.systemFont(ofSize: 17, weight: .medium)
+        label.text = "Сортировка задач"
         label.textAlignment = .center
         return label
     }()
@@ -130,40 +140,20 @@ final class SettingGroupTaskView: UIView {
         return button
     }()
     
+    //    кнопка изменить способ сортировки
+    lazy var sortingButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("По имени", for: .normal)
+        button.tintColor = UIColor.darkGray
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 16)
+        return button
+    }()
+    
 //    передача данных
     func contentView(name: String) {
         textView.text = name
     }
-}
-//
-////MARK: - UICollectionViewDelegate, UICollectionViewDataSource
-//extension SettingGroupTaskView: UICollectionViewDelegate, UICollectionViewDataSource {
-//    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-//        return colors.count
-//    }
-//    
-//    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-//        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ColorCell", for: indexPath) as? ColorCell else {
-//            return UICollectionViewCell()
-//        }
-//        
-//        let color = colors[indexPath.item]
-//        let isSelect = indexPath == isSelectedIndexPath
-//        cell.configure(with: color, isSilected: isSelect)
-//        
-//        return cell
-//    }
-//    
-//    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        isSelectedIndexPath = indexPath
-//        var indexPathsToReload: [IndexPath] = [indexPath]
-//        if let previousIndexPath = isSelectedIndexPath {
-//            indexPathsToReload.append(previousIndexPath)
-//        }
-//        collectionView.reloadData()
-//    }
-//    
-//}
+} 
 
 //MARK: SetupLoyout
 extension SettingGroupTaskView {
@@ -178,6 +168,8 @@ extension SettingGroupTaskView {
         addSubview(iconChooseHeadline)
         addSubview(collectionViewIcon)
         addSubview(saveButton)
+        addSubview(sortingMethod)
+        addSubview(sortingButton)
         
         setupConstraint()
     }
@@ -228,6 +220,14 @@ extension SettingGroupTaskView {
             make.left.equalTo(12)
             make.right.equalTo(-12)
             make.height.equalTo(40)
+        }
+        sortingMethod.snp.makeConstraints { make in
+            make.top.equalTo(collectionViewIcon.snp.bottom).offset(16)
+            make.left.equalToSuperview().inset(20)
+        }
+        sortingButton.snp.makeConstraints { make in
+            make.centerY.equalTo(sortingMethod)
+            make.right.equalToSuperview().offset(-20)
         }
     }
 }
