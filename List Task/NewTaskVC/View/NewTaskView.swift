@@ -28,8 +28,7 @@ final class NewTaskView: UIView {
     lazy var labelHeadline: UILabel = {
         let label = UILabel()
         label.textColor = UIColor(named: "ColorTextBlackAndWhite")
-        label.font = UIFont.systemFont(ofSize: 19, weight: .medium)
-//        label.text = "Новая задача"
+        label.font = UIFont(name: "Bluecurve-Light", size: 19)
         label.textAlignment = .center
         return label
     }()
@@ -39,7 +38,7 @@ final class NewTaskView: UIView {
         let view = UITextView()
         view.layer.cornerRadius = 10
         view.layer.masksToBounds = true
-        view.font = UIFont.systemFont(ofSize: 21)
+        view.font = UIFont(name: "Bluecurve-Bold", size: 21)
         view.textColor = UIColor(named: "ColorTextBlackAndWhite")
         view.backgroundColor = UIColor.clear
         view.tintColor = UIColor(named: "ColorTextBlackAndWhite")
@@ -49,7 +48,7 @@ final class NewTaskView: UIView {
 //    текст с именем группы
     lazy var labelNameGroup: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 18, weight: .bold)
+        label.font = UIFont(name: "Bluecurve-Bold", size: 21)
         label.textAlignment = .right
         label.text = "Название группы"
         label.textColor = UIColor.systemYellow
@@ -67,6 +66,7 @@ final class NewTaskView: UIView {
     lazy var saveButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Сохранить", for: .normal)
+        button.titleLabel?.font = UIFont(name: "Bluecurve-Light", size: 18)
         button.tintColor = UIColor(named: "ButtonIconeImage")
         return button
     }()

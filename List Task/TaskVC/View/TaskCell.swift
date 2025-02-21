@@ -27,7 +27,7 @@ final class TaskCell: UITableViewCell {
     private lazy var nameTask: UILabel = {
         let label = UILabel()
         label.numberOfLines = 2
-        label.font = UIFont.systemFont(ofSize: 17, weight: .regular)
+        label.font = UIFont(name: "Bluecurve-Bold", size: 17)
         label.textColor = .black
         return label
     }()
@@ -36,7 +36,8 @@ final class TaskCell: UITableViewCell {
     private lazy var dateTask: UILabel = {
         let label = UILabel()
         label.numberOfLines = 1
-        label.font = UIFont.systemFont(ofSize: 14, weight: .regular)
+        label.font = UIFont(name: "Bluecurve-Light", size: 13)
+
         label.textColor = UIColor.lightGray
         return label
     }()

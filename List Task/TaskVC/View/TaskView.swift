@@ -21,7 +21,7 @@ final class TaskView: UIView {
     lazy var labelHeadline: UILabel = {
          let label = UILabel()
         label.textColor = UIColor(named: "ColorTextBlackAndWhite")
-        label.font = UIFont.systemFont(ofSize: 23, weight: .semibold)
+        label.font = UIFont(name: "Bluecurve-Bold", size: 24)
         label.textAlignment = .left
         return label
     }()
@@ -36,7 +36,7 @@ final class TaskView: UIView {
     //    кол-во задач
     lazy var taskCountLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 15, weight: .regular)
+        label.font = UIFont(name: "Bluecurve-Light", size: 16)
         label.textColor = .lightGray
         return label
     }()
@@ -78,6 +78,7 @@ final class TaskView: UIView {
         
         var title = AttributedString("Добавить новую задачу")
         title.foregroundColor = UIColor(named: "ColorTextBlackAndWhite")
+        title.font = UIFont(name: "Bluecurve-Light", size: 20)
         config.attributedTitle = title
         
         let button = UIButton(configuration: config, primaryAction: nil)
@@ -88,7 +89,6 @@ final class TaskView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-//        backgroundColor = UIColor(named: "TaskVCTableViewColor")
         backgroundColor = .systemBackground
 
         setupLoyout()

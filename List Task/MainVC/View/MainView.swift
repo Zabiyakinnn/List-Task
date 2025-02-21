@@ -35,8 +35,8 @@ final class MainView: UIView {
         dateFormatter.locale = Locale(identifier: "ru_RU")
         var formatterData = dateFormatter.string(for: currentData)
         label.text = formatterData
-        label.textColor = UIColor(red: 0.32, green: 0.32, blue: 0.32, alpha: 1.00)
-        label.font = UIFont.systemFont(ofSize: 19, weight: .regular)
+        label.font = UIFont(name: "Bluecurve-Light", size: 21)
+        label.textColor = UIColor.lightGray
         label.textAlignment = .left
         return label
     }()
@@ -51,7 +51,7 @@ final class MainView: UIView {
         var formatterData = dateFormatter.string(for: currentData)
         label.text = formatterData
         label.textColor = UIColor(named: "ColorTextBlackAndWhite")
-        label.font = UIFont.systemFont(ofSize: 23, weight: .medium)
+        label.font = UIFont(name: "Bluecurve-Bold", size: 26)
         label.textAlignment = .left
         return label
     }()
@@ -85,7 +85,6 @@ final class MainView: UIView {
     
 //    MARK: - SetupLayout
     private func setupLoyout() {
-//        backgroundColor = UIColor(named: "ColorViewBlackAndWhite")
         backgroundColor = .systemBackground
         
         addSubview(collectionView)
@@ -111,7 +110,6 @@ final class MainView: UIView {
         labelDate.snp.makeConstraints { make in
             make.top.equalTo(labelDayWeek.snp.bottom).inset(-10)
             make.left.equalToSuperview().inset(23)
-            make.height.equalTo(30)
         }
         settingButton.snp.makeConstraints { make in
             make.right.equalToSuperview().inset(16)

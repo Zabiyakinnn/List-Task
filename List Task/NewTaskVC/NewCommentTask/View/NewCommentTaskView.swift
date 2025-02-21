@@ -26,7 +26,7 @@ final class NewCommentTaskView: UIView {
     lazy var labelHeadline: UILabel = {
         let label = UILabel()
         label.textColor = UIColor(named: "ColorTextBlackAndWhite")
-        label.font = UIFont.systemFont(ofSize: 19, weight: .medium)
+        label.font = UIFont(name: "Bluecurve-Light", size: 19)
         label.text = "Заметки"
         label.textAlignment = .center
         return label
@@ -37,7 +37,7 @@ final class NewCommentTaskView: UIView {
         let view = UITextView()
         view.layer.cornerRadius = 10
         view.layer.masksToBounds = true
-        view.font = UIFont.systemFont(ofSize: 21)
+        view.font = UIFont(name: "Bluecurve-Bold", size: 21)
         view.textColor = UIColor(named: "ColorTextBlackAndWhite")
         view.backgroundColor = UIColor.clear
         view.tintColor = UIColor(named: "ColorTextBlackAndWhite")
@@ -49,6 +49,7 @@ final class NewCommentTaskView: UIView {
     lazy var saveButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Готово", for: .normal)
+        button.titleLabel?.font = UIFont(name: "Bluecurve-Light", size: 16)
         button.tintColor = UIColor(named: "ButtonIconeImage")
         return button
     }()

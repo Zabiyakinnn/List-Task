@@ -30,7 +30,7 @@ class NewGroupView: UIView {
         let view = UITextView()
         view.layer.cornerRadius = 10
         view.layer.masksToBounds = true
-        view.font = UIFont.systemFont(ofSize: 21)
+        view.font = UIFont(name: "Bluecurve-Bold", size: 21)
         view.textColor = UIColor(named: "ColorTextBlackAndWhite")
         view.backgroundColor = UIColor.clear
         view.tintColor = UIColor(named: "ColorTextBlackAndWhite")
@@ -41,7 +41,7 @@ class NewGroupView: UIView {
     lazy var labelHeadline: UILabel = {
         let label = UILabel()
         label.textColor = UIColor(named: "ColorTextBlackAndWhite")
-        label.font = UIFont.systemFont(ofSize: 19, weight: .medium)
+        label.font = UIFont(name: "Bluecurve-Light", size: 20)
         label.text = "Новый список"
         label.textAlignment = .center
         return label
@@ -51,7 +51,7 @@ class NewGroupView: UIView {
     lazy var iconLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor(named: "ColorTextBlackAndWhite")
-        label.font = UIFont.systemFont(ofSize: 16, weight: .regular)
+        label.font = UIFont(name: "Bluecurve-Light", size: 18)
         label.text = "Выберете иконку"
         label.textAlignment = .center
         return label
@@ -61,7 +61,7 @@ class NewGroupView: UIView {
     lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor(named: "ColorTextBlackAndWhite")
-        label.font = UIFont.systemFont(ofSize: 16, weight: .regular)
+        label.font = UIFont(name: "Bluecurve-Light", size: 18)
         label.text = "Укажите название"
         label.textAlignment = .center
         return label
@@ -72,6 +72,7 @@ class NewGroupView: UIView {
     lazy var saveButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Сохранить", for: .normal)
+        button.titleLabel?.font = UIFont(name: "Bluecurve-Light", size: 16)
         button.tintColor = UIColor(named: "ColorTextBlackAndWhite")
         return button
     }()
@@ -86,7 +87,10 @@ class NewGroupView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+}
+
+//MARK: SetupLoyout
+extension NewGroupView {
     private func setupLoyout() {
         addSubview(labelHeadline)
         addSubview(saveButton)

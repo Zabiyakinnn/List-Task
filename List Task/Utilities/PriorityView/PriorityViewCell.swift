@@ -25,7 +25,7 @@ final class PriorityViewCell: UITableViewCell {
     lazy var priorityLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 1
-        label.font = UIFont.systemFont(ofSize: 17, weight: .regular)
+        label.font = UIFont(name: "Bluecurve-Light", size: 17)
         label.textColor = UIColor(named: "ColorTextBlackAndWhite")
         return label
     }()

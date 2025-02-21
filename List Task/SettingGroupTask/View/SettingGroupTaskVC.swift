@@ -70,7 +70,6 @@ final class SettingGroupTaskVC: UIViewController {
 //    MARK: - Button
     private func setupButton() {
         settingGroupTaskView.saveButton.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
-        settingGroupTaskView.sortingButton.addTarget(self, action: #selector(sortingView), for: .touchUpInside)
     }
     
 //    сохранение задачи

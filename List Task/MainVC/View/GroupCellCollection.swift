@@ -17,7 +17,7 @@ final class GroupCellCollection: UICollectionViewCell {
 //    имя задачи
     private lazy var nameTask: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
+        label.font = UIFont(name: "Bluecurve-Bold", size: 20)
         label.textColor = UIColor(named: "ColorTextBlackAndWhite")
         return label
     }()
@@ -25,7 +25,7 @@ final class GroupCellCollection: UICollectionViewCell {
 //    кол-во задач
     private lazy var taskCountLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 15, weight: .regular)
+        label.font = UIFont(name: "Bluecurve-Light", size: 16)
         label.textColor = .lightGray
         return label
     }()

@@ -54,7 +54,7 @@ final class SettingGroupTaskView: UIView {
     private lazy var labelHeadline: UILabel = {
         let label = UILabel()
         label.textColor = UIColor(named: "ColorTextBlackAndWhite")
-        label.font = UIFont.systemFont(ofSize: 19, weight: .medium)
+        label.font = UIFont(name: "Bluecurve-Light", size: 20)
         label.text = "Настройки группы"
         label.textAlignment = .center
         return label
@@ -64,7 +64,7 @@ final class SettingGroupTaskView: UIView {
     private lazy var renameGroupHeadline: UILabel = {
         let label = UILabel()
         label.textColor = UIColor(named: "ColorTextBlackAndWhite")
-        label.font = UIFont.systemFont(ofSize: 17, weight: .medium)
+        label.font = UIFont(name: "Bluecurve-Light", size: 17)
         label.text = "Изменить название"
         label.textAlignment = .center
         return label
@@ -75,7 +75,7 @@ final class SettingGroupTaskView: UIView {
         let view = UITextView()
         view.layer.cornerRadius = 10
         view.layer.masksToBounds = true
-        view.font = UIFont.systemFont(ofSize: 21)
+        view.font = UIFont(name: "Bluecurve-Bold", size: 21)
         view.textColor = UIColor(named: "ColorTextBlackAndWhite")
         view.backgroundColor = UIColor.clear
         view.tintColor = UIColor(named: "ColorTextBlackAndWhite")
@@ -86,7 +86,7 @@ final class SettingGroupTaskView: UIView {
     private lazy var colorHeadline: UILabel = {
         let label = UILabel()
         label.textColor = UIColor(named: "ColorTextBlackAndWhite")
-        label.font = UIFont.systemFont(ofSize: 17, weight: .medium)
+        label.font = UIFont(name: "Bluecurve-Light", size: 17)
         label.text = "Цвета"
         label.textAlignment = .center
         return label
@@ -96,7 +96,7 @@ final class SettingGroupTaskView: UIView {
     private lazy var colorChooseHeadline: UILabel = {
         let label = UILabel()
         label.textColor = UIColor.darkGray
-        label.font = UIFont.systemFont(ofSize: 15, weight: .medium)
+        label.font = UIFont(name: "Bluecurve-Light", size: 15)
         label.text = "Выберете цвет для иконки"
         label.textAlignment = .center
         return label
@@ -106,7 +106,7 @@ final class SettingGroupTaskView: UIView {
     private lazy var iconHeadline: UILabel = {
         let label = UILabel()
         label.textColor = UIColor(named: "ColorTextBlackAndWhite")
-        label.font = UIFont.systemFont(ofSize: 17, weight: .medium)
+        label.font = UIFont(name: "Bluecurve-Light", size: 17)
         label.text = "Иконки"
         label.textAlignment = .center
         return label
@@ -116,18 +116,8 @@ final class SettingGroupTaskView: UIView {
     private lazy var iconChooseHeadline: UILabel = {
         let label = UILabel()
         label.textColor = UIColor.darkGray
-        label.font = UIFont.systemFont(ofSize: 15, weight: .medium)
+        label.font = UIFont(name: "Bluecurve-Light", size: 15)
         label.text = "Изменить иконку"
-        label.textAlignment = .center
-        return label
-    }()
-    
-    //    текст "Сортировка задач"
-    private lazy var sortingMethod: UILabel = {
-        let label = UILabel()
-        label.textColor = UIColor(named: "ColorTextBlackAndWhite")
-        label.font = UIFont.systemFont(ofSize: 17, weight: .medium)
-        label.text = "Сортировка задач"
         label.textAlignment = .center
         return label
     }()
@@ -136,16 +126,8 @@ final class SettingGroupTaskView: UIView {
     lazy var saveButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Сохранить", for: .normal)
+        button.titleLabel?.font = UIFont(name: "Bluecurve-Light", size: 16)
         button.tintColor = UIColor(named: "ColorTextBlackAndWhite")
-        return button
-    }()
-    
-    //    кнопка изменить способ сортировки
-    lazy var sortingButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setTitle("По имени", for: .normal)
-        button.tintColor = UIColor.darkGray
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 16)
         return button
     }()
     
@@ -168,9 +150,6 @@ extension SettingGroupTaskView {
         addSubview(iconChooseHeadline)
         addSubview(collectionViewIcon)
         addSubview(saveButton)
-        addSubview(sortingMethod)
-        addSubview(sortingButton)
-        
         setupConstraint()
     }
     
@@ -220,14 +199,6 @@ extension SettingGroupTaskView {
             make.left.equalTo(12)
             make.right.equalTo(-12)
             make.height.equalTo(40)
-        }
-        sortingMethod.snp.makeConstraints { make in
-            make.top.equalTo(collectionViewIcon.snp.bottom).offset(16)
-            make.left.equalToSuperview().inset(20)
-        }
-        sortingButton.snp.makeConstraints { make in
-            make.centerY.equalTo(sortingMethod)
-            make.right.equalToSuperview().offset(-20)
         }
     }
 }

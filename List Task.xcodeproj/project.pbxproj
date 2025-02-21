@@ -43,6 +43,9 @@
 		C2CB9FC42CFB1859006E7DB4 /* NewTaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2CB9FC32CFB1859006E7DB4 /* NewTaskView.swift */; };
 		C2CB9FC92CFB2087006E7DB4 /* NewTaskProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2CB9FC82CFB2087006E7DB4 /* NewTaskProvider.swift */; };
 		C2CB9FCE2D01C26F006E7DB4 /* EmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2CB9FCD2D01C26F006E7DB4 /* EmptyView.swift */; };
+		C2CDC00F2D68835F0082FF68 /* Bluecurve-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C2CDC00C2D68835E0082FF68 /* Bluecurve-Bold.ttf */; };
+		C2CDC0102D68835F0082FF68 /* Bluecurve-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C2CDC00D2D68835E0082FF68 /* Bluecurve-Regular.ttf */; };
+		C2CDC0112D68835F0082FF68 /* Bluecurve-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C2CDC00E2D68835E0082FF68 /* Bluecurve-Light.ttf */; };
 		C2D378982D1980C400CB1026 /* PriorityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D378972D1980C400CB1026 /* PriorityView.swift */; };
 		C2D3789A2D19935300CB1026 /* PriorityViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D378992D19935300CB1026 /* PriorityViewCell.swift */; };
 		C2D3789D2D29381600CB1026 /* SettingGroupTaskVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D3789C2D29381600CB1026 /* SettingGroupTaskVC.swift */; };
@@ -97,6 +100,9 @@
 		C2CB9FC32CFB1859006E7DB4 /* NewTaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTaskView.swift; sourceTree = "<group>"; };
 		C2CB9FC82CFB2087006E7DB4 /* NewTaskProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTaskProvider.swift; sourceTree = "<group>"; };
 		C2CB9FCD2D01C26F006E7DB4 /* EmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyView.swift; sourceTree = "<group>"; };
+		C2CDC00C2D68835E0082FF68 /* Bluecurve-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Bluecurve-Bold.ttf"; path = "../../../Шрифты/Blue curve/Bluecurve-Bold.ttf"; sourceTree = "<group>"; };
+		C2CDC00D2D68835E0082FF68 /* Bluecurve-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Bluecurve-Regular.ttf"; path = "../../../Шрифты/Blue curve/Bluecurve-Regular.ttf"; sourceTree = "<group>"; };
+		C2CDC00E2D68835E0082FF68 /* Bluecurve-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Bluecurve-Light.ttf"; path = "../../../Шрифты/Blue curve/Bluecurve-Light.ttf"; sourceTree = "<group>"; };
 		C2D378972D1980C400CB1026 /* PriorityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriorityView.swift; sourceTree = "<group>"; };
 		C2D378992D19935300CB1026 /* PriorityViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriorityViewCell.swift; sourceTree = "<group>"; };
 		C2D3789C2D29381600CB1026 /* SettingGroupTaskVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingGroupTaskVC.swift; sourceTree = "<group>"; };
@@ -308,6 +314,7 @@
 				C262BC402CDD10C00046794A /* NewTaskVC */,
 				C2C6CF7C2CD3C1A300954F4A /* SettingVC */,
 				C262BC322CD9153B0046794A /* Utilities */,
+				C2CDC0052D687F970082FF68 /* Fonts */,
 				C2C6CF672CD3A6BA00954F4A /* AppDelegate.swift */,
 				C2C6CF692CD3A6BA00954F4A /* SceneDelegate.swift */,
 				C2C6CF702CD3A6BF00954F4A /* Assets.xcassets */,
@@ -415,6 +422,16 @@
 				C262BC412CDD10F50046794A /* NewTaskViewController.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		C2CDC0052D687F970082FF68 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				C2CDC00C2D68835E0082FF68 /* Bluecurve-Bold.ttf */,
+				C2CDC00E2D68835E0082FF68 /* Bluecurve-Light.ttf */,
+				C2CDC00D2D68835E0082FF68 /* Bluecurve-Regular.ttf */,
+			);
+			path = Fonts;
 			sourceTree = "<group>";
 		};
 		C2D378952D197DB400CB1026 /* NotificationItils */ = {
@@ -549,6 +566,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				C2C6CF742CD3A6BF00954F4A /* LaunchScreen.storyboard in Resources */,
+				C2CDC0112D68835F0082FF68 /* Bluecurve-Light.ttf in Resources */,
+				C2CDC0102D68835F0082FF68 /* Bluecurve-Regular.ttf in Resources */,
+				C2CDC00F2D68835F0082FF68 /* Bluecurve-Bold.ttf in Resources */,
 				C2C6CF712CD3A6BF00954F4A /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

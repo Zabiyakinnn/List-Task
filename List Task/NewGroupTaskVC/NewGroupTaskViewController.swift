@@ -10,7 +10,7 @@ import SnapKit
 
 final class NewGroupTaskViewController: UIViewController, UITextViewDelegate {
     
-    var newGroupName: (() -> Void)?
+    var newGroupName: (() -> Void)? // уведоление о сохранение новой группы
     
     private var newGroupView = NewGroupView()
     var nameGroup: NameGroup?

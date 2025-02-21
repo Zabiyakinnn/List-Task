@@ -43,7 +43,7 @@ final class PriorityView: UIView {
     private lazy var labelHeadline: UILabel = {
         let label = UILabel()
         label.textColor = UIColor(named: "ColorTextBlackAndWhite")
-        label.font = UIFont.systemFont(ofSize: 19, weight: .semibold)
+        label.font = UIFont(name: "Bluecurve-Light", size: 19)
         label.text = "Приоритет"
         label.textAlignment = .center
         return label
