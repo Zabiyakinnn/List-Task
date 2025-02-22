@@ -169,6 +169,7 @@
 		C262BC322CD9153B0046794A /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				C2D378A42D313AB000CB1026 /* IconImageArray.swift */,
 				C2D378962D19809C00CB1026 /* PriorityView */,
 				C2B3CBAD2D09767B00649379 /* CalendarView */,
 				C2D378952D197DB400CB1026 /* NotificationItils */,
@@ -305,7 +306,6 @@
 			isa = PBXGroup;
 			children = (
 				C20385BF2D3BA05B00C1BFB3 /* SortingView */,
-				C2D378A42D313AB000CB1026 /* IconImageArray.swift */,
 				C2D3789B2D2937F900CB1026 /* SettingGroupTask */,
 				C2C6CF7B2CD3AA5100954F4A /* MainVC */,
 				C2C6CF852CD4C4DD00954F4A /* NewGroupTaskVC */,

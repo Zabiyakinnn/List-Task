@@ -42,9 +42,9 @@ final class TaskDataProvider {
     }
     
     //    изменение статуса задачи выполненно/не выполненно
-    func updateTaskStatus(nameTask: String, newStatus: Bool, completion: @escaping (Result<Void, Error>) -> Void) {
+    func updateTaskStatus(idTask: UUID, newStatus: Bool, completion: @escaping (Result<Void, Error>) -> Void) {
         CoreDataManagerTaskList.shared.updateTaskStatus(
-            nameTask: nameTask,
+            idTask: idTask,
             newStatus: newStatus,
             completion: completion)
     }
@@ -55,10 +55,10 @@ final class TaskDataProvider {
     ///   - comment: коменнтарий для задачи
     ///   - indexPath: indexPath
     ///   - completion: completion
-    func saveComment(nameTask: String, comment: String?, for indexPath: IndexPath, completion: @escaping (Result<Void, Error>) -> Void) {
+    func saveComment(idTask: UUID, comment: String?, for indexPath: IndexPath, completion: @escaping (Result<Void, Error>) -> Void) {
         CoreDataManagerTaskList.shared.saveComment(
-            nameTask: nameTask,
-            comment: comment,
+            idTask: idTask,
+            newComment: comment,
             for: indexPath,
             completion: completion)
     }
@@ -71,9 +71,9 @@ final class TaskDataProvider {
     ///   - priority: приоритет
     ///   - indexPath: indexPath
     ///   - completion: completion
-    func savePriorityTask(nameTask: String, priority: Int16, for indexPath: IndexPath, completion: @escaping (Result<Void, Error>) -> Void) {
+    func savePriorityTask(idTask: UUID, priority: Int16, for indexPath: IndexPath, completion: @escaping (Result<Void, Error>) -> Void) {
         CoreDataManagerTaskList.shared.savePriotyTask(
-            nameTask: nameTask,
+            idTask: idTask,
             priority: priority,
             for: indexPath,
             completion: completion)
@@ -86,9 +86,9 @@ final class TaskDataProvider {
     ///   - newDate: новая дата
     ///   - indexPath: indexPath
     ///   - compltion: completion
-    func saveNewDateTask(nameTask: String, newDate: Date?, for indexPath: IndexPath, compltion: @escaping (Result<Void, Error>) -> Void) {
+    func saveNewDateTask(idTask: UUID, newDate: Date?, for indexPath: IndexPath, compltion: @escaping (Result<Void, Error>) -> Void) {
         CoreDataManagerTaskList.shared.saveNewDateTask(
-            nameTask: nameTask,
+            idTask: idTask,
             newDate: newDate,
             for: indexPath,
             completion: compltion)

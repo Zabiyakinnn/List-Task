@@ -73,9 +73,9 @@ final class CoreDataManagerTaskList {
             task.group = group
             task.notionTask = notionTask
             task.priority = Int16(priority ?? 0)
+            task.idTask = UUID()
             group?.addToTasks(task)
-            print("TASK \(task)")
-        
+            
         do {
             try context.save()
             completion(.success(()))
@@ -103,8 +103,9 @@ final class CoreDataManagerTaskList {
         group: NameGroup?,
         newStatusTask: Bool?,
         completion: @escaping(Result<Void, Error>) -> Void) {
+            let taskID = task.idTask
             let fetchRequest: NSFetchRequest<TaskList> = TaskList.fetchRequest()
-            fetchRequest.predicate = NSPredicate(format: "nameTask == %@", task.nameTask ?? "")
+            fetchRequest.predicate = NSPredicate(format: "idTask == %@", taskID as CVarArg)
             
             do {
                 let result = try? context.fetch(fetchRequest)
@@ -113,6 +114,7 @@ final class CoreDataManagerTaskList {
                     taskChange.date = newDate
                     taskChange.notionTask = newNotionTask
                     taskChange.priority = Int16(newPriority ?? 0)
+                    taskChange.idTask = taskID
                     group?.addToTasks(taskChange)
                     try context.save()
                     completion(.success(()))
@@ -129,11 +131,19 @@ final class CoreDataManagerTaskList {
     ///   - taskList: задача
     ///   - completion: compltion
     func deleteTaskCoreData(taskList: TaskList, completion: @escaping (Result<Void, Error>) -> Void) {
-        context.delete(taskList) // Удаляем объект контекста
+        let taskID = taskList.idTask
+        let fetchRequest: NSFetchRequest<TaskList> = TaskList.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "idTask = %@", taskID as CVarArg)
         
         do {
-            try context.save() // Сохраняем изменения в Core Data
-            completion(.success(())) // Уведомляем об успешном завершении
+            let result = try context.fetch(fetchRequest)
+            if let taskToDelete = result.first {
+                context.delete(taskList) // Удаляем объект контекста
+                try context.save() // Сохраняем изменения в Core Data
+                completion(.success(())) // Уведомляем об успешном завершении
+            } else {
+                print("Задача не найденна")
+            }
         } catch {
             completion(.failure(error)) 
         }
@@ -144,9 +154,10 @@ final class CoreDataManagerTaskList {
     ///   - nameTask: задача
     ///   - newStatus: новый статус задачи
     ///   - completion: completion
-    func updateTaskStatus(nameTask: String, newStatus: Bool, completion: @escaping ((Result<Void, Error>) -> Void)) {
+    func updateTaskStatus(idTask: UUID, newStatus: Bool, completion: @escaping ((Result<Void, Error>) -> Void)) {
+        
         let fetchRequest: NSFetchRequest<TaskList> = TaskList.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "nameTask == %@", nameTask)
+        fetchRequest.predicate = NSPredicate(format: "idTask == %@", idTask as CVarArg)
         
         do {
             let result = try context.fetch(fetchRequest)
@@ -168,13 +179,13 @@ final class CoreDataManagerTaskList {
     ///   - comment: комментарий
     ///   - indexPath: indexPath
     ///   - completion: completion
-    func saveComment(nameTask: String, comment: String?, for indexPath: IndexPath, completion: @escaping(Result<Void, Error>) -> Void) {
+    func saveComment(idTask: UUID, newComment: String?, for indexPath: IndexPath, completion: @escaping(Result<Void, Error>) -> Void) {
         let fetchRequest: NSFetchRequest<TaskList> = TaskList.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "nameTask == %@", nameTask)
+        fetchRequest.predicate = NSPredicate(format: "idTask == %@", idTask as CVarArg)
         do {
             let result = try context.fetch(fetchRequest)
             if let commentTaskToUpdate = result.first {
-                commentTaskToUpdate.notionTask = comment
+                commentTaskToUpdate.notionTask = newComment
                 try context.save()
                 completion(.success(()))
             } else {
@@ -192,9 +203,9 @@ final class CoreDataManagerTaskList {
     ///   - priority: приоритет задачи
     ///   - indexPath: indexPath
     ///   - completion: completion
-    func savePriotyTask(nameTask: String, priority: Int16, for indexPath: IndexPath, completion: @escaping(Result<Void, Error>) -> Void) {
+    func savePriotyTask(idTask: UUID, priority: Int16, for indexPath: IndexPath, completion: @escaping(Result<Void, Error>) -> Void) {
         let fetchRequest: NSFetchRequest<TaskList> = TaskList.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "nameTask == %@", nameTask)
+        fetchRequest.predicate = NSPredicate(format: "idTask == %@", idTask as CVarArg)
 
         do {
             let result = try context.fetch(fetchRequest)
@@ -217,9 +228,9 @@ final class CoreDataManagerTaskList {
     ///   - newDate: новая дата задачи
     ///   - indexPath: indexPath
     ///   - completion: completion
-    func saveNewDateTask(nameTask: String, newDate: Date?, for indexPath: IndexPath, completion: @escaping(Result<Void, Error>) -> Void) {
+    func saveNewDateTask(idTask: UUID, newDate: Date?, for indexPath: IndexPath, completion: @escaping(Result<Void, Error>) -> Void) {
         let fetchRequest: NSFetchRequest<TaskList> = TaskList.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "nameTask == %@", nameTask)
+        fetchRequest.predicate = NSPredicate(format: "idTask == %@", idTask as CVarArg)
         
         do {
             let result = try context.fetch(fetchRequest)

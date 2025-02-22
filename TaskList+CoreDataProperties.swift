@@ -23,6 +23,7 @@ extension TaskList {
     @NSManaged public var completed: Bool
     @NSManaged public var notionTask: String?
     @NSManaged public var priority: Int16
+    @NSManaged public var idTask: UUID
     @NSManaged public var group: NameGroup?
 
 }

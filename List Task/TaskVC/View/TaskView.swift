@@ -45,7 +45,7 @@ final class TaskView: UIView {
     lazy var tableView: UITableView = {
         let tableView = UITableView(frame: CGRect.zero, style: .plain)
         tableView.backgroundColor = UIColor.systemBackground
-        tableView.separatorColor = .gray
+        tableView.separatorColor = .darkGray
         tableView.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
         tableView.register(TaskCell.self, forCellReuseIdentifier: "taskCell")
         return tableView
@@ -122,13 +122,13 @@ extension TaskView {
     private func setupConstraint() {
         labelHeadline.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(72)
-            make.left.equalToSuperview().inset(70)
+            make.left.equalToSuperview().inset(64)
             make.right.equalToSuperview().inset(40)
             make.height.equalTo(34)
         }
         iconImageView.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(76)
-            make.left.equalToSuperview().inset(30)
+            make.top.equalToSuperview().inset(88)
+            make.left.equalToSuperview().inset(25)
             make.height.width.equalTo(30)
         }
         settingsListButton.snp.makeConstraints { make in
@@ -143,7 +143,7 @@ extension TaskView {
         }
         taskCountLabel.snp.makeConstraints { make in
             make.top.equalTo(labelHeadline.snp.top).inset(43)
-            make.left.equalToSuperview().inset(70)
+            make.left.equalToSuperview().inset(64)
         }
         newTaskButton.snp.makeConstraints { make in
             make.left.right.equalToSuperview().inset(0)

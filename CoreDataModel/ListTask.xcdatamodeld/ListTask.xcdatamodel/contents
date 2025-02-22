@@ -3,12 +3,14 @@
     <entity name="NameGroup" representedClassName="NameGroup" syncable="YES">
         <attribute name="colorIcon" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="iconNameGroup" optional="YES" attributeType="Binary"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <relationship name="tasks" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="TaskList" inverseName="group" inverseEntity="TaskList"/>
     </entity>
     <entity name="TaskList" representedClassName="TaskList" syncable="YES">
         <attribute name="completed" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="idTask" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="nameTask" optional="YES" attributeType="String"/>
         <attribute name="notionTask" optional="YES" attributeType="String"/>
         <attribute name="priority" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>

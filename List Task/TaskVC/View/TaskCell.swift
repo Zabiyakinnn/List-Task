@@ -90,7 +90,7 @@ final class TaskCell: UITableViewCell {
     }
     
 //    изменение цвета кнопки 
-        func colorConditionButton(taskList: TaskList) {
+    func colorConditionButton(taskList: TaskList) {
         if conditionButton.isSelected {
             conditionButton.tintColor = UIColor.systemGreen // цвет кнопки в зависимисти от состояни задачи (выполненно/ не выполненно)
         } else {

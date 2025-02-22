@@ -63,9 +63,9 @@ final class TaskViewModel {
     ///   - task: задача
     ///   - newStatus: новый стауст
     ///   - completion: completion
-    private func updateTaskStatus(task: String, newStatus: Bool, completion: @escaping(Result<Void, Error>) -> Void) {
+    private func updateTaskStatus(idTask: UUID, newStatus: Bool, completion: @escaping(Result<Void, Error>) -> Void) {
         taskDataProvider.updateTaskStatus(
-            nameTask: task,
+            idTask: idTask,
             newStatus: newStatus) { [weak self] result in
                 guard let self = self else { return }
                 switch result {
@@ -88,7 +88,7 @@ final class TaskViewModel {
             completion(.failure(NSError(domain: "Задача не найденна", code: 404)))
             return
         }
-        updateTaskStatus(task: task.nameTask ?? "", newStatus: newStatus, completion: completion)
+        updateTaskStatus(idTask: task.idTask, newStatus: newStatus, completion: completion)
     }
     
 //    MARK: - Удалние задачи
@@ -120,9 +120,9 @@ final class TaskViewModel {
     ///   - comment: новый комментарий
     ///   - indexPath: indexPath
     ///   - completion: completion
-    private func saveCommentCoreData(nameTask: String, newComment: String?, for indexPath: IndexPath, completion: @escaping(Result<Void, Error>) -> Void) {
+    private func saveCommentCoreData(idTask: UUID, newComment: String?, for indexPath: IndexPath, completion: @escaping(Result<Void, Error>) -> Void) {
         taskDataProvider.saveComment(
-            nameTask: nameTask,
+            idTask: idTask,
             comment: newComment,
             for: indexPath) { [weak self] result in
                 guard let self = self else { return }
@@ -146,7 +146,7 @@ final class TaskViewModel {
             completion(.failure(NSError(domain: "Задача не найденна", code: 404)))
             return
         }
-        saveCommentCoreData(nameTask: task.nameTask ?? "", newComment: newComment, for: indexPath, completion: completion)
+        saveCommentCoreData(idTask: task.idTask, newComment: newComment, for: indexPath, completion: completion)
     }
     
 //    MARK: - Приоритет для задачи
@@ -156,9 +156,9 @@ final class TaskViewModel {
     ///   - priority: приоритет
     ///   - indexPath: indexPath
     ///   - completion: completion
-    private func savePriorityTaskCoreDate(nameTask: String, priority: Int16, for indexPath: IndexPath, completion: @escaping(Result<Void, Error>) -> Void) {
+    private func savePriorityTaskCoreDate(idTask: UUID, priority: Int16, for indexPath: IndexPath, completion: @escaping(Result<Void, Error>) -> Void) {
         taskDataProvider.savePriorityTask(
-            nameTask: nameTask,
+            idTask: idTask,
             priority: priority,
             for: indexPath) { [weak self] result in
                 guard let self = self else { return }
@@ -183,7 +183,7 @@ final class TaskViewModel {
             completion(.failure(NSError(domain: "Задача не найденна", code: 404)))
             return
         }
-        savePriorityTaskCoreDate(nameTask: task.nameTask ?? "", priority: Int16(newPriority), for: indexPath, completion: completion)
+        savePriorityTaskCoreDate(idTask: task.idTask, priority: Int16(newPriority), for: indexPath, completion: completion)
     }
     
 //    MARK: Date Callendar LeadingSwipe
@@ -215,9 +215,9 @@ final class TaskViewModel {
     ///   - newDate: новая дата
     ///   - indexPath: indexPath
     ///   - compltion: completion
-    private func saveNewDateTaskCoreData(nameTask: String, newDate: Date?, for indexPath: IndexPath, compltion: @escaping(Result<Void, Error>) -> Void) {
+    private func saveNewDateTaskCoreData(idTask: UUID, newDate: Date?, for indexPath: IndexPath, compltion: @escaping(Result<Void, Error>) -> Void) {
         taskDataProvider.saveNewDateTask(
-            nameTask: nameTask,
+            idTask: idTask,
             newDate: newDate,
             for: indexPath) { [weak self] result in
                 guard let self = self else { return }
@@ -241,6 +241,6 @@ final class TaskViewModel {
             completion(.failure(NSError(domain: "Задача не найденна", code: 404)))
             return
         }
-        saveNewDateTaskCoreData(nameTask: task.nameTask ?? "", newDate: newDate, for: indexPath, compltion: completion)
+        saveNewDateTaskCoreData(idTask: task.idTask, newDate: newDate, for: indexPath, compltion: completion)
     }
 }

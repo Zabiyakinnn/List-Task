@@ -49,6 +49,7 @@ final class CoreDataManagerNameGroup {
             group.name = name
             group.iconNameGroup = iconNameGroup
             group.colorIcon = iconColor
+            group.id = UUID()
             
             try context.save()
             completion(.success(()))
@@ -62,8 +63,13 @@ final class CoreDataManagerNameGroup {
     ///   - existingGroup: существующая группа
     ///   - completion: completion
     func deleteGroupTask(existingGroup: NameGroup?, completion: @escaping (Result<Void, Error>) -> Void) {
+        guard let groupID = existingGroup?.id else {
+            completion(.failure(NSError(domain: "", code: 400, userInfo: [NSLocalizedDescriptionKey: "ID не найден"])))
+            return
+        }
+        
         let fetchRequest: NSFetchRequest<NameGroup> = NameGroup.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "name == %@", existingGroup?.name ?? "")
+        fetchRequest.predicate = NSPredicate(format: "id == %@", groupID as CVarArg)
         do {
             let result = try context.fetch(fetchRequest)
             if let groupToDelete = result.first {
@@ -71,7 +77,7 @@ final class CoreDataManagerNameGroup {
                 try context.save()
                 completion(.success(()))
             } else {
-                print("Задача не найденна в CoreData")
+                print("Группа не найденна в CoreData")
             }
         } catch {
             completion(.failure((error)))
@@ -85,8 +91,9 @@ final class CoreDataManagerNameGroup {
     ///   - newIcon: новая иконка группы
     ///   - completion: completion
     func changeGroupTask(existingGroup: NameGroup, newName: String, newIcon: Data?, colorIcon: Int64, completion: @escaping (Result<Void, Error>) -> Void) {
+        let groupID = existingGroup.id
         let fetchRequest: NSFetchRequest<NameGroup> = NameGroup.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "name == %@", existingGroup.name ?? "")
+        fetchRequest.predicate = NSPredicate(format: "id == %@", groupID as CVarArg)
         
         do {
             let result = try context.fetch(fetchRequest)
@@ -94,6 +101,7 @@ final class CoreDataManagerNameGroup {
                 changeGroup.name = newName
                 changeGroup.iconNameGroup = newIcon
                 changeGroup.colorIcon = colorIcon
+                changeGroup.id = groupID
                 try context.save()
                 completion(.success(()))
             } else {

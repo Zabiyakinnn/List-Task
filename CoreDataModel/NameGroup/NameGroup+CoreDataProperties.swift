@@ -21,6 +21,7 @@ extension NameGroup {
     @NSManaged public var name: String?
     @NSManaged public var iconNameGroup: Data?
     @NSManaged public var colorIcon: Int64
+    @NSManaged public var id: UUID
     @NSManaged public var tasks: NSSet?
 
 }

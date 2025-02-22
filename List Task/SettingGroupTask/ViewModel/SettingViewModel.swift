@@ -40,10 +40,12 @@ final class SettingViewModel {
     ///   - newIcon: новая иконка
     ///   - completion: completion
     func saveChangeGroupTask(group: NameGroup, newName: String, newIcon: Data?, colorIcon: Int64, completion: @escaping (Result<Void, Error>) -> Void) {
-        settingDataProvider.changeGroupTask(exestiongGroup: group,
-                                            newName: newName,
-                                            newIcon: newIcon,
-                                            colorIcon: colorIcon,
-                                            completion: completion)
+        settingDataProvider.changeGroupTask(
+            exestiongGroup: group,
+            newName: newName,
+            newIcon: newIcon,
+            colorIcon: colorIcon,
+            completion: completion
+        )
     }
 }

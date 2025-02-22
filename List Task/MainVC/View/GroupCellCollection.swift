@@ -64,7 +64,7 @@ final class GroupCellCollection: UICollectionViewCell {
     
     func configure(_ nameGroup: NameGroup,_ taskCount: Int) {
         nameTask.text = nameGroup.name
-        taskCountLabel.text = "Кол-во задач \(taskCount)"
+        taskCountLabel.text = "Кол-во задач: \(taskCount)"
         if let iconData = nameGroup.iconNameGroup,
            let iconImage = UIImage(data: iconData)?.withRenderingMode(.alwaysTemplate) {
             iconImageView.image = iconImage
