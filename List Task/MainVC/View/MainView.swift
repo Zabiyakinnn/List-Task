@@ -57,14 +57,6 @@ final class MainView: UIView {
     }()
     
     //    MARK: - Button
-    //    кнопка настройки
-    lazy var settingButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setImage(UIImage(systemName: "gearshape"), for: .normal)
-        button.tintColor = UIColor(red: 0.32, green: 0.32, blue: 0.32, alpha: 1.00)
-        return button
-    }()
-    
     //    кнопка добавить группу задач
     lazy var newGroupTaskButton: UIButton = {
         let button = UIButton(type: .system)
@@ -90,7 +82,6 @@ final class MainView: UIView {
         addSubview(collectionView)
         addSubview(labelDayWeek)
         addSubview(labelDate)
-        addSubview(settingButton)
         addSubview(newGroupTaskButton)
         
         setupConstraint()
@@ -111,13 +102,8 @@ final class MainView: UIView {
             make.top.equalTo(labelDayWeek.snp.bottom).inset(-10)
             make.left.equalToSuperview().inset(23)
         }
-        settingButton.snp.makeConstraints { make in
-            make.right.equalToSuperview().inset(16)
-            make.top.equalToSuperview().inset(60)
-            make.height.width.equalTo(40)
-        }
         newGroupTaskButton.snp.makeConstraints { make in
-            make.right.equalTo(settingButton.snp.right).inset(40)
+            make.right.equalToSuperview().inset(16)
             make.top.equalToSuperview().inset(60)
             make.height.width.equalTo(40)
         }

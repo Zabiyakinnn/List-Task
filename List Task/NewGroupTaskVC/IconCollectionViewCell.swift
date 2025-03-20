@@ -32,9 +32,9 @@ final class IconCollectionViewCell: UICollectionViewCell {
     
     private func setupConstraint() {
         iconImageView.snp.makeConstraints { make in
-            make.left.equalTo(contentView.snp.left).inset(5)
-            make.top.equalTo(contentView.snp.top).inset(5)
-            make.width.height.equalTo(26)
+            make.centerX.equalToSuperview()
+            make.centerY.equalToSuperview()
+            make.width.height.equalTo(28.5)
         }
     }
     
@@ -42,6 +42,6 @@ final class IconCollectionViewCell: UICollectionViewCell {
     func configure(with image: UIImage, isSelected: Bool) {
         iconImageView.image = image
         contentView.layer.borderWidth = isSelected ? 2 : 0
-        iconImageView.tintColor = isSelected ? UIColor.systemYellow : UIColor.darkGray
+        iconImageView.tintColor = isSelected ? UIColor.systemYellow : UIColor.lightGray
     }
 }

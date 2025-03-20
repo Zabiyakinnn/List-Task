@@ -15,13 +15,18 @@ class NewGroupView: UIView {
     lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
-        let itemSize = CGSize(width: 30, height: 30)
-        layout.minimumInteritemSpacing = 10
+        
+        let itemCount: CGFloat = 5 // кол-во элементов
+        let spacing: CGFloat = 16 // расстояние между элементами
+        let totalSpacing = spacing * (itemCount - 1)
+        let itemWidth = (UIScreen.main.bounds.width - totalSpacing) / itemCount
+        layout.itemSize = CGSize(width: itemWidth, height: itemWidth)
         
         let collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
         collectionView.register(IconCollectionViewCell.self, forCellWithReuseIdentifier: "iconCollectionViewCell")
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.backgroundColor = UIColor.clear
+        collectionView.isScrollEnabled = false
         return collectionView
     }()
     
@@ -47,7 +52,7 @@ class NewGroupView: UIView {
         return label
     }()
     
-    //    текст "выберете иконку"
+//    текст "выберете иконку"
     lazy var iconLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor(named: "ColorTextBlackAndWhite")
@@ -57,7 +62,7 @@ class NewGroupView: UIView {
         return label
     }()
     
-    //    текст укажите название
+    //    текст "укажите название"
     lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor(named: "ColorTextBlackAndWhite")
@@ -74,6 +79,15 @@ class NewGroupView: UIView {
         button.setTitle("Сохранить", for: .normal)
         button.titleLabel?.font = UIFont(name: "Bluecurve-Light", size: 16)
         button.tintColor = UIColor(named: "ColorTextBlackAndWhite")
+        return button
+    }()
+    
+//    открыть доп экран с икнонками для задач
+    lazy var moreIconsButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("Еще", for: .normal)
+        button.titleLabel?.font = UIFont(name: "Bluecurve-Light", size: 16)
+        button.tintColor = UIColor.lightGray
         return button
     }()
     
@@ -95,9 +109,9 @@ extension NewGroupView {
         addSubview(labelHeadline)
         addSubview(saveButton)
         addSubview(textView)
-        addSubview(iconLabel)
         addSubview(titleLabel)
         addSubview(collectionView)
+        addSubview(iconLabel)
         
         setupConstraint()
     }

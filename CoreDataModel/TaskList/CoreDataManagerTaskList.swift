@@ -76,7 +76,7 @@ final class CoreDataManagerTaskList {
             task.idTask = UUID()
             group?.addToTasks(task)
             
-        do {
+        do { 
             try context.save()
             completion(.success(()))
         } catch {

@@ -36,7 +36,6 @@ final class MainViewController: UIViewController, NSFetchedResultsControllerDele
     
     private func setupButton() {
         mainView.newGroupTaskButton.addTarget(self, action: #selector(newGroupButtonTapped), for: .touchUpInside)
-        mainView.settingButton.addTarget(self, action: #selector(settingButtonTapped), for: .touchUpInside)
     }
     
     @objc private func newGroupButtonTapped() {
@@ -45,11 +44,6 @@ final class MainViewController: UIViewController, NSFetchedResultsControllerDele
             self?.reloadCollectionView()
         }
         navigationController?.present(newGroupVC, animated: true)
-    }
-    
-    @objc private func settingButtonTapped() {
-        let settingVC = SettingViewController()
-        navigationController?.pushViewController(settingVC, animated: true)
     }
     
 //    обновление коллекции

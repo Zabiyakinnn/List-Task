@@ -11,6 +11,7 @@ final class SettingViewModel {
     
     private var settingDataProvider: SettingDataProvider
     var nameGroup: NameGroup
+
         
     init(settingDataProvider: SettingDataProvider, nameGroup: NameGroup) {
         self.settingDataProvider = settingDataProvider
@@ -18,12 +19,14 @@ final class SettingViewModel {
     }
     
 //    отпределение индекса ранее сохраненной иконки для отображение на settiongView
-    func getSelectedIconIndex(icons: [UIImage]) -> IndexPath? {
-        guard let iconData = nameGroup.iconNameGroup else { return nil }
-        
-        for (index, icon) in icons.enumerated() {
-            if let iconPngData = icon.pngData(), iconPngData == iconData {
-                return IndexPath(item: index, section: 0)
+    func getSelectedIconIndex(icons: [[UIImage]]) -> IndexPath? {
+        guard let savedIconData = nameGroup.iconNameGroup else { return nil }
+
+        for (sectionIndex, section) in icons.enumerated() {
+            for (itemIndex, icon) in section.enumerated() {
+                if icon.pngData() == savedIconData {
+                    return IndexPath(item: itemIndex, section: sectionIndex)
+                }
             }
         }
         return nil
@@ -49,3 +52,4 @@ final class SettingViewModel {
         )
     }
 }
+

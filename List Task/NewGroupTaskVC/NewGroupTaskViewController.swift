@@ -19,7 +19,7 @@ final class NewGroupTaskViewController: UIViewController, UITextViewDelegate {
     var isSelectedIndexPath: IndexPath? // отслеживать выбранный индекс
     
     //    массив с иконками для collectionView
-    let icons = IconImageArray.shared.icons
+    let icons = MoreIconsViewModel().section.first?.icons ?? []
 
     //    MARK: - LoadView
     override func loadView() {
@@ -79,6 +79,7 @@ final class NewGroupTaskViewController: UIViewController, UITextViewDelegate {
                 }
             }
     }
+
 }
 
 // MARK: - UICollectionViewDelegate, UICollectionViewDataSource

@@ -26,13 +26,18 @@ final class SettingGroupTaskView: UIView {
     lazy var collectionViewColor: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
-        layout.minimumLineSpacing = 10
-        layout.minimumInteritemSpacing = 10
         layout.itemSize = CGSize(width: 46, height: 46)
+        
+        let itemCount: CGFloat = 5 // кол-во элементов
+        let spacing: CGFloat = 16 // расстояние между элементами
+        let totalSpacing = spacing * (itemCount - 1)
+        let itemWidth = (UIScreen.main.bounds.width - totalSpacing) / itemCount
+        layout.itemSize = CGSize(width: itemWidth, height: itemWidth)
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.register(ColorCell.self, forCellWithReuseIdentifier: "colorCell")
         collectionView.showsHorizontalScrollIndicator = false
+        collectionView.isScrollEnabled = false
         return collectionView
     }()
     
@@ -40,13 +45,18 @@ final class SettingGroupTaskView: UIView {
     lazy var collectionViewIcon: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
-        let itemSize = CGSize(width: 30, height: 30)
-        layout.minimumInteritemSpacing = 10
+        
+        let itemCount: CGFloat = 5 // кол-во элементов
+        let spacing: CGFloat = 16 // расстояние между элементами
+        let totalSpacing = spacing * (itemCount - 1)
+        let itemWidth = (UIScreen.main.bounds.width - totalSpacing) / itemCount
+        layout.itemSize = CGSize(width: itemWidth, height: itemWidth)
         
         let collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
         collectionView.register(IconCollectionViewCell.self, forCellWithReuseIdentifier: "iconCollectionViewCell")
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.backgroundColor = UIColor.clear
+        collectionView.isScrollEnabled = false
         return collectionView
     }()
     
@@ -95,7 +105,7 @@ final class SettingGroupTaskView: UIView {
 //    текст "выберете цвет"
     private lazy var colorChooseHeadline: UILabel = {
         let label = UILabel()
-        label.textColor = UIColor.darkGray
+        label.textColor = UIColor.lightGray
         label.font = UIFont(name: "Bluecurve-Light", size: 15)
         label.text = "Выберете цвет для иконки"
         label.textAlignment = .center
@@ -115,7 +125,7 @@ final class SettingGroupTaskView: UIView {
     //    текст "Изменить иконку"
     private lazy var iconChooseHeadline: UILabel = {
         let label = UILabel()
-        label.textColor = UIColor.darkGray
+        label.textColor = UIColor.lightGray
         label.font = UIFont(name: "Bluecurve-Light", size: 15)
         label.text = "Изменить иконку"
         label.textAlignment = .center
@@ -130,6 +140,16 @@ final class SettingGroupTaskView: UIView {
         button.tintColor = UIColor(named: "ColorTextBlackAndWhite")
         return button
     }()
+    
+    //    открыть доп экран с икнонками для задач
+    lazy var moreIconsButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("Еще", for: .normal)
+        button.titleLabel?.font = UIFont(name: "Bluecurve-Light", size: 16)
+        button.tintColor = UIColor.lightGray
+        return button
+    }()
+
     
 //    передача данных
     func contentView(name: String) {
@@ -150,6 +170,7 @@ extension SettingGroupTaskView {
         addSubview(iconChooseHeadline)
         addSubview(collectionViewIcon)
         addSubview(saveButton)
+        addSubview(moreIconsButton)
         setupConstraint()
     }
     
@@ -189,6 +210,10 @@ extension SettingGroupTaskView {
         iconHeadline.snp.makeConstraints { make in
             make.top.equalTo(collectionViewColor.snp.bottom).offset(18)
             make.left.equalToSuperview().inset(20)
+        }
+        moreIconsButton.snp.makeConstraints { make in
+            make.centerY.equalTo(iconHeadline)
+            make.right.equalToSuperview().offset(-24)
         }
         iconChooseHeadline.snp.makeConstraints { make in
             make.top.equalTo(iconHeadline.snp.bottom).offset(10)

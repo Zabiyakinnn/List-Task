@@ -12,7 +12,7 @@ final class ColorCell: UICollectionViewCell {
 //    цвет
     private lazy var colorView: UIView = {
         let view = UIView()
-        view.layer.cornerRadius = 24
+        view.layer.cornerRadius = 27
         view.layer.masksToBounds = true
         return view
     }()
@@ -38,7 +38,8 @@ final class ColorCell: UICollectionViewCell {
     
     private func setupConstraint() {
         colorView.snp.makeConstraints { make in
-            make.height.width.equalTo(48)
+            make.height.width.equalTo(54)
+            make.centerY.centerX.equalToSuperview()
         }
         checkmarkImageView.snp.makeConstraints { make in
             make.center.equalToSuperview()
