@@ -10,18 +10,16 @@ import UIKit
 final class SettingGroupTaskVC: UIViewController {
     
     private var settingGroupTaskView = SettingGroupTaskView()
-    
+    private var viewModel: SettingViewModel
     private var moreIconsViewModel = MoreIconsViewModel()
+    private var moreColorViewModel = MoreColorViewModel()
+    private var moreIconsVC = MoreIconsViewController()
+    
     let colors = ColorPalette.colors // цвета
+//    let colors = MoreColorViewModel().section
     
     var iconCollectionViewCell = "iconCollectionViewCell"
     var colorCell = "colorCell"
-    private var viewModel: SettingViewModel
-
-    
-    var isSelectedIndexPathIcon: IndexPath? // отслеживать выбранный индекс иконки
-    var isSelectedIndexPathColor: IndexPath? // отслеживать выбранный индекс цвета
-    var saveSelectedColor: Int? // сохранить выбранный индекс с цветом в CoreData
     
     var onGroupSaved: (() -> Void)? // уведомление об успешном сохранении
 
@@ -52,86 +50,83 @@ final class SettingGroupTaskVC: UIViewController {
         
         setupBinding()
         setupButton()
-        
     }
+    
+//    MARK: - ViewWillAppear
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if let indexPath = viewModel.isSelectedIndexPathIcon {
+            settingGroupTaskView.moreIconsButton.tintColor = viewModel.updateIconsButtonTapped(indexPath: indexPath)
+        }
+        moreIconsVC.selectedColor = { [weak self] indexPath in
+            guard let self = self else { return }
+            settingGroupTaskView.moreIconsButton.tintColor = viewModel.updateIconsButtonTapped(indexPath: indexPath)
+        }
+    }
+    
     
 //    настрйка зависимостей
     func setupBinding() {
         settingGroupTaskView.contentView(name: viewModel.nameGroup.name ?? "Название группы")
         
         let icons = moreIconsViewModel.section.map { $0.icons }
-        isSelectedIndexPathIcon = viewModel.getSelectedIconIndex(icons: icons) // получение индекса сохраненной иконки
+        viewModel.isSelectedIndexPathIcon = viewModel.getSelectedIconIndex(icons: icons)  // получение индекса сохраненной иконки
+
         settingGroupTaskView.collectionViewIcon.reloadData()
         
         if let savedColorIndex = viewModel.getSelectedColorIndex() { // получение индекса сохраненного цвета
-            isSelectedIndexPathColor = IndexPath(item: savedColorIndex, section: 0)
+            viewModel.isSelectedIndexPathColor = IndexPath(item: savedColorIndex, section: 0)
         }
         settingGroupTaskView.collectionViewColor.reloadData()
     }
+    
     
 //    MARK: - Button
     private func setupButton() {
         settingGroupTaskView.saveButton.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
         settingGroupTaskView.moreIconsButton.addTarget(self, action: #selector(moreIconsButtonTapped), for: .touchUpInside)
+        settingGroupTaskView.moreColorButton.addTarget(self, action: #selector(moreColorButtonTapped), for: .touchUpInside)
     }
     
 //    сохранение задачи
     @objc func saveButtonTapped() {
         guard let newNameText = settingGroupTaskView.textView.text, !newNameText.isEmpty else {
-            warningText()
+            warningTextNoNameGroup()
             return
         }
         
-        let newSelectedIconData: Data? = {
-            if let selectedIndexPath = isSelectedIndexPathIcon {
-                let selectedImage = moreIconsViewModel.section[selectedIndexPath.section].icons[selectedIndexPath.item]
-//                let selectedImage = icons[selectedIndexPath.row]
-                print("Сохраненный индекс: \(selectedIndexPath)")
-                return selectedImage.pngData()
-            } else {
-                print("Иконка не найдена")
-                let imageSave = viewModel.nameGroup.iconNameGroup
-                return imageSave
-            }
-        }()
-        
-        viewModel.saveChangeGroupTask(
-            group: viewModel.nameGroup,
-            newName: newNameText,
-            newIcon: newSelectedIconData,
-            colorIcon: Int64(saveSelectedColor ?? Int(viewModel.nameGroup.colorIcon))) { [weak self] result in
+        viewModel.saveChengeGroupTask(newName: newNameText) { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .success():
                 onGroupSaved?()
-//                print("Иконка измененена на \(newSelectedIconData)")
                 dismiss(animated: true)
             case .failure(let error):
+                warningTextErrorServer()
                 print("Ошибка сохранения изменений в CoreData: \(error.localizedDescription)")
             }
         }
     }
     
-//    переход на экран выбора сортировки задач
-    @objc func sortingView() {
-        let sortingVC = SortingViewController()
-        present(sortingVC, animated: true)
-    }
-    
 //    переход на экран с большим кол-вом иконок
     @objc private func moreIconsButtonTapped() {
-        let moreIconsVC = MoreIconsViewController()
-        moreIconsVC.isSelectedIndexPath = isSelectedIndexPathIcon
+        moreIconsVC.isSelectedIndexPath = viewModel.isSelectedIndexPathIcon
 //        print("Индекс выбранной иконки: \(isSelectedIndexPathIcon)")
         
-        moreIconsVC.onNewIconSelected = { [weak self] selectedImage, selectedIndexPath in
+        moreIconsVC.onNewIconSelected = { [weak self] _, selectedIndexPath in
             guard let self = self else { return }
-            self.isSelectedIndexPathIcon = selectedIndexPath
+            viewModel.isSelectedIndexPathIcon = selectedIndexPath
 //            print("Выбрана новая иконка: \(selectedIndexPath)")
             self.settingGroupTaskView.collectionViewIcon.reloadData()
         }
         
         present(moreIconsVC, animated: true)
+    }
+    
+//    переход на экран с болим кол-вом цветов
+    @objc private func moreColorButtonTapped() {
+        let moreColorVC = MoreColorViewController()
+        present(moreColorVC, animated: true)
     }
 }
 
@@ -155,7 +150,7 @@ extension SettingGroupTaskVC: UICollectionViewDelegate, UICollectionViewDataSour
                 return UICollectionViewCell()
             }
             let color = colors[indexPath.item]
-            let isSelect = indexPath == isSelectedIndexPathColor
+            let isSelect = indexPath == viewModel.isSelectedIndexPathColor
             cell.configure(with: color, isSilected: isSelect)
             return cell
         } else if collectionView == settingGroupTaskView.collectionViewIcon {
@@ -164,7 +159,7 @@ extension SettingGroupTaskVC: UICollectionViewDelegate, UICollectionViewDataSour
             }
             let icons = moreIconsViewModel.section[indexPath.section].icons
             let image = icons[indexPath.item]
-            let isSelect = indexPath == isSelectedIndexPathIcon
+            let isSelect = indexPath == viewModel.isSelectedIndexPathIcon
 //            print("Ячейка: \(indexPath), Выбранный индекс: \(String(describing: isSelectedIndexPathIcon)), Совпадение: \(isSelect)")
             cell.configure(with: image, isSelected: isSelect)
             return cell
@@ -174,19 +169,22 @@ extension SettingGroupTaskVC: UICollectionViewDelegate, UICollectionViewDataSour
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if collectionView == settingGroupTaskView.collectionViewIcon {
-            isSelectedIndexPathIcon = indexPath
+            viewModel.isSelectedIndexPathIcon = indexPath
             collectionView.reloadData()
         } else if collectionView == settingGroupTaskView.collectionViewColor {
-            isSelectedIndexPathColor = indexPath
-            saveSelectedColor = indexPath.item
+            viewModel.isSelectedIndexPathColor = indexPath
+            viewModel.saveSelectedColor = indexPath.item
             collectionView.reloadData()
         }
     }
 }
 
-//MARK: - warning
+//MARK: Warning
 extension SettingGroupTaskVC {
-    private func warningText() {
+    private func warningTextNoNameGroup() {
         NotificationUtils.showWarning(on: self, text: "Название группы не может быть пустым")
+    }
+    private func warningTextErrorServer() {
+        NotificationUtils.showWarning(on: self, text: "Ошибка сервера при сохранении задачи. Попробуйте перезапустить приложение")
     }
 }

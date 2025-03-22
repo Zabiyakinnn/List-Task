@@ -149,6 +149,15 @@ final class SettingGroupTaskView: UIView {
         button.tintColor = UIColor.lightGray
         return button
     }()
+    
+    //    открыть доп экран с икнонками для задач
+    lazy var moreColorButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("Еще", for: .normal)
+        button.titleLabel?.font = UIFont(name: "Bluecurve-Light", size: 16)
+        button.tintColor = UIColor.lightGray
+        return button
+    }()
 
     
 //    передача данных
@@ -171,6 +180,7 @@ extension SettingGroupTaskView {
         addSubview(collectionViewIcon)
         addSubview(saveButton)
         addSubview(moreIconsButton)
+        addSubview(moreColorButton)
         setupConstraint()
     }
     
@@ -213,6 +223,10 @@ extension SettingGroupTaskView {
         }
         moreIconsButton.snp.makeConstraints { make in
             make.centerY.equalTo(iconHeadline)
+            make.right.equalToSuperview().offset(-24)
+        }
+        moreColorButton.snp.makeConstraints { make in
+            make.centerY.equalTo(colorHeadline)
             make.right.equalToSuperview().offset(-24)
         }
         iconChooseHeadline.snp.makeConstraints { make in

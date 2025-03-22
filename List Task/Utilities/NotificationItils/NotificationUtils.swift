@@ -18,6 +18,7 @@ public final class NotificationUtils {
         
         let labelWarning = UILabel()
         labelWarning.text = text
+        labelWarning.numberOfLines = 2
         labelWarning.textColor = .white
         labelWarning.textAlignment = .center
         

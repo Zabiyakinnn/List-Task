@@ -22,6 +22,9 @@
 		C262BC372CD926470046794A /* TaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C262BC362CD926470046794A /* TaskViewController.swift */; };
 		C262BC422CDD10F50046794A /* NewTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C262BC412CDD10F50046794A /* NewTaskViewController.swift */; };
 		C262BC4E2CDF7B030046794A /* TaskList+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = C262BC4C2CDF7B030046794A /* TaskList+CoreDataProperties.swift */; };
+		C26FF4142D8EC00900BC5047 /* MoreColorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C26FF4132D8EC00900BC5047 /* MoreColorView.swift */; };
+		C26FF4162D8EC0CD00BC5047 /* MoreColorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C26FF4152D8EC0CD00BC5047 /* MoreColorViewController.swift */; };
+		C26FF4182D8EC76300BC5047 /* MoreColorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C26FF4172D8EC76300BC5047 /* MoreColorViewModel.swift */; };
 		C2B3CBAF2D09769400649379 /* CalendarPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2B3CBAE2D09769400649379 /* CalendarPickerView.swift */; };
 		C2B3CBB22D09E2B600649379 /* NewCommentTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2B3CBB12D09E2B600649379 /* NewCommentTaskViewController.swift */; };
 		C2B3CBB62D09E2F300649379 /* NewCommentTaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2B3CBB52D09E2F300649379 /* NewCommentTaskView.swift */; };
@@ -55,7 +58,6 @@
 		C2D3789F2D293C9800CB1026 /* SettingGroupTaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D3789E2D293C9800CB1026 /* SettingGroupTaskView.swift */; };
 		C2D378A12D2975B000CB1026 /* ColorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D378A02D2975B000CB1026 /* ColorCell.swift */; };
 		C2D378A32D31324A00CB1026 /* ColorPalette.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D378A22D31324A00CB1026 /* ColorPalette.swift */; };
-		C2D378A52D313AB000CB1026 /* IconImageArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D378A42D313AB000CB1026 /* IconImageArray.swift */; };
 		C2D378A82D315A0A00CB1026 /* SettingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D378A72D315A0A00CB1026 /* SettingViewModel.swift */; };
 		C2D378AB2D315A7D00CB1026 /* SettingDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D378AA2D315A7D00CB1026 /* SettingDataProvider.swift */; };
 		C2E2F8032CF0CCCE00260CE7 /* CoreDataManagerNameGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2E2F8022CF0CCCE00260CE7 /* CoreDataManagerNameGroup.swift */; };
@@ -80,6 +82,9 @@
 		C262BC362CD926470046794A /* TaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskViewController.swift; sourceTree = "<group>"; };
 		C262BC412CDD10F50046794A /* NewTaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTaskViewController.swift; sourceTree = "<group>"; };
 		C262BC4C2CDF7B030046794A /* TaskList+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TaskList+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
+		C26FF4132D8EC00900BC5047 /* MoreColorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreColorView.swift; sourceTree = "<group>"; };
+		C26FF4152D8EC0CD00BC5047 /* MoreColorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreColorViewController.swift; sourceTree = "<group>"; };
+		C26FF4172D8EC76300BC5047 /* MoreColorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreColorViewModel.swift; sourceTree = "<group>"; };
 		C2B3CBAE2D09769400649379 /* CalendarPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarPickerView.swift; sourceTree = "<group>"; };
 		C2B3CBB12D09E2B600649379 /* NewCommentTaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCommentTaskViewController.swift; sourceTree = "<group>"; };
 		C2B3CBB52D09E2F300649379 /* NewCommentTaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCommentTaskView.swift; sourceTree = "<group>"; };
@@ -115,7 +120,6 @@
 		C2D3789E2D293C9800CB1026 /* SettingGroupTaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingGroupTaskView.swift; sourceTree = "<group>"; };
 		C2D378A02D2975B000CB1026 /* ColorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorCell.swift; sourceTree = "<group>"; };
 		C2D378A22D31324A00CB1026 /* ColorPalette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPalette.swift; sourceTree = "<group>"; };
-		C2D378A42D313AB000CB1026 /* IconImageArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconImageArray.swift; sourceTree = "<group>"; };
 		C2D378A72D315A0A00CB1026 /* SettingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewModel.swift; sourceTree = "<group>"; };
 		C2D378AA2D315A7D00CB1026 /* SettingDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingDataProvider.swift; sourceTree = "<group>"; };
 		C2E2F8022CF0CCCE00260CE7 /* CoreDataManagerNameGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManagerNameGroup.swift; sourceTree = "<group>"; };
@@ -202,7 +206,6 @@
 		C262BC322CD9153B0046794A /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				C2D378A42D313AB000CB1026 /* IconImageArray.swift */,
 				C2D378962D19809C00CB1026 /* PriorityView */,
 				C2B3CBAD2D09767B00649379 /* CalendarView */,
 				C2D378952D197DB400CB1026 /* NotificationItils */,
@@ -247,6 +250,32 @@
 				C2E6771D2D0C6366006F7C79 /* ViewModel */,
 			);
 			path = NewTaskVC;
+			sourceTree = "<group>";
+		};
+		C26FF4102D8EBFDF00BC5047 /* MoreColor */ = {
+			isa = PBXGroup;
+			children = (
+				C26FF4122D8EBFF300BC5047 /* View */,
+				C26FF4112D8EBFEB00BC5047 /* Model */,
+			);
+			path = MoreColor;
+			sourceTree = "<group>";
+		};
+		C26FF4112D8EBFEB00BC5047 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				C26FF4172D8EC76300BC5047 /* MoreColorViewModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		C26FF4122D8EBFF300BC5047 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				C26FF4152D8EC0CD00BC5047 /* MoreColorViewController.swift */,
+				C26FF4132D8EC00900BC5047 /* MoreColorView.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		C2B3CBAD2D09767B00649379 /* CalendarView */ = {
@@ -338,6 +367,7 @@
 		C2C6CF662CD3A6BA00954F4A /* List Task */ = {
 			isa = PBXGroup;
 			children = (
+				C26FF4102D8EBFDF00BC5047 /* MoreColor */,
 				C20681E42D8444AB00905C48 /* MoreIcons */,
 				C20385BF2D3BA05B00C1BFB3 /* SortingView */,
 				C2D3789B2D2937F900CB1026 /* SettingGroupTask */,
@@ -649,6 +679,7 @@
 			files = (
 				C2CB9FBF2CFAF7E2006E7DB4 /* MainViewProvider.swift in Sources */,
 				C2D378A82D315A0A00CB1026 /* SettingViewModel.swift in Sources */,
+				C26FF4162D8EC0CD00BC5047 /* MoreColorViewController.swift in Sources */,
 				C2E6771F2D0C6384006F7C79 /* NewTaskViewModel.swift in Sources */,
 				C20385C32D3BA08400C1BFB3 /* SortingViewController.swift in Sources */,
 				C262BC422CDD10F50046794A /* NewTaskViewController.swift in Sources */,
@@ -658,12 +689,14 @@
 				C2B3CBAF2D09769400649379 /* CalendarPickerView.swift in Sources */,
 				C2C6CF822CD3C77F00954F4A /* GroupCellCollection.swift in Sources */,
 				C20681F12D84650800905C48 /* HeaderReusableView.swift in Sources */,
+				C26FF4142D8EC00900BC5047 /* MoreColorView.swift in Sources */,
 				C2CB9FBB2CFA0395006E7DB4 /* TaskView.swift in Sources */,
 				C262BC4E2CDF7B030046794A /* TaskList+CoreDataProperties.swift in Sources */,
 				C262BC312CD8BED80046794A /* IconCollectionViewCell.swift in Sources */,
 				C2C6CF872CD4C50200954F4A /* NewGroupTaskViewController.swift in Sources */,
 				C20681EC2D8460C500905C48 /* MoreIconsViewModel.swift in Sources */,
 				C2D378A32D31324A00CB1026 /* ColorPalette.swift in Sources */,
+				C26FF4182D8EC76300BC5047 /* MoreColorViewModel.swift in Sources */,
 				C2E2F8032CF0CCCE00260CE7 /* CoreDataManagerNameGroup.swift in Sources */,
 				C2C6CF6C2CD3A6BA00954F4A /* MainViewController.swift in Sources */,
 				C2E677222D0D6DE4006F7C79 /* TaskViewModel.swift in Sources */,
@@ -673,7 +706,6 @@
 				C2D378A12D2975B000CB1026 /* ColorCell.swift in Sources */,
 				C2C425DC2D4BA82C00FD026A /* ChangeTaskViewModel.swift in Sources */,
 				C262BC342CD915630046794A /* NotificationUtils.swift in Sources */,
-				C2D378A52D313AB000CB1026 /* IconImageArray.swift in Sources */,
 				C2C6CF8D2CD4F1F900954F4A /* ListTask.xcdatamodeld in Sources */,
 				C2C425D72D4B87EA00FD026A /* ChangeTaskViewController.swift in Sources */,
 				C2CB9FCE2D01C26F006E7DB4 /* EmptyView.swift in Sources */,

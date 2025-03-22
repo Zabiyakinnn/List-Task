@@ -130,7 +130,8 @@ final class TaskViewController: UIViewController, NSFetchedResultsControllerDele
         let settingDataProvider = SettingDataProvider(group: nameGroup)
         let settingViewModel = SettingViewModel(settingDataProvider: settingDataProvider, nameGroup: nameGroup)
         let settingGroupTaskVC = SettingGroupTaskVC(viewModel: settingViewModel)
-        let indexIcons = settingGroupTaskVC.isSelectedIndexPathIcon
+//        let indexIcons = settingGroupTaskVC.isSelectedIndexPathIcon
+//        let indexIcon = settingGroupTaskVC.viewModel.isSelectedIndexPathIcon
 //        print("Выбранная картинка: \(nameGroup.iconNameGroup)")
         settingGroupTaskVC.onGroupSaved = { [weak self] in
             guard let self = self else { return }
