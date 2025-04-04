@@ -16,7 +16,7 @@ final class MoreIconsViewController: UIViewController {
     var isSelectedIndexPath: IndexPath? // отслеживать выбранный индекс
         
     var onNewIconSelected: ((UIImage, IndexPath) -> Void)?
-    var selectedColor: ((IndexPath) -> Void)? // передача выбранного индекса
+    var selectedIcon: ((IndexPath) -> Void)? // передача выбранного индекса
 
     
 //    MARK: LoadView
@@ -77,13 +77,13 @@ extension MoreIconsViewController: UICollectionViewDelegate, UICollectionViewDat
         return UICollectionViewCell()
     }
      
-    // выбираем изобраджение
+    // выбираем изображение
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         isSelectedIndexPath = indexPath
         let selectedImage = viewModel.section[indexPath.section].icons[indexPath.item]
-        print("Выбранный индекс внутри MoreIconsViewController: \(indexPath)")
+//        print("Выбранный индекс внутри MoreIconsViewController: \(indexPath)")
         onNewIconSelected?(selectedImage, indexPath)
-        selectedColor?(indexPath)
+        selectedIcon?(indexPath)
         moreIconsView.collectionView.reloadData()
         dismiss(animated: true)
     }

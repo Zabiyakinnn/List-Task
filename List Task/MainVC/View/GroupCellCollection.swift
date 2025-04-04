@@ -65,19 +65,18 @@ final class GroupCellCollection: UICollectionViewCell {
     func configure(_ nameGroup: NameGroup,_ taskCount: Int) {
         nameTask.text = nameGroup.name
         taskCountLabel.text = "Кол-во задач: \(taskCount)"
+//        applyColorToIcon(nameGroup.colorIcon)
+        
         if let iconData = nameGroup.iconNameGroup,
            let iconImage = UIImage(data: iconData)?.withRenderingMode(.alwaysTemplate) {
             iconImageView.image = iconImage
-//            iconImageView.tintColor = UIColor(named: "ButtonIconeImage")
+        }  
             
-            let colorIndex = Int(nameGroup.colorIcon)
-//            если индекс находится в пределах массива
-            if colorIndex >= 0 && colorIndex < ColorPalette.colors.count {
-                let selectedColor = ColorPalette.colors[colorIndex]
-                applyColorToIcon(selectedColor)
+        if let colorData = nameGroup.colorIcon {
+            if let color = try? NSKeyedUnarchiver.unarchivedObject(ofClass: UIColor.self, from: colorData) {
+                applyColorToIcon(color)
             } else {
-//                индекс не валиден
-                applyColorToIcon(UIColor(named: "ButtonIconeImage") ?? .lightGray)
+                print("Цвет не найден")
             }
         }
     }

@@ -111,11 +111,13 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
             let taskDataProvide = TaskDataProvider(group: nameGroup)
             let taskViewModel = TaskViewModel(taskDataProvider: taskDataProvide, nameGroup: nameGroup)
             let taskVC = TaskViewController(viewModel: taskViewModel)
+            
             taskVC.onGroup = { [weak self] in
                 guard let self = self else { return }
                 self.mainViewProvider.perfomFetch()
                 self.mainView.collectionView.reloadData()
             }
+            
             if let nameGroup = mainViewProvider.groupAt(indexPath: indexPath) {
                 taskViewModel.nameGroup = nameGroup
                 taskVC.newTask = { [weak self] in

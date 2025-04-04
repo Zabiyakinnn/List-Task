@@ -158,6 +158,16 @@ final class SettingGroupTaskView: UIView {
         button.tintColor = UIColor.lightGray
         return button
     }()
+    
+    // кнопка удалить группу со всеми задачами
+    lazy var deleteGroup: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("Удалить группу", for: .normal)
+        button.titleLabel?.font = UIFont(name: "Bluecurve-Light", size: 18)
+        button.contentVerticalAlignment = .top
+        button.tintColor = UIColor.systemRed
+        return button
+    }()
 
     
 //    передача данных
@@ -181,6 +191,7 @@ extension SettingGroupTaskView {
         addSubview(saveButton)
         addSubview(moreIconsButton)
         addSubview(moreColorButton)
+        addSubview(deleteGroup)
         setupConstraint()
     }
     
@@ -238,6 +249,11 @@ extension SettingGroupTaskView {
             make.left.equalTo(12)
             make.right.equalTo(-12)
             make.height.equalTo(40)
+        }
+        deleteGroup.snp.makeConstraints { make in
+            make.bottom.equalToSuperview()
+            make.left.right.equalToSuperview()
+            make.height.equalTo(70)
         }
     }
 }

@@ -14,14 +14,15 @@ final class SettingViewModel {
 
     var isSelectedIndexPathIcon: IndexPath? // отслеживать выбранный индекс иконки
     var isSelectedIndexPathColor: IndexPath? // отслеживать выбранный индекс цвета
-    var saveSelectedColor: Int? // сохранить выбранный индекс с цветом в CoreData
+//    var saveSelectedColor: Int? // сохранить выбранный индекс с цветом в CoreData
         
     init(settingDataProvider: SettingDataProvider, nameGroup: NameGroup) {
         self.settingDataProvider = settingDataProvider
         self.nameGroup = nameGroup
         
-        self.isSelectedIndexPathIcon = getSelectedIconIndex()
-        self.saveSelectedColor = getSelectedColorIndex()
+//        self.isSelectedIndexPathIcon = getSelectedIconIndex()
+        self.isSelectedIndexPathIcon = getSelectedIconIndex(icons: getIcons())
+        self.isSelectedIndexPathIcon = getSelectedColorIndex(color: getColor())
     }
     
 //    получение списка иконок
@@ -29,27 +30,27 @@ final class SettingViewModel {
         return MoreIconsViewModel().section.map{ $0.icons }
     }
     
-//    отпределение индекса ранее сохраненной иконки для отображение на settiongView
-    func getSelectedIconIndex() -> IndexPath? {
-        let icons = getIcons()
-        guard let savedIconData = nameGroup.iconNameGroup else { return nil }
-
-        for (sectionIndex, section) in icons.enumerated() {
-            for (itemIndex, icon) in section.enumerated() {
-                if icon.pngData() == savedIconData {
-                    return IndexPath(item: itemIndex, section: sectionIndex)
+    private func getColor() -> [[UIColor]] {
+        return MoreColorViewModel().section.map{ $0.color }
+    }
+    
+//    получение индекса сохраненного цвета
+    func getSelectedColorIndex(color: [[UIColor]]) -> IndexPath? {
+        guard let savedColorData = nameGroup.colorIcon else { return nil }
+        
+        if let savedColor = try? NSKeyedUnarchiver.unarchivedObject(ofClass: UIColor.self, from: savedColorData) {
+            
+            // Ищем индекс цвета в двумерном массиве
+            for (sectionIndex, colorSection) in color.enumerated() {
+                if let rowIndex = colorSection.firstIndex(of: savedColor) {
+                    return IndexPath(row: rowIndex, section: sectionIndex)
                 }
             }
         }
         return nil
     }
     
-//    получение индекса сохраненного цвета
-    func getSelectedColorIndex() -> Int? {
-        return Int(nameGroup.colorIcon)
-    }
-    
-//    отпределение индекса ранее сохраненной иконки для отображение на settiongView
+//    отпределение индекса ранее сохраненной иконки для отображение на settingView
     func getSelectedIconIndex(icons: [[UIImage]]) -> IndexPath? {
         guard let savedIconData = nameGroup.iconNameGroup else { return nil }
 
@@ -63,7 +64,7 @@ final class SettingViewModel {
         return nil
     }
     
-//    выбор цвета кнопки "Еще"
+//    выбор цвета кнопки "Еще" для выбора иконок
     func updateIconsButtonTapped(indexPath: IndexPath) -> UIColor {
         if let indexPath = isSelectedIndexPathIcon, indexPath.section > 0 {
             return UIColor.systemYellow // подкрашиваем кнопку "Еще" в желтый цвет
@@ -71,6 +72,15 @@ final class SettingViewModel {
         } else {
             return UIColor.lightGray
 //            print("Индекс меньше 0")
+        }
+    }
+    
+//    выбор цвета кнопки "Еще" для выбора цветов
+    func updateColorButtonTapped(indexPath: IndexPath) -> UIColor {
+        if let indexPath = isSelectedIndexPathColor, indexPath.section > 0 {
+            return UIColor.systemYellow
+        } else {
+            return UIColor.lightGray
         }
     }
     
@@ -86,8 +96,18 @@ final class SettingViewModel {
 //                print("Сохраненный индекс: \(selectedIndexPath)")
                 return selectedImage.pngData()
             } else {
-                print("Иконка не найденна")
+                print("Иконка не найденна, применяем прошлую")
                 return nameGroup.iconNameGroup
+            }
+        }()
+        
+        let newSelectedColorData: Data? = {
+            if let selectedIndexPath = isSelectedIndexPathColor {
+                let selectedColor = getColor()[selectedIndexPath.section][selectedIndexPath.item]
+                return try? NSKeyedArchiver.archivedData(withRootObject: selectedColor, requiringSecureCoding: false)
+            } else {
+                print("Цвет не выбран, оставляем прошлый")
+                return nameGroup.colorIcon
             }
         }()
         
@@ -95,8 +115,12 @@ final class SettingViewModel {
             exestiongGroup: nameGroup,
             newName: newName,
             newIcon: newSelectedIconData,
-            colorIcon: Int64(saveSelectedColor ?? Int(nameGroup.colorIcon)),
+            colorIcon: newSelectedColorData,
             completion: completion)
+    }
+    
+    func deleteGroup(by uuid: UUID, completion: @escaping(Result<Void, Error>) -> Void) {
+        settingDataProvider.deleteGroup(by: uuid, completion: completion)
     }
 }
 

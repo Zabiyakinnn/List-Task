@@ -30,8 +30,8 @@ final class MainViewProvider {
     }
     
 //    создание новой задачи в CoreData
-    func createNewGroup(name: String, iconNameGroup: Data?, iconColor: Int64, completion: @escaping(Result<Void, Error>) -> Void) {
-        coreDataManager.saveNewGroupCoreData(name: name, iconNameGroup: iconNameGroup, existingGroup: nil, iconColor: 33, completion: completion)
+    func createNewGroup(name: String, iconNameGroup: Data?, iconColor: Data?, completion: @escaping(Result<Void, Error>) -> Void) {
+        coreDataManager.saveNewGroupCoreData(name: name, iconNameGroup: iconNameGroup, existingGroup: nil, iconColor: nil, completion: completion)
     }
     
 //    удалние задачи из CoreData

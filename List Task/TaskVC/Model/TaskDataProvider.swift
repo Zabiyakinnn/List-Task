@@ -62,9 +62,7 @@ final class TaskDataProvider {
             for: indexPath,
             completion: completion)
     }
-    
-//    сохранение изменного приоритета задачи
-    
+        
     /// сохранение изменного приоритета для задачи
     /// - Parameters:
     ///   - nameTask: имя задачи

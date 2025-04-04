@@ -64,11 +64,14 @@ final class NewGroupTaskViewController: UIViewController, UITextViewDelegate {
             return
         }
         
+        let defaultColor = UIColor.gray
+        let defaultColorData = try? NSKeyedArchiver.archivedData(withRootObject: defaultColor, requiringSecureCoding: false)
+        
         CoreDataManagerNameGroup.shared.saveNewGroupCoreData(
             name: groupName,
             iconNameGroup: selectedIconData,
             existingGroup: nameGroup,
-            iconColor: 33) { [weak self] result in
+            iconColor: defaultColorData) { [weak self] result in
                 guard let self = self else { return }
                 switch result {
                 case .success():

@@ -77,15 +77,13 @@ final class TaskViewController: UIViewController, NSFetchedResultsControllerDele
         if let iconData = viewModel.nameGroup.iconNameGroup,
            let iconImage = UIImage(data: iconData)?.withRenderingMode(.alwaysTemplate) {
             taskView.iconImageView.image = iconImage
-            
-            let colorIndex = Int(viewModel.nameGroup.colorIcon)
-            //            если индекс находится в пределах массива
-            if colorIndex >= 0 && colorIndex < ColorPalette.colors.count {
-                let selectedColor = ColorPalette.colors[colorIndex]
-                applyColorToIcon(selectedColor)
-            } else {
-                //                индекс не валиден
-                applyColorToIcon(UIColor(named: "ButtonIconeImage") ?? .lightGray)
+
+            if let colorData = viewModel.nameGroup.colorIcon {
+                if let color = try? NSKeyedUnarchiver.unarchivedObject(ofClass: UIColor.self, from: colorData) {
+                    applyColorToIcon(color)
+                } else {
+                    print("Цвет не найден")
+                }
             }
         }
         
@@ -127,16 +125,20 @@ final class TaskViewController: UIViewController, NSFetchedResultsControllerDele
 //    открыть контроллер с настройками группы задач
     @objc func settingListButtonTapped() {
         let nameGroup = viewModel.nameGroup
-        let settingDataProvider = SettingDataProvider(group: nameGroup)
+        let manager = CoreDataManagerNameGroup()
+        let settingDataProvider = SettingDataProvider(coreDataManager: manager)
         let settingViewModel = SettingViewModel(settingDataProvider: settingDataProvider, nameGroup: nameGroup)
         let settingGroupTaskVC = SettingGroupTaskVC(viewModel: settingViewModel)
-//        let indexIcons = settingGroupTaskVC.isSelectedIndexPathIcon
-//        let indexIcon = settingGroupTaskVC.viewModel.isSelectedIndexPathIcon
-//        print("Выбранная картинка: \(nameGroup.iconNameGroup)")
         settingGroupTaskVC.onGroupSaved = { [weak self] in
             guard let self = self else { return }
             self.onGroup?()
             viewModel.reloadTask()
+        }
+        
+        settingGroupTaskVC.onDeleteGroup = { [weak self] in
+            guard let self = self else { return }
+            onGroup?()
+            dismiss(animated: true)
         }
         present(settingGroupTaskVC, animated: true)
     }
@@ -314,7 +316,7 @@ extension TaskViewController: UITableViewDelegate, UITableViewDataSource {
         }
         
         deleteAction.image = UIImage(systemName: "trash")
-        deleteAction.backgroundColor = UIColor.red
+        deleteAction.backgroundColor = UIColor(red: 0.7, green: 0.0, blue: 0.0, alpha: 1.0)
         
         let configuration = UISwipeActionsConfiguration(actions: [deleteAction])
         configuration.performsFirstActionWithFullSwipe = false //отключение уделния ячейки свайпом

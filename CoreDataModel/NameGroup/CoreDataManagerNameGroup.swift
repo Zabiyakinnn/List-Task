@@ -37,13 +37,26 @@ final class CoreDataManagerNameGroup {
     
 //    MARK: Method
     
+//    получение группы по UUID
+    func fetchGroup(by uuid: UUID) -> NameGroup? {
+        let fetchRequest: NSFetchRequest<NameGroup> = NameGroup.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "id == %@", uuid as CVarArg)
+
+        do {
+            return try context.fetch(fetchRequest).first
+        } catch {
+            print("Группа не найдена. Ошибка \(error)")
+            return nil
+        }
+    }
+    
     /// сохранение группы для задач в Core Data
     /// - Parameters:
-    ///   - name: имя
+    ///   - name: название группы
     ///   - iconNameGroup: иконка для задачи
     ///   - existingGroup: существующая группа
     ///   - completion: completion
-    func saveNewGroupCoreData(name: String, iconNameGroup: Data?, existingGroup: NameGroup?, iconColor: Int64, completion: @escaping (Result<Void, Error>) -> Void) {
+    func saveNewGroupCoreData(name: String, iconNameGroup: Data?, existingGroup: NameGroup?, iconColor: Data?, completion: @escaping (Result<Void, Error>) -> Void) {
         do {
             let group = existingGroup ?? NameGroup(context: context)
             group.name = name
@@ -90,7 +103,7 @@ final class CoreDataManagerNameGroup {
     ///   - newName: новое имя группы
     ///   - newIcon: новая иконка группы
     ///   - completion: completion
-    func changeGroupTask(existingGroup: NameGroup, newName: String, newIcon: Data?, colorIcon: Int64, completion: @escaping (Result<Void, Error>) -> Void) {
+    func changeGroupTask(existingGroup: NameGroup, newName: String, newIcon: Data?, colorIcon: Data?, completion: @escaping (Result<Void, Error>) -> Void) {
         let groupID = existingGroup.id
         let fetchRequest: NSFetchRequest<NameGroup> = NameGroup.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "id == %@", groupID as CVarArg)

@@ -48,15 +48,6 @@ final class TaskViewModel {
         return newTaskViewModel
     }
     
-    func presentSortingScreen() {
-        let sortingVC = SortingViewController()
-        
-        sortingVC.onSortingSelected = { [weak self] selectedSorting in
-            guard let self = self else { return }
-            
-        }
-    }
-    
 //    MARK: - Изменение статуса задачи (выполненно/ не выполенно)
     /// обновление статуса в CoreData
     /// - Parameters:
@@ -91,7 +82,7 @@ final class TaskViewModel {
         updateTaskStatus(idTask: task.idTask, newStatus: newStatus, completion: completion)
     }
     
-//    MARK: - Удалние задачи
+//    MARK: - Удаление задачи
     /// удаление задачи из CoreData
     /// - Parameters:
     ///   - indexPath: indexPath
