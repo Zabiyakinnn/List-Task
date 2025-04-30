@@ -37,7 +37,6 @@ final class TaskCell: UITableViewCell {
         let label = UILabel()
         label.numberOfLines = 1
         label.font = UIFont(name: "Bluecurve-Light", size: 13)
-
         label.textColor = UIColor.lightGray
         return label
     }()

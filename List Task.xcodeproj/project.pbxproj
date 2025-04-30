@@ -29,7 +29,6 @@
 		C2B3CBB22D09E2B600649379 /* NewCommentTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2B3CBB12D09E2B600649379 /* NewCommentTaskViewController.swift */; };
 		C2B3CBB62D09E2F300649379 /* NewCommentTaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2B3CBB52D09E2F300649379 /* NewCommentTaskView.swift */; };
 		C2C425D72D4B87EA00FD026A /* ChangeTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C425D62D4B87EA00FD026A /* ChangeTaskViewController.swift */; };
-		C2C425DC2D4BA82C00FD026A /* ChangeTaskViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C425DB2D4BA82C00FD026A /* ChangeTaskViewModel.swift */; };
 		C2C425DE2D4BA8A500FD026A /* ChangeTaskProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C425DD2D4BA8A500FD026A /* ChangeTaskProvider.swift */; };
 		C2C6CF682CD3A6BA00954F4A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C6CF672CD3A6BA00954F4A /* AppDelegate.swift */; };
 		C2C6CF6A2CD3A6BA00954F4A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C6CF692CD3A6BA00954F4A /* SceneDelegate.swift */; };
@@ -52,6 +51,7 @@
 		C2CDC00F2D68835F0082FF68 /* Bluecurve-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C2CDC00C2D68835E0082FF68 /* Bluecurve-Bold.ttf */; };
 		C2CDC0102D68835F0082FF68 /* Bluecurve-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C2CDC00D2D68835E0082FF68 /* Bluecurve-Regular.ttf */; };
 		C2CDC0112D68835F0082FF68 /* Bluecurve-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C2CDC00E2D68835E0082FF68 /* Bluecurve-Light.ttf */; };
+		C2D24D342DBA6CEC004D8A11 /* ChangeTaskViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D24D332DBA6CEC004D8A11 /* ChangeTaskViewModel.swift */; };
 		C2D378982D1980C400CB1026 /* PriorityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D378972D1980C400CB1026 /* PriorityView.swift */; };
 		C2D3789A2D19935300CB1026 /* PriorityViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D378992D19935300CB1026 /* PriorityViewCell.swift */; };
 		C2D3789D2D29381600CB1026 /* SettingGroupTaskVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D3789C2D29381600CB1026 /* SettingGroupTaskVC.swift */; };
@@ -89,7 +89,6 @@
 		C2B3CBB12D09E2B600649379 /* NewCommentTaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCommentTaskViewController.swift; sourceTree = "<group>"; };
 		C2B3CBB52D09E2F300649379 /* NewCommentTaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCommentTaskView.swift; sourceTree = "<group>"; };
 		C2C425D62D4B87EA00FD026A /* ChangeTaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeTaskViewController.swift; sourceTree = "<group>"; };
-		C2C425DB2D4BA82C00FD026A /* ChangeTaskViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ChangeTaskViewModel.swift; path = ../../../../../Downloads/ChangeTaskViewModel.swift; sourceTree = "<group>"; };
 		C2C425DD2D4BA8A500FD026A /* ChangeTaskProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeTaskProvider.swift; sourceTree = "<group>"; };
 		C2C6CF642CD3A6BA00954F4A /* List Task.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "List Task.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C2C6CF672CD3A6BA00954F4A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -114,6 +113,7 @@
 		C2CDC00C2D68835E0082FF68 /* Bluecurve-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Bluecurve-Bold.ttf"; path = "../../../Шрифты/Blue curve/Bluecurve-Bold.ttf"; sourceTree = "<group>"; };
 		C2CDC00D2D68835E0082FF68 /* Bluecurve-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Bluecurve-Regular.ttf"; path = "../../../Шрифты/Blue curve/Bluecurve-Regular.ttf"; sourceTree = "<group>"; };
 		C2CDC00E2D68835E0082FF68 /* Bluecurve-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Bluecurve-Light.ttf"; path = "../../../Шрифты/Blue curve/Bluecurve-Light.ttf"; sourceTree = "<group>"; };
+		C2D24D332DBA6CEC004D8A11 /* ChangeTaskViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeTaskViewModel.swift; sourceTree = "<group>"; };
 		C2D378972D1980C400CB1026 /* PriorityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriorityView.swift; sourceTree = "<group>"; };
 		C2D378992D19935300CB1026 /* PriorityViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriorityViewCell.swift; sourceTree = "<group>"; };
 		C2D3789C2D29381600CB1026 /* SettingGroupTaskVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingGroupTaskVC.swift; sourceTree = "<group>"; };
@@ -332,7 +332,7 @@
 		C2C425D92D4BA7C600FD026A /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				C2C425DB2D4BA82C00FD026A /* ChangeTaskViewModel.swift */,
+				C2D24D332DBA6CEC004D8A11 /* ChangeTaskViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -693,6 +693,7 @@
 				C2CB9FBB2CFA0395006E7DB4 /* TaskView.swift in Sources */,
 				C262BC4E2CDF7B030046794A /* TaskList+CoreDataProperties.swift in Sources */,
 				C262BC312CD8BED80046794A /* IconCollectionViewCell.swift in Sources */,
+				C2D24D342DBA6CEC004D8A11 /* ChangeTaskViewModel.swift in Sources */,
 				C2C6CF872CD4C50200954F4A /* NewGroupTaskViewController.swift in Sources */,
 				C20681EC2D8460C500905C48 /* MoreIconsViewModel.swift in Sources */,
 				C2D378A32D31324A00CB1026 /* ColorPalette.swift in Sources */,
@@ -704,7 +705,6 @@
 				C2C6CF682CD3A6BA00954F4A /* AppDelegate.swift in Sources */,
 				C2B3CBB22D09E2B600649379 /* NewCommentTaskViewController.swift in Sources */,
 				C2D378A12D2975B000CB1026 /* ColorCell.swift in Sources */,
-				C2C425DC2D4BA82C00FD026A /* ChangeTaskViewModel.swift in Sources */,
 				C262BC342CD915630046794A /* NotificationUtils.swift in Sources */,
 				C2C6CF8D2CD4F1F900954F4A /* ListTask.xcdatamodeld in Sources */,
 				C2C425D72D4B87EA00FD026A /* ChangeTaskViewController.swift in Sources */,
